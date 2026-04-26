@@ -668,9 +668,9 @@
       </div>
 
       <div class="field" id="field-phone">
-        <div class="field-label">연락처 / Contact Number <span class="req">*</span></div>
-        <input type="tel" id="phone" placeholder="010-0000-0000 (해외 +82-10-XXXX-XXXX)" oninput="formatPhone(this); updateProgress()">
-        <p class="error-msg">연락처를 입력해 주세요.</p>
+        <div class="field-label">전화번호 / Phone Number <span class="req">*</span></div>
+        <input type="tel" id="phone" placeholder="010-0000-0000 (해외 / Intl: +82-10-XXXX-XXXX)" oninput="formatPhone(this); updateProgress()">
+        <p class="error-msg">전화번호를 입력해 주세요. / Please enter your phone number.</p>
       </div>
 
     </div>
@@ -1092,7 +1092,7 @@
     if (!document.getElementById('nationality').value) { setError('field-nationality', '국적을 선택해 주세요.'); ok = false; } else clearError('field-nationality');
     const nat = document.getElementById('nationality').value;
     if (nat && nat !== 'KR' && !document.getElementById('passport').value.trim()) { setError('field-passport', '여권번호를 입력해 주세요.'); ok = false; } else clearError('field-passport');
-    if (!document.getElementById('phone').value.trim()) { setError('field-phone', '연락처를 입력해 주세요.'); ok = false; } else clearError('field-phone');
+    if (!document.getElementById('phone').value.trim()) { setError('field-phone', '전화번호를 입력해 주세요. / Please enter your phone number.'); ok = false; } else clearError('field-phone');
     if (!document.getElementById('checkin-date').value) { setError('field-checkin', '체크인 날짜를 선택해 주세요.'); ok = false; } else clearError('field-checkin');
     if (!document.getElementById('checkout-date').value) { setError('field-checkout', '체크아웃 날짜를 선택해 주세요.'); ok = false; } else clearError('field-checkout');
     if (!consents.every(Boolean)) { alert('모든 정책 동의가 필요합니다.'); ok = false; }
