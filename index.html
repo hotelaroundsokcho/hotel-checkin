@@ -529,6 +529,35 @@
     line-height: 1.6;
   }
 
+
+  /* Birth 6자리 분할 입력 */
+  .birth-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .birth-part {
+    flex: 1;
+    padding: 11px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text-primary);
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+    letter-spacing: 0.1em;
+  }
+  .birth-part:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(44,95,74,0.08);
+  }
+  .birth-sep {
+    font-size: 20px;
+    color: var(--text-hint);
+    flex-shrink: 0;
+  }
   @media (max-width: 360px) {
     .chip-grid { grid-template-columns: repeat(2, 1fr); }
     .time-grid { grid-template-columns: repeat(3, 1fr); }
@@ -555,18 +584,20 @@
 
   <div class="notice">
     ✦ 체크인 완료 후 객실 키패드 번호를 문자로 전송해 드립니다.<br>
-    키패드 번호 전송은 15:30부터 순차적으로 진행됩니다.
+    키패드 번호 전송은 15:30부터 순차적으로 진행됩니다.<br>
+    Your room keypad code will be sent via SMS after check-in is complete.<br>
+    Keypad codes will be sent sequentially from 15:30.
   </div>
 
   <!-- SECTION 1: 예약 채널 -->
   <div class="section">
     <div class="section-header">
       <div class="section-num">1</div>
-      <span class="section-title">예약 채널</span>
+      <span class="section-title">예약 채널 / Booking Channel</span>
     </div>
     <div class="section-body">
       <div class="field" id="field-channel">
-        <div class="field-label">예약하신 채널을 선택해 주세요 <span class="req">*</span></div>
+        <div class="field-label">예약하신 채널을 선택해 주세요 / Please select your booking channel <span class="req">*</span></div>
         <div class="chip-grid">
           <div class="chip" onclick="selectChip(this,'channel')">아고다</div>
           <div class="chip" onclick="selectChip(this,'channel')">부킹닷컴</div>
@@ -586,24 +617,30 @@
   <div class="section">
     <div class="section-header">
       <div class="section-num">2</div>
-      <span class="section-title">투숙객 정보</span>
+      <span class="section-title">투숙객 정보 / Guest Information</span>
     </div>
     <div class="section-body">
 
       <div class="field" id="field-name">
-        <div class="field-label">투숙객 성명 <span class="req">*</span></div>
-        <input type="text" id="name" placeholder="예약자 성함을 입력해 주세요" oninput="updateProgress()">
+        <div class="field-label">투숙객 성명 / Guest Name <span class="req">*</span></div>
+        <input type="text" id="name" placeholder="성함 / Full Name" oninput="updateProgress()">
         <p class="error-msg">성명을 입력해 주세요.</p>
       </div>
 
       <div class="field" id="field-birth">
-        <div class="field-label">생년월일 <span class="req">*</span></div>
-        <input type="date" id="birth" oninput="updateProgress()">
-        <p class="error-msg">생년월일을 입력해 주세요.</p>
+        <div class="field-label">생년월일 / Date of Birth <span class="req">*</span></div>
+        <div class="birth-wrap">
+          <input type="tel" id="birth-yy" maxlength="2" placeholder="YY" oninput="moveBirth(this,'birth-mm',2)" class="birth-part">
+          <span class="birth-sep">/</span>
+          <input type="tel" id="birth-mm" maxlength="2" placeholder="MM" oninput="moveBirth(this,'birth-dd',2)" onkeydown="backBirth(event,'birth-yy')" class="birth-part">
+          <span class="birth-sep">/</span>
+          <input type="tel" id="birth-dd" maxlength="2" placeholder="DD" oninput="completeBirth()" onkeydown="backBirth(event,'birth-mm')" class="birth-part">
+        </div>
+        <p class="error-msg" id="birth-error">생년월일을 입력해 주세요. / Please enter date of birth.</p>
       </div>
 
       <div class="field" id="field-nationality">
-        <div class="field-label">국적 <span class="req">*</span></div>
+        <div class="field-label">국적 / Nationality <span class="req">*</span></div>
         <select id="nationality" onchange="handleNationality(); updateProgress()">
           <option value="">선택해 주세요</option>
           <option value="KR">대한민국</option>
@@ -631,8 +668,8 @@
       </div>
 
       <div class="field" id="field-phone">
-        <div class="field-label">연락처 <span class="req">*</span></div>
-        <input type="tel" id="phone" placeholder="010-0000-0000" oninput="formatPhone(this); updateProgress()">
+        <div class="field-label">연락처 / Contact Number <span class="req">*</span></div>
+        <input type="tel" id="phone" placeholder="010-0000-0000 (해외 +82-10-XXXX-XXXX)" oninput="formatPhone(this); updateProgress()">
         <p class="error-msg">연락처를 입력해 주세요.</p>
       </div>
 
@@ -643,25 +680,25 @@
   <div class="section">
     <div class="section-header">
       <div class="section-num">3</div>
-      <span class="section-title">투숙 일정</span>
+      <span class="section-title">투숙 일정 / Stay Dates</span>
     </div>
     <div class="section-body">
 
       <div class="field" id="field-checkin">
-        <div class="field-label">체크인 날짜 <span class="req">*</span></div>
+        <div class="field-label">체크인 날짜 / Check-in Date <span class="req">*</span></div>
         <input type="date" id="checkin-date" onchange="calcNights(); updateProgress()">
         <p class="error-msg">체크인 날짜를 선택해 주세요.</p>
       </div>
 
       <div class="field" id="field-checkout">
-        <div class="field-label">체크아웃 날짜 <span class="req">*</span></div>
+        <div class="field-label">체크아웃 날짜 / Check-out Date <span class="req">*</span></div>
         <input type="date" id="checkout-date" onchange="calcNights(); updateProgress()">
         <p class="error-msg">체크아웃 날짜를 선택해 주세요.</p>
       </div>
 
       <div class="field" id="nights-display" style="display:none;">
         <div style="display:flex; align-items:center; justify-content:space-between;">
-          <span style="font-size:13px; color:var(--text-secondary);">투숙 기간</span>
+          <span style="font-size:13px; color:var(--text-secondary);">투숙 기간 / Length of Stay</span>
           <span id="nights-val" style="font-size:15px; font-weight:500; color:var(--accent);"></span>
         </div>
       </div>
@@ -673,21 +710,21 @@
   <div class="section">
     <div class="section-header">
       <div class="section-num">4</div>
-      <span class="section-title">인원 및 차량</span>
+      <span class="section-title">인원 및 차량 / Guests & Vehicle</span>
     </div>
     <div class="section-body">
 
       <div class="field">
-        <div class="field-label">실투숙인원 <span class="req">*</span></div>
+        <div class="field-label">실투숙인원 / Number of Guests <span class="req">*</span></div>
         <div class="stepper-row">
           <div class="stepper-item">
-            <span class="stepper-label">성인</span>
+            <span class="stepper-label">성인 / Adult</span>
             <button class="stepper-btn" onclick="stepAdult(-1)">−</button>
             <span class="stepper-val" id="adult-val">1</span>
             <button class="stepper-btn" onclick="stepAdult(1)">+</button>
           </div>
           <div class="stepper-item">
-            <span class="stepper-label">아동</span>
+            <span class="stepper-label">아동 / Child</span>
             <button class="stepper-btn" onclick="stepChild(-1)">−</button>
             <span class="stepper-val" id="child-val">0</span>
             <button class="stepper-btn" onclick="stepChild(1)">+</button>
@@ -697,14 +734,14 @@
 
       <div class="field">
         <div class="toggle-row">
-          <div class="field-label" style="font-size:13px; color:var(--text-primary); font-weight:400;">차량 있음</div>
+          <div class="field-label" style="font-size:13px; color:var(--text-primary); font-weight:400;">차량 있음 / Vehicle</div>
           <label class="toggle">
             <input type="checkbox" id="car-toggle" onchange="toggleCar()">
             <span class="toggle-slider"></span>
           </label>
         </div>
         <div class="sub-field" id="car-field">
-          <input type="text" id="car-num" placeholder="차량번호를 입력해 주세요 (예: 123가 4567)" oninput="updateProgress()">
+          <input type="text" id="car-num" placeholder="차량번호 / License Plate (예: 123가 4567)" oninput="updateProgress()">
         </div>
       </div>
 
@@ -715,11 +752,11 @@
   <div class="section">
     <div class="section-header">
       <div class="section-num">5</div>
-      <span class="section-title">예상 도착 시간 <span class="opt-tag">선택</span></span>
+      <span class="section-title">예상 도착 시간 / Expected Arrival <span class="opt-tag">선택 / Optional</span></span>
     </div>
     <div class="section-body">
       <div class="field">
-        <div class="field-label" style="margin-bottom:10px;">몇 시쯤 도착하실 예정인가요?</div>
+        <div class="field-label" style="margin-bottom:10px;">몇 시쯤 도착하실 예정인가요? / What time do you expect to arrive?</div>
         <div class="time-grid" id="time-grid">
           <div class="time-btn" onclick="selectTime(this)">15:30</div>
           <div class="time-btn" onclick="selectTime(this)">16:00</div>
@@ -738,13 +775,13 @@
   <div class="section">
     <div class="section-header">
       <div class="section-num">6</div>
-      <span class="section-title">정책 동의</span>
+      <span class="section-title">정책 동의 / Policy Agreement</span>
     </div>
     <div class="section-body">
 
       <div class="consent-all" onclick="toggleAll()">
         <div class="chk" id="chk-all"></div>
-        <span class="consent-all-text">전체 동의합니다</span>
+        <span class="consent-all-text">전체 동의합니다 / I agree to all policies</span>
       </div>
 
       <div class="consent-item" onclick="toggleConsent(0)">
@@ -815,7 +852,7 @@
 
   <div class="submit-wrap">
     <button class="submit-btn" id="submit-btn" onclick="submitForm()">
-      체크인 완료하기
+      체크인 완료하기 / Complete Check-in
     </button>
     <p class="submit-hint">
       모든 필수 항목을 입력하고 동의 후 제출해 주세요.<br>
@@ -888,6 +925,46 @@
   let consents = [false,false,false,false,false,false,false];
   let selectedChannel = '';
   let selectedTime = '';
+
+  // 생년월일 6자리 자동 이동
+  function moveBirth(el, nextId, maxLen) {
+    el.value = el.value.replace(/[^0-9]/g, '');
+    if (el.value.length >= maxLen) {
+      const next = document.getElementById(nextId);
+      if (next) next.focus();
+    }
+    updateProgress();
+  }
+  function backBirth(e, prevId) {
+    if (e.key === 'Backspace' && e.target.value === '') {
+      const prev = document.getElementById(prevId);
+      if (prev) { prev.focus(); prev.value = prev.value.slice(0,-1); }
+    }
+  }
+  function completeBirth() {
+    const dd = document.getElementById('birth-dd').value;
+    dd.replace(/[^0-9]/g, '');
+    updateProgress();
+  }
+  function getBirthValue() {
+    const yy = document.getElementById('birth-yy').value.padStart(2,'0');
+    const mm = document.getElementById('birth-mm').value.padStart(2,'0');
+    const dd = document.getElementById('birth-dd').value.padStart(2,'0');
+    if (!yy || !mm || !dd) return '';
+    const year = parseInt(yy) <= 30 ? '20'+yy : '19'+yy;
+    return year + '-' + mm + '-' + dd;
+  }
+  function validateBirth() {
+    const yy = document.getElementById('birth-yy').value;
+    const mm = document.getElementById('birth-mm').value;
+    const dd = document.getElementById('birth-dd').value;
+    if (!yy || !mm || !dd || yy.length < 2 || mm.length < 2 || dd.length < 2) return false;
+    const m = parseInt(mm);
+    const d = parseInt(dd);
+    if (m < 1 || m > 12) return false;
+    if (d < 1 || d > 31) return false;
+    return true;
+  }
 
   // 날짜 기본값
   window.onload = () => {
@@ -985,7 +1062,7 @@
     const fields = [
       !!selectedChannel,
       !!document.getElementById('name').value.trim(),
-      !!document.getElementById('birth').value,
+      !!(document.getElementById('birth-yy').value && document.getElementById('birth-mm').value && document.getElementById('birth-dd').value),
       !!document.getElementById('nationality').value,
       !!document.getElementById('phone').value.trim(),
       !!document.getElementById('checkin-date').value,
@@ -1011,7 +1088,7 @@
     let ok = true;
     if (!selectedChannel) { setError('field-channel', '예약 채널을 선택해 주세요.'); ok = false; } else clearError('field-channel');
     if (!document.getElementById('name').value.trim()) { setError('field-name', '성명을 입력해 주세요.'); ok = false; } else clearError('field-name');
-    if (!document.getElementById('birth').value) { setError('field-birth', '생년월일을 입력해 주세요.'); ok = false; } else clearError('field-birth');
+    if (!validateBirth()) { document.getElementById('field-birth').classList.add('has-error'); document.getElementById('birth-error').style.display='block'; ok = false; } else { document.getElementById('field-birth').classList.remove('has-error'); document.getElementById('birth-error').style.display='none'; }
     if (!document.getElementById('nationality').value) { setError('field-nationality', '국적을 선택해 주세요.'); ok = false; } else clearError('field-nationality');
     const nat = document.getElementById('nationality').value;
     if (nat && nat !== 'KR' && !document.getElementById('passport').value.trim()) { setError('field-passport', '여권번호를 입력해 주세요.'); ok = false; } else clearError('field-passport');
@@ -1038,7 +1115,7 @@
       timestamp: new Date().toLocaleString('ko-KR', {timeZone:'Asia/Seoul'}),
       channel: selectedChannel,
       name: document.getElementById('name').value.trim(),
-      birth: document.getElementById('birth').value,
+      birth: getBirthValue(),
       nationality: document.getElementById('nationality').options[document.getElementById('nationality').selectedIndex].text,
       passport: (nat && nat !== 'KR') ? document.getElementById('passport').value.trim() : '-',
       phone: document.getElementById('phone').value.trim(),
