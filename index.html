@@ -255,20 +255,24 @@
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     overflow: hidden;
+    height: 50px;
   }
   .stepper-label {
     flex: 1;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--text-secondary);
-    padding: 0 12px;
+    padding: 0 8px;
+    text-align: center;
+    white-space: nowrap;
   }
   .stepper-btn {
-    width: 40px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
     border: none;
     background: var(--bg);
     color: var(--text-primary);
-    font-size: 18px;
+    font-size: 22px;
+    line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -278,9 +282,9 @@
   }
   .stepper-btn:active { background: var(--border); }
   .stepper-val {
-    min-width: 28px;
+    min-width: 32px;
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--text-primary);
   }
@@ -894,12 +898,12 @@
       </div>
 
       <div style="font-size:12px; color:var(--text-secondary); margin-bottom:16px; text-align:left;">
-        문의 | 09:00~20:00 (매일)
+        문의 | 09:00~20:00 (매일) · 033-800-8899
       </div>
       <div class="contact-row">
-        <a class="contact-btn" href="tel:033-XXX-XXXX">
+        <a class="contact-btn" href="tel:033-800-8899">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path></svg>
-          프런트 033-XXX-XXXX
+          프런트 033-800-8899
         </a>
         <a class="contact-btn" href="https://open.kakao.com/o/hotelaroundsokcho">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg>
