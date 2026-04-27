@@ -243,50 +243,40 @@
     margin-top: 12px;
   }
 
-  /* Stepper (인원) */
-  .stepper-row {
+  /* Guest Select (인원) */
+  .guest-select-row {
     display: flex;
     gap: 12px;
   }
-  .stepper-item {
+  .guest-select-item {
     flex: 1;
     display: flex;
-    align-items: center;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    height: 50px;
+    flex-direction: column;
+    gap: 6px;
   }
-  .stepper-label {
-    flex: 1;
+  .guest-label {
     font-size: 12px;
     color: var(--text-secondary);
-    padding: 0 8px;
-    text-align: center;
-    white-space: nowrap;
   }
-  .stepper-btn {
-    width: 50px;
+  .guest-select {
+    width: 100%;
     height: 50px;
-    border: none;
-    background: var(--bg);
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
     color: var(--text-primary);
-    font-size: 22px;
-    line-height: 1;
+    background: var(--surface);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s;
-    flex-shrink: 0;
   }
-  .stepper-btn:active { background: var(--border); }
-  .stepper-val {
-    min-width: 32px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--text-primary);
+  .guest-select:focus {
+    outline: none;
+    border-color: var(--accent);
   }
 
   /* Time picker */
@@ -720,18 +710,27 @@
 
       <div class="field">
         <div class="field-label">실투숙인원 / Number of Guests <span class="req">*</span></div>
-        <div class="stepper-row">
-          <div class="stepper-item">
-            <span class="stepper-label">성인 / Adult</span>
-            <button class="stepper-btn" onclick="stepAdult(-1)">−</button>
-            <span class="stepper-val" id="adult-val">1</span>
-            <button class="stepper-btn" onclick="stepAdult(1)">+</button>
+        <div class="guest-select-row">
+          <div class="guest-select-item">
+            <label class="guest-label" for="adult-select">성인 / Adult</label>
+            <select id="adult-select" class="guest-select" onchange="adults = parseInt(this.value)||0; updateProgress();">
+              <option value="" disabled selected>선택해 주세요</option>
+              <option value="1">1명</option>
+              <option value="2">2명</option>
+              <option value="3">3명</option>
+              <option value="4">4명</option>
+            </select>
           </div>
-          <div class="stepper-item">
-            <span class="stepper-label">아동 / Child</span>
-            <button class="stepper-btn" onclick="stepChild(-1)">−</button>
-            <span class="stepper-val" id="child-val">0</span>
-            <button class="stepper-btn" onclick="stepChild(1)">+</button>
+          <div class="guest-select-item">
+            <label class="guest-label" for="child-select">아동 / Child</label>
+            <select id="child-select" class="guest-select" onchange="children = parseInt(this.value); updateProgress();">
+              <option value="" disabled selected>선택해 주세요</option>
+              <option value="0">0명</option>
+              <option value="1">1명</option>
+              <option value="2">2명</option>
+              <option value="3">3명</option>
+              <option value="4">4명</option>
+            </select>
           </div>
         </div>
       </div>
@@ -925,7 +924,7 @@
 <script>
   const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwEm2TWWFugQ4VXVBXNxV92oyDrpgcdsZRfS0jF57QCH_ygkMAzvfps7bUJvcu0WPV5tQ/exec';
 
-  let adults = 1, children = 0;
+  let adults = 0, children = 0;
   let consents = [false,false,false,false,false,false,false];
   let selectedChannel = '';
   let selectedTime = '';
@@ -1014,15 +1013,7 @@
     updateProgress();
   }
 
-  function stepAdult(d) {
-    adults = Math.max(1, adults + d);
-    document.getElementById('adult-val').textContent = adults;
-    updateProgress();
-  }
-  function stepChild(d) {
-    children = Math.max(0, children + d);
-    document.getElementById('child-val').textContent = children;
-  }
+  // stepAdult/stepChild removed — using select dropdowns
 
   function selectChip(el, group) {
     document.querySelectorAll(`[onclick="selectChip(this,'${group}')"]`).forEach(c => c.classList.remove('selected'));
