@@ -181,6 +181,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.15s;
+    position: relative;
   }
   .room-item.checked .room-chk {
     background: var(--accent);
@@ -188,11 +189,15 @@
   }
   .room-item.checked .room-chk::after {
     content: '';
-    width: 10px;
-    height: 6px;
-    border-left: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    transform: rotate(-45deg) translate(1px, -1px);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 11px;
+    height: 7px;
+    border-left: 3px solid #111111;
+    border-bottom: 3px solid #111111;
+    transform: translate(-50%, -60%) rotate(-45deg);
   }
   .room-text {
     font-size: 12px;
