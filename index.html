@@ -35,9 +35,19 @@
 
   /* Header */
   .header {
-    background: var(--accent);
-    padding: 28px 24px 24px;
+    background: linear-gradient(160deg, #0d1117 0%, #1a2332 40%, #1e3a2f 75%, #2c5f4a 100%);
+    padding: 40px 24px 32px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(44,95,74,0.4) 0%, transparent 65%),
+                radial-gradient(ellipse at 20% 80%, rgba(26,35,50,0.6) 0%, transparent 60%);
+    pointer-events: none;
   }
   .header-eyebrow {
     font-family: 'Noto Serif KR', serif;
