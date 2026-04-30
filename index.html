@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>모바일 체크인 | 호텔어라운드 속초</title>
+<title>모바일 체크인 — 호텔어라운드 속초</title>
 <style>
   :root {
     --primary: #0A2342;
@@ -31,7 +31,6 @@
     padding-bottom: 40px;
   }
 
-  /* Header */
   .header {
     background: var(--primary);
     color: white;
@@ -41,427 +40,172 @@
     z-index: 100;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
-  .header-logo {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 4px;
-  }
-  .header-title {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
+  .header-logo { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
+  .header-title { font-size: 18px; font-weight: 700; }
 
-  /* Progress Bar */
-  .progress-wrap {
-    background: var(--primary);
-    padding: 0 20px 14px;
-  }
-  .progress-bar-bg {
-    background: rgba(255,255,255,0.2);
-    border-radius: 99px;
-    height: 4px;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    background: var(--accent);
-    height: 4px;
-    border-radius: 99px;
-    transition: width 0.4s ease;
-    width: 0%;
-  }
-  .progress-text {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    margin-top: 6px;
-    text-align: right;
-  }
+  .progress-wrap { background: var(--primary); padding: 0 20px 14px; }
+  .progress-bar-bg { background: rgba(255,255,255,0.2); border-radius: 99px; height: 4px; overflow: hidden; }
+  .progress-bar-fill { background: var(--accent); height: 4px; border-radius: 99px; transition: width 0.4s ease; width: 0%; }
+  .progress-text { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 6px; text-align: right; }
 
-  /* Card */
-  .card {
-    background: white;
-    border-radius: var(--radius);
+  .notice-banner {
+    background: rgba(0,180,216,0.10);
+    border-left: 3px solid var(--accent);
     margin: 16px 16px 0;
-    padding: 20px;
-    box-shadow: var(--shadow);
-  }
-  .section-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .section-title::before {
-    content: '';
-    display: inline-block;
-    width: 3px;
-    height: 14px;
-    background: var(--accent);
-    border-radius: 2px;
+    padding: 12px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 12px;
+    color: var(--gray-700);
+    line-height: 1.7;
   }
 
-  /* Form Fields */
+  .card { background: white; border-radius: var(--radius); margin: 16px 16px 0; padding: 20px; box-shadow: var(--shadow); }
+  .section-title {
+    font-size: 14px; font-weight: 700; color: var(--primary);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; background: var(--accent); color: white;
+    border-radius: 50%; font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .title-en { font-size: 11px; color: var(--gray-400); font-weight: 400; }
+  .optional-badge { font-size: 10px; background: var(--gray-100); color: var(--gray-400); padding: 2px 7px; border-radius: 99px; font-weight: 400; }
+
   .field { margin-bottom: 16px; }
   .field:last-child { margin-bottom: 0; }
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gray-700);
-    margin-bottom: 6px;
-  }
-  .required::after {
-    content: ' *';
-    color: var(--error);
-  }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; }
+  .label-en { font-size: 11px; color: var(--gray-400); font-weight: 400; margin-left: 3px; }
+  .required::after { content: ' *'; color: var(--error); }
+
   input[type="text"], input[type="tel"], input[type="date"], select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 8px;
-    font-size: 16px;
-    color: var(--gray-900);
-    background: white;
-    outline: none;
-    transition: border-color 0.2s;
-    appearance: none;
-    -webkit-appearance: none;
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--gray-200);
+    border-radius: 8px; font-size: 16px; color: var(--gray-900);
+    background: white; outline: none; transition: border-color 0.2s;
+    appearance: none; -webkit-appearance: none;
   }
-  input:focus, select:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(0,180,216,0.12);
-  }
-  input.error, select.error {
-    border-color: var(--error);
-    box-shadow: 0 0 0 3px rgba(239,68,68,0.10);
-  }
-  .hint {
-    font-size: 11px;
-    color: var(--gray-400);
-    margin-top: 5px;
-  }
+  input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,180,216,0.12); }
+  input.error, select.error { border-color: var(--error) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.10); }
+  .hint { font-size: 11px; color: var(--gray-400); margin-top: 5px; }
 
-  /* Birth Date Row */
-  .birth-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .birth-row input {
-    text-align: center;
-  }
-  .birth-sep {
-    color: var(--gray-400);
-    font-weight: 600;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
+  .birth-row { display: flex; gap: 6px; align-items: center; }
+  .birth-row input { text-align: center; }
+  .birth-sep { color: var(--gray-400); font-weight: 600; font-size: 18px; flex-shrink: 0; }
 
-  /* Channel Chips */
-  .chip-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
+  .chip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .chip {
-    padding: 10px 4px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 8px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--gray-500);
-    cursor: pointer;
-    transition: all 0.15s;
-    background: white;
-    user-select: none;
+    padding: 10px 4px; border: 1.5px solid var(--gray-200); border-radius: 8px;
+    text-align: center; cursor: pointer; transition: all 0.15s; background: white; user-select: none;
   }
   .chip:active { transform: scale(0.96); }
-  .chip.selected {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: white;
-  }
-  .channel-label {
-    font-weight: 800 !important;
-    font-size: 12px;
-  }
+  .chip.selected { background: var(--primary); border-color: var(--primary); }
+  .chip-ko { display: block; font-size: 12px; font-weight: 800; color: var(--gray-700); }
+  .chip.selected .chip-ko { color: white; }
+  .chip-en { display: block; font-size: 10px; color: var(--gray-400); margin-top: 2px; }
+  .chip.selected .chip-en { color: rgba(255,255,255,0.65); }
 
-  /* Date Row */
-  .date-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .nights-badge {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: 700;
-  }
+  .date-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .nights-badge { text-align: center; margin-top: 10px; font-size: 13px; color: var(--accent); font-weight: 700; }
 
-  /* Select Wrapper */
-  .select-wrap {
-    position: relative;
-  }
-  .select-wrap::after {
-    content: '▾';
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gray-400);
-    pointer-events: none;
-    font-size: 14px;
-  }
+  .select-wrap { position: relative; }
+  .select-wrap::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; font-size: 14px; }
 
-  /* Guest Count Row */
-  .guest-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  .guest-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  /* Toggle Switch */
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 0 0;
-  }
-  .toggle-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--gray-700);
-  }
-  .toggle-switch {
-    position: relative;
-    width: 52px;
-    height: 28px;
-    cursor: pointer;
-  }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; }
+  .toggle-label { font-size: 14px; font-weight: 600; color: var(--gray-700); }
+  .toggle-label-en { font-size: 11px; color: var(--gray-400); font-weight: 400; display: block; }
+  .toggle-switch { position: relative; width: 52px; height: 28px; cursor: pointer; flex-shrink: 0; }
   .toggle-switch input { display: none; }
-  .toggle-track {
-    display: block;
-    width: 52px;
-    height: 28px;
-    background: var(--gray-300);
-    border-radius: 99px;
-    transition: background 0.2s;
-  }
-  .toggle-switch input:checked + .toggle-track {
-    background: var(--success);
-  }
-  .toggle-thumb {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 22px;
-    height: 22px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-    transition: left 0.2s;
-  }
-  .toggle-switch input:checked ~ .toggle-thumb {
-    left: 27px;
-  }
-  .car-input-wrap {
-    margin-top: 12px;
-    display: none;
-  }
+  .toggle-track { display: block; width: 52px; height: 28px; background: var(--gray-300); border-radius: 99px; transition: background 0.2s; }
+  .toggle-switch input:checked + .toggle-track { background: var(--success); }
+  .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; background: white; border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,0.25); transition: left 0.2s; }
+  .toggle-switch input:checked ~ .toggle-thumb { left: 27px; }
+  .car-input-wrap { margin-top: 12px; display: none; }
   .car-input-wrap.visible { display: block; }
 
-  /* Arrival Time */
-  .time-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-  }
+  .time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
   .time-btn {
-    padding: 11px 4px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 8px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gray-500);
-    cursor: pointer;
-    transition: all 0.15s;
-    background: white;
-    user-select: none;
+    padding: 11px 4px; border: 1.5px solid var(--gray-200); border-radius: 8px;
+    text-align: center; font-size: 13px; font-weight: 600; color: var(--gray-500);
+    cursor: pointer; transition: all 0.15s; background: white; user-select: none;
   }
   .time-btn:active { transform: scale(0.96); }
-  .time-btn.selected {
-    background: var(--success);
-    border-color: var(--success);
-    color: white;
-  }
+  .time-btn.selected { background: var(--success); border-color: var(--success); color: white; }
 
-  /* Consent */
+  .consent-all-btn {
+    width: 100%; padding: 14px; background: var(--primary); color: white;
+    border: none; border-radius: 8px; font-size: 14px; font-weight: 700;
+    cursor: pointer; margin-bottom: 12px; transition: background 0.2s;
+  }
+  .consent-all-btn:active { background: #0d2e57; }
+  .consent-all-btn.done { background: var(--success); }
+
   .consent-list { display: flex; flex-direction: column; gap: 10px; }
   .consent-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px;
-    background: var(--gray-50);
-    border-radius: 8px;
-    border: 1.5px solid var(--gray-200);
-    cursor: pointer;
-    transition: border-color 0.2s;
+    display: flex; align-items: flex-start; gap: 10px; padding: 12px;
+    background: var(--gray-50); border-radius: 8px; border: 1.5px solid var(--gray-200);
+    cursor: pointer; transition: border-color 0.2s;
   }
-  .consent-item.checked {
-    border-color: var(--success);
-    background: #f0fdf4;
-  }
+  .consent-item.checked { border-color: var(--success); background: #f0fdf4; }
   .consent-check {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    border-radius: 6px;
-    border: 2px solid var(--gray-300);
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    margin-top: 1px;
+    width: 22px; height: 22px; min-width: 22px; border-radius: 6px;
+    border: 2px solid var(--gray-300); background: white;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; margin-top: 1px;
   }
-  .consent-item.checked .consent-check {
-    background: var(--success);
-    border-color: var(--success);
-  }
-  .consent-check svg {
-    display: none;
-  }
-  .consent-item.checked .consent-check svg {
-    display: block;
-  }
-  .consent-text {
-    font-size: 13px;
-    color: var(--gray-700);
-    line-height: 1.5;
-  }
-  .consent-text strong {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 2px;
-  }
-  .all-agree-btn {
-    width: 100%;
-    padding: 14px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 12px;
-    transition: background 0.2s;
-  }
-  .all-agree-btn:active { background: #0d2e57; }
-  .all-agree-btn.done { background: var(--success); }
+  .consent-item.checked .consent-check { background: var(--success); border-color: var(--success); }
+  .consent-check svg { display: none; }
+  .consent-item.checked .consent-check svg { display: block; }
+  .consent-text { font-size: 12px; color: var(--gray-700); line-height: 1.5; }
+  .consent-text strong { display: block; font-weight: 700; font-size: 13px; margin-bottom: 3px; color: var(--gray-900); }
+  .consent-en { display: block; font-size: 11px; color: var(--gray-400); margin-top: 3px; line-height: 1.4; }
 
-  /* Submit */
   .submit-btn {
-    width: calc(100% - 32px);
-    margin: 20px 16px 0;
-    padding: 18px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 17px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(0,180,216,0.35);
-    transition: all 0.2s;
-    letter-spacing: -0.3px;
+    width: calc(100% - 32px); margin: 20px 16px 0; padding: 18px;
+    background: var(--accent); color: white; border: none; border-radius: var(--radius);
+    font-size: 17px; font-weight: 800; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,180,216,0.35); transition: all 0.2s;
   }
   .submit-btn:active { transform: scale(0.98); }
-  .submit-btn:disabled {
-    background: var(--gray-300);
-    box-shadow: none;
-    cursor: not-allowed;
-  }
+  .submit-btn:disabled { background: var(--gray-300); box-shadow: none; cursor: not-allowed; }
+  .submit-hint { text-align: center; font-size: 11px; color: var(--gray-400); margin-top: 8px; padding: 0 16px; line-height: 1.6; }
 
-  /* Complete Screen */
   .complete-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-    padding: 40px 24px;
-    text-align: center;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 80vh; padding: 40px 24px; text-align: center;
   }
   .complete-screen.show { display: flex; }
   .complete-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--success);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-    box-shadow: 0 8px 24px rgba(34,197,94,0.3);
+    width: 80px; height: 80px; background: var(--success); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px; box-shadow: 0 8px 24px rgba(34,197,94,0.3);
   }
-  .complete-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--primary);
-    margin-bottom: 10px;
+  .complete-title { font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+  .complete-sub { font-size: 14px; color: var(--gray-500); line-height: 1.7; margin-bottom: 24px; }
+  .complete-info-box {
+    background: var(--gray-50); border-radius: var(--radius); padding: 20px;
+    width: 100%; max-width: 340px; border: 1.5px solid var(--gray-200); margin-bottom: 20px;
   }
-  .complete-sub {
-    font-size: 15px;
-    color: var(--gray-500);
-    line-height: 1.6;
-  }
-  .complete-info {
-    margin-top: 24px;
-    background: var(--gray-50);
-    border-radius: var(--radius);
-    padding: 20px;
-    width: 100%;
-    max-width: 320px;
-    border: 1.5px solid var(--gray-200);
-  }
-  .info-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--gray-100);
-  }
+  .complete-info-title { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .info-row { display: flex; justify-content: space-between; font-size: 13px; padding: 7px 0; border-bottom: 1px solid var(--gray-100); }
   .info-row:last-child { border-bottom: none; }
   .info-label { color: var(--gray-500); }
-  .info-val { font-weight: 700; color: var(--gray-900); }
-  .contact-box {
-    margin-top: 20px;
-    font-size: 13px;
-    color: var(--gray-500);
-  }
-  .contact-box a {
-    color: var(--accent);
-    font-weight: 700;
-    text-decoration: none;
-  }
+  .info-val { font-weight: 700; color: var(--gray-900); text-align: right; }
 
-  /* Form wrapper */
-  #form-wrapper { display: block; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 340px; }
+  .contact-btn {
+    padding: 12px 8px; border-radius: 8px; text-decoration: none;
+    font-size: 12px; font-weight: 600; text-align: center; line-height: 1.5;
+  }
+  .contact-btn.tel { background: var(--primary); color: white; }
+  .contact-btn.kakao { background: #FEE500; color: #3A1D1D; }
+  .contact-btn.wa { background: #25D366; color: white; }
+  .contact-btn.email { background: var(--gray-200); color: var(--gray-700); }
+
   .passport-wrap { display: none; }
   .passport-wrap.visible { display: block; }
+  #form-wrapper { display: block; }
 </style>
 </head>
 <body>
@@ -469,102 +213,114 @@
 <div id="form-wrapper">
   <div class="header">
     <div class="header-logo">Hotel Around Sokcho</div>
-    <div class="header-title">🏨 모바일 체크인</div>
+    <div class="header-title">🏨 모바일 체크인 <span style="font-size:13px;opacity:0.65;font-weight:400;">Mobile Check-in</span></div>
   </div>
   <div class="progress-wrap">
-    <div class="progress-bar-bg">
-      <div class="progress-bar-fill" id="progressBar"></div>
-    </div>
-    <div class="progress-text" id="progressText">0% 완료</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+    <div class="progress-text" id="progressText">입력 진행률 0%</div>
+  </div>
+
+  <div class="notice-banner">
+    ✦ 체크인 완료 후 객실 키패드 번호를 문자로 전송해 드립니다.<br>
+    키패드 번호 전송은 15:30부터 순차적으로 진행됩니다.<br>
+    <span style="color:var(--gray-400);">Your room keypad code will be sent via SMS after check-in is complete.<br>
+    Keypad codes will be sent sequentially from 15:30.</span>
   </div>
 
   <!-- Section 1: 예약 채널 -->
   <div class="card">
-    <div class="section-title">예약 채널</div>
+    <div class="section-title"><span class="step-num">1</span>예약 채널 <span class="title-en">/ Booking Channel</span></div>
+    <label class="required">예약하신 채널을 선택해 주세요 <span class="label-en">/ Please select your booking channel</span></label>
     <div class="chip-grid" id="channelGrid">
-      <div class="chip" onclick="selectChip('channel', this, '아고다')"><span class="channel-label">아고다</span></div>
-      <div class="chip" onclick="selectChip('channel', this, '부킹닷컴')"><span class="channel-label">부킹닷컴</span></div>
-      <div class="chip" onclick="selectChip('channel', this, '익스피디아')"><span class="channel-label">익스피디아</span></div>
-      <div class="chip" onclick="selectChip('channel', this, '네이버')"><span class="channel-label">네이버</span></div>
-      <div class="chip" onclick="selectChip('channel', this, '야놀자')"><span class="channel-label">야놀자</span></div>
-      <div class="chip" onclick="selectChip('channel', this, '여기어때')"><span class="channel-label">여기어때</span></div>
-      <div class="chip" onclick="selectChip('channel', this, '직접예약')"><span class="channel-label">직접예약</span></div>
-      <div class="chip" onclick="selectChip('channel', this, '기타')"><span class="channel-label">기타</span></div>
+      <div class="chip" onclick="selectChip(this,'아고다')"><span class="chip-ko">아고다</span><span class="chip-en">Agoda</span></div>
+      <div class="chip" onclick="selectChip(this,'부킹닷컴')"><span class="chip-ko">부킹닷컴</span><span class="chip-en">Booking.com</span></div>
+      <div class="chip" onclick="selectChip(this,'익스피디아')"><span class="chip-ko">익스피디아</span><span class="chip-en">Expedia</span></div>
+      <div class="chip" onclick="selectChip(this,'네이버')"><span class="chip-ko">네이버 예약</span><span class="chip-en">Naver</span></div>
+      <div class="chip" onclick="selectChip(this,'야놀자')"><span class="chip-ko">야놀자</span><span class="chip-en">Yanolja</span></div>
+      <div class="chip" onclick="selectChip(this,'여기어때')"><span class="chip-ko">여기어때</span><span class="chip-en">Yeogieottae</span></div>
+      <div class="chip" onclick="selectChip(this,'직접예약')"><span class="chip-ko">호텔 직접 예약</span><span class="chip-en">Direct</span></div>
+      <div class="chip" onclick="selectChip(this,'기타')"><span class="chip-ko">기타</span><span class="chip-en">Other</span></div>
     </div>
     <input type="hidden" id="channel">
   </div>
 
   <!-- Section 2: 투숙객 정보 -->
   <div class="card">
-    <div class="section-title">투숙객 정보</div>
-
+    <div class="section-title"><span class="step-num">2</span>투숙객 정보 <span class="title-en">/ Guest Information</span></div>
     <div class="field">
-      <label class="required">성명 (한글 또는 영문)</label>
-      <input type="text" id="name" placeholder="홍길동 / HONG GIL DONG" autocomplete="off">
+      <label class="required">투숙객 성명 <span class="label-en">/ Guest Name</span></label>
+      <input type="text" id="name" placeholder="성명을 입력해 주세요." autocomplete="off">
     </div>
-
     <div class="field">
-      <label class="required">생년월일</label>
+      <label class="required">생년월일 <span class="label-en">/ Date of Birth</span></label>
       <div class="birth-row">
-        <input type="text" id="birthYY" placeholder="YY" maxlength="2" inputmode="numeric" style="width:64px; flex-shrink:0;" oninput="onBirthInput(this, 'birthMM', 2)">
-        <span class="birth-sep">-</span>
-        <input type="text" id="birthMM" placeholder="MM" maxlength="2" inputmode="numeric" style="width:64px; flex-shrink:0;" oninput="onBirthInput(this, 'birthDD', 2)">
-        <span class="birth-sep">-</span>
-        <input type="text" id="birthDD" placeholder="DD" maxlength="2" inputmode="numeric" style="width:64px; flex-shrink:0;">
+        <input type="text" id="birthYY" placeholder="YY" maxlength="2" inputmode="numeric" oninput="onBirthInput(this,'birthMM',2)">
+        <span class="birth-sep">/</span>
+        <input type="text" id="birthMM" placeholder="MM" maxlength="2" inputmode="numeric" oninput="onBirthInput(this,'birthDD',2)">
+        <span class="birth-sep">/</span>
+        <input type="text" id="birthDD" placeholder="DD" maxlength="2" inputmode="numeric" oninput="updateProgress()">
       </div>
-      <div class="hint">예: 89 - 03 - 15 (1989년 3월 15일)</div>
+      <div class="hint">생년월일을 입력해 주세요. / Please enter date of birth.</div>
     </div>
-
     <div class="field">
-      <label class="required">국적</label>
+      <label class="required">국적 <span class="label-en">/ Nationality</span></label>
       <div class="select-wrap">
         <select id="nationality" onchange="onNationalityChange()">
-          <option value="">선택하세요</option>
-          <option value="내국인">내국인 (대한민국)</option>
-          <option value="중국">중국</option>
-          <option value="일본">일본</option>
-          <option value="미국">미국</option>
-          <option value="기타외국인">기타 외국인</option>
+          <option value="">선택해 주세요</option>
+          <option value="대한민국">대한민국</option>
+          <option value="미국">미국 / United States</option>
+          <option value="일본">일본 / Japan</option>
+          <option value="중국">중국 / China</option>
+          <option value="대만">대만 / Taiwan</option>
+          <option value="홍콩">홍콩 / Hong Kong</option>
+          <option value="싱가포르">싱가포르 / Singapore</option>
+          <option value="태국">태국 / Thailand</option>
+          <option value="호주">호주 / Australia</option>
+          <option value="영국">영국 / United Kingdom</option>
+          <option value="독일">독일 / Germany</option>
+          <option value="프랑스">프랑스 / France</option>
+          <option value="기타외국인">기타 / Other</option>
         </select>
       </div>
     </div>
-
     <div class="field passport-wrap" id="passportWrap">
-      <label class="required">여권번호</label>
-      <input type="text" id="passport" placeholder="여권번호를 입력하세요" autocomplete="off">
+      <label class="required">여권번호 <span class="label-en">/ Passport Number</span></label>
+      <input type="text" id="passport" placeholder="여권번호를 입력해 주세요." autocomplete="off">
     </div>
-
     <div class="field">
-      <label class="required">연락처</label>
-      <input type="tel" id="phone" placeholder="010-0000-0000" inputmode="numeric">
+      <label class="required">전화번호 <span class="label-en">/ Phone Number</span></label>
+      <input type="tel" id="phone" placeholder="전화번호를 입력해 주세요. / Please enter your phone number." inputmode="numeric">
     </div>
   </div>
 
   <!-- Section 3: 투숙 일정 -->
   <div class="card">
-    <div class="section-title">투숙 일정</div>
+    <div class="section-title"><span class="step-num">3</span>투숙 일정 <span class="title-en">/ Stay Dates</span></div>
     <div class="date-row">
-      <div class="field" style="margin-bottom:0;">
-        <label class="required">체크인</label>
+      <div class="field" style="margin-bottom:0">
+        <label class="required">체크인 날짜 <span class="label-en">/ Check-in Date</span></label>
         <input type="date" id="checkin" onchange="calcNights()">
+        <div class="hint">체크인 날짜를 선택해 주세요.</div>
       </div>
-      <div class="field" style="margin-bottom:0;">
-        <label class="required">체크아웃</label>
+      <div class="field" style="margin-bottom:0">
+        <label class="required">체크아웃 날짜 <span class="label-en">/ Check-out Date</span></label>
         <input type="date" id="checkout" onchange="calcNights()">
+        <div class="hint">체크아웃 날짜를 선택해 주세요.</div>
       </div>
     </div>
-    <div class="nights-badge" id="nightsBadge"></div>
+    <div class="nights-badge" id="nightsBadge">투숙 기간 / Length of Stay</div>
   </div>
 
   <!-- Section 4: 인원 및 차량 -->
   <div class="card">
-    <div class="section-title">인원 및 차량</div>
+    <div class="section-title"><span class="step-num">4</span>인원 및 차량 <span class="title-en">/ Guests &amp; Vehicle</span></div>
+    <label class="required" style="margin-bottom:10px;">실투숙인원 <span class="label-en">/ Number of Guests</span></label>
     <div class="guest-row">
-      <div class="field" style="margin-bottom:0;">
-        <label class="required">성인</label>
+      <div class="field" style="margin-bottom:0">
+        <label>성인 <span class="label-en">/ Adult</span></label>
         <div class="select-wrap">
           <select id="adult">
-            <option value="">선택</option>
+            <option value="">선택해 주세요</option>
             <option value="1">1명</option>
             <option value="2">2명</option>
             <option value="3">3명</option>
@@ -574,106 +330,91 @@
           </select>
         </div>
       </div>
-      <div class="field" style="margin-bottom:0;">
-        <label>아동</label>
+      <div class="field" style="margin-bottom:0">
+        <label>아동 <span class="label-en">/ Child</span></label>
         <div class="select-wrap">
           <select id="child">
-            <option value="0">없음</option>
+            <option value="0">0명</option>
             <option value="1">1명</option>
             <option value="2">2명</option>
             <option value="3">3명</option>
-            <option value="4">4명 이상</option>
+            <option value="4">4명</option>
           </select>
         </div>
       </div>
     </div>
-
     <div class="toggle-row">
-      <span class="toggle-label">🚗 차량 있음</span>
+      <div><span class="toggle-label">🚗 차량 있음</span><span class="toggle-label-en">Vehicle</span></div>
       <label class="toggle-switch">
         <input type="checkbox" id="carToggle" onchange="toggleCar()">
         <span class="toggle-track"></span>
         <span class="toggle-thumb"></span>
       </label>
     </div>
-
     <div class="car-input-wrap" id="carInputWrap">
-      <label>차량번호</label>
+      <label>차량번호 <span class="label-en">/ License Plate</span></label>
       <input type="text" id="carNumber" placeholder="예: 12가 3456">
     </div>
   </div>
 
   <!-- Section 5: 예상 도착 시간 -->
   <div class="card">
-    <div class="section-title">예상 도착 시간</div>
+    <div class="section-title">
+      <span class="step-num">5</span>예상 도착 시간 <span class="title-en">/ Expected Arrival</span>
+      <span class="optional-badge">선택 / Optional</span>
+    </div>
+    <div class="hint" style="margin-bottom:12px;">몇 시쯤 도착하실 예정인가요? / What time do you expect to arrive?</div>
     <div class="time-grid" id="timeGrid">
-      <div class="time-btn" onclick="selectTime(this, '15:30')">15:30</div>
-      <div class="time-btn" onclick="selectTime(this, '16:00')">16:00</div>
-      <div class="time-btn" onclick="selectTime(this, '17:00')">17:00</div>
-      <div class="time-btn" onclick="selectTime(this, '18:00')">18:00</div>
-      <div class="time-btn" onclick="selectTime(this, '19:00')">19:00</div>
-      <div class="time-btn" onclick="selectTime(this, '20:00')">20:00</div>
-      <div class="time-btn" onclick="selectTime(this, '21:00')">21:00</div>
-      <div class="time-btn" onclick="selectTime(this, '22:00~')">22:00~</div>
+      <div class="time-btn" onclick="selectTime(this,'15:30')">15:30</div>
+      <div class="time-btn" onclick="selectTime(this,'16:00')">16:00</div>
+      <div class="time-btn" onclick="selectTime(this,'17:00')">17:00</div>
+      <div class="time-btn" onclick="selectTime(this,'18:00')">18:00</div>
+      <div class="time-btn" onclick="selectTime(this,'19:00')">19:00</div>
+      <div class="time-btn" onclick="selectTime(this,'20:00')">20:00</div>
+      <div class="time-btn" onclick="selectTime(this,'21:00')">21:00</div>
+      <div class="time-btn" onclick="selectTime(this,'22:00~')">22:00~</div>
     </div>
     <input type="hidden" id="arrivalTime">
   </div>
 
   <!-- Section 6: 정책 동의 -->
   <div class="card">
-    <div class="section-title">정책 동의</div>
+    <div class="section-title"><span class="step-num">6</span>정책 동의 <span class="title-en">/ Policy Agreement</span></div>
+    <button class="consent-all-btn" id="allAgreeBtn" onclick="agreeAll()">전체 동의합니다 / I agree to all policies</button>
     <div class="consent-list" id="consentList">
       <div class="consent-item" onclick="toggleConsent(this)" data-id="c1">
-        <div class="consent-check">
-          <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="consent-text"><strong>[필수] 숙박 규정 동의</strong>체크인 15:30, 체크아웃 11:00 / 금연 / 반려동물 불가</div>
+        <div class="consent-check"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="consent-text"><strong>개인정보 수집·이용 동의 *</strong>숙박부 작성을 위한 개인정보 수집 및 이용에 동의합니다.<span class="consent-en">I agree to the collection and use of my personal information for guest registration purposes.</span></div>
       </div>
       <div class="consent-item" onclick="toggleConsent(this)" data-id="c2">
-        <div class="consent-check">
-          <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="consent-text"><strong>[필수] 개인정보 수집·이용 동의</strong>숙박 서비스 제공 목적으로 수집되며, 퇴실 후 3년 보관</div>
+        <div class="consent-check"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="consent-text"><strong>기재 정보 사실 확인 *</strong>기재한 정보가 사실과 다름없음을 확인합니다.<span class="consent-en">I hereby confirm that all information provided is true and accurate.</span></div>
       </div>
       <div class="consent-item" onclick="toggleConsent(this)" data-id="c3">
-        <div class="consent-check">
-          <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="consent-text"><strong>[필수] 파손·분실 배상 동의</strong>고의·과실로 인한 시설 파손 시 변상 책임에 동의합니다</div>
+        <div class="consent-check"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="consent-text"><strong>주차 미등록 시 주차료 부과 *</strong>체크인 전 주차등록을 하지 않은 경우 주차료가 부과될 수 있습니다.<span class="consent-en">I understand that if parking registration is not completed prior to check-in, parking fees may apply.</span></div>
       </div>
       <div class="consent-item" onclick="toggleConsent(this)" data-id="c4">
-        <div class="consent-check">
-          <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="consent-text"><strong>[필수] 추가인원 금지 동의</strong>예약된 인원 외 무단 추가 입실은 불가합니다</div>
+        <div class="consent-check"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="consent-text"><strong>비품 파손·분실·침구 오염 처리비용 *</strong>숙박 중 부주의로 인한 비품 파손, 분실, 침구류의 심각한 오염에 대해 처리비용이 발생할 수 있습니다.<span class="consent-en">I agree that any damage to or loss of hotel property may incur applicable charges.</span></div>
       </div>
       <div class="consent-item" onclick="toggleConsent(this)" data-id="c5">
-        <div class="consent-check">
-          <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="consent-text"><strong>[필수] 취소·환불 정책 동의</strong>예약 취소 수수료 정책에 동의합니다</div>
+        <div class="consent-check"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="consent-text"><strong>객실·발코니 흡연 시 최대 30만원 *</strong>객실(발코니 포함) 흡연 시 객실 처리비용이 부과됩니다.(최대 30만원)<span class="consent-en">Smoking in the room, including the balcony, will incur cleaning charges of up to ₩300,000.</span></div>
       </div>
       <div class="consent-item" onclick="toggleConsent(this)" data-id="c6">
-        <div class="consent-check">
-          <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="consent-text"><strong>[필수] 소음·질서 유지 동의</strong>22:00 이후 취침 시간 소음 자제에 동의합니다</div>
+        <div class="consent-check"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="consent-text"><strong>반려동물 동반 즉시 퇴실 + 최대 30만원 *</strong>반려동물 동반 입실 즉시 퇴실 및 페널티(최대 30만원)가 부과됩니다.<span class="consent-en">Bringing pets into the room is strictly prohibited, and violation will result in immediate eviction and a penalty of up to ₩300,000.</span></div>
       </div>
       <div class="consent-item" onclick="toggleConsent(this)" data-id="c7">
-        <div class="consent-check">
-          <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="consent-text"><strong>[선택] 마케팅 정보 수신 동의</strong>이벤트·할인 정보 수신에 동의합니다 (거부 시 불이익 없음)</div>
+        <div class="consent-check"><svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L5 8.5L11.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="consent-text"><strong>문의시간 확인 *</strong>문의시간 09:00~20:00 (매일)을 확인하였습니다.<span class="consent-en">I acknowledge that guest inquiries are accepted daily from 09:00 to 20:00.</span></div>
       </div>
     </div>
-    <button class="all-agree-btn" id="allAgreeBtn" onclick="agreeAll()">전체 동의</button>
   </div>
 
-  <!-- Submit -->
-  <button class="submit-btn" onclick="submitForm()">✅ 체크인 완료하기</button>
-  <div style="margin-top:16px; text-align:center; font-size:12px; color:var(--gray-400); padding:0 16px;">
-    문의: <a href="tel:033-800-8899" style="color:var(--accent);">033-800-8899</a> (09:00~20:00)
-  </div>
+  <button class="submit-btn" onclick="submitForm()">체크인 완료하기 / Complete Check-in</button>
+  <div class="submit-hint">모든 필수 항목을 입력하고 동의 후 제출해 주세요.<br>Please complete all required fields before submitting.</div>
 </div>
 
 <!-- Complete Screen -->
@@ -682,11 +423,24 @@
     <svg width="40" height="30" viewBox="0 0 40 30" fill="none"><path d="M3 15L14 26L37 3" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </div>
   <div class="complete-title">체크인 완료!</div>
-  <div class="complete-sub">모바일 체크인이 완료되었습니다.<br>즐거운 숙박 되세요 😊</div>
-  <div class="complete-info" id="completeInfo"></div>
-  <div class="contact-box">
-    문의사항: <a href="tel:033-800-8899">033-800-8899</a><br>
-    <span style="font-size:11px;">(매일 09:00~20:00)</span>
+  <div class="complete-sub">
+    모바일 체크인이 완료되었습니다.<br>
+    15:30부터 순차적으로 객실 키패드 번호를<br>
+    문자로 안내해 드립니다.
+  </div>
+  <div class="complete-info-box">
+    <div class="complete-info-title">투숙 안내</div>
+    <div class="info-row"><span class="info-label">체크인</span><span class="info-val">15:30 이후 (공식 16:00)</span></div>
+    <div class="info-row"><span class="info-label">체크아웃</span><span class="info-val">익일 11:00까지</span></div>
+    <div class="info-row"><span class="info-label">키패드 번호</span><span class="info-val">문자로 별도 안내</span></div>
+    <div id="completeGuestInfo"></div>
+  </div>
+  <div style="font-size:12px;color:var(--gray-500);margin-bottom:14px;">문의 | 09:00~20:00 (매일) · 033-800-8899</div>
+  <div class="contact-grid">
+    <a class="contact-btn tel" href="tel:033-800-8899">📞 프런트<br>033-800-8899</a>
+    <a class="contact-btn kakao" href="https://open.kakao.com/o/hotelaroundsokcho">💬 카카오톡<br>@hotelaroundsokcho</a>
+    <a class="contact-btn wa" href="https://wa.me/821042820392">📱 WhatsApp<br>+82-10-4282-0392</a>
+    <a class="contact-btn email" href="mailto:hotelaroundsokcho@gmail.com">✉️ 이메일<br>문의하기</a>
   </div>
 </div>
 
@@ -695,29 +449,22 @@ var selectedChannel = '';
 var selectedArrivalTime = '';
 var consentChecked = {};
 
-// ── 채널 선택 ──
-function selectChip(type, el, val) {
-  var grid = document.getElementById('channelGrid');
-  var chips = grid.querySelectorAll('.chip');
-  chips.forEach(function(c) { c.classList.remove('selected'); });
+function selectChip(el, val) {
+  document.getElementById('channelGrid').querySelectorAll('.chip').forEach(function(c) { c.classList.remove('selected'); });
   el.classList.add('selected');
   selectedChannel = val;
   document.getElementById('channel').value = val;
   updateProgress();
 }
 
-// ── 도착시간 선택 ──
 function selectTime(el, val) {
-  var grid = document.getElementById('timeGrid');
-  var btns = grid.querySelectorAll('.time-btn');
-  btns.forEach(function(b) { b.classList.remove('selected'); });
+  document.getElementById('timeGrid').querySelectorAll('.time-btn').forEach(function(b) { b.classList.remove('selected'); });
   el.classList.add('selected');
   selectedArrivalTime = val;
   document.getElementById('arrivalTime').value = val;
   updateProgress();
 }
 
-// ── 동의 체크박스 ──
 function toggleConsent(el) {
   var id = el.getAttribute('data-id');
   if (el.classList.contains('checked')) {
@@ -733,23 +480,20 @@ function toggleConsent(el) {
 
 function updateAllAgreeBtn() {
   var items = document.querySelectorAll('.consent-item');
-  var allChecked = true;
-  items.forEach(function(item) {
-    if (!item.classList.contains('checked')) allChecked = false;
-  });
+  var allDone = true;
+  items.forEach(function(item) { if (!item.classList.contains('checked')) allDone = false; });
   var btn = document.getElementById('allAgreeBtn');
-  if (allChecked) {
-    btn.textContent = '✅ 전체 동의 완료';
+  if (allDone) {
+    btn.textContent = '✅ 전체 동의 완료 / All Agreed';
     btn.classList.add('done');
   } else {
-    btn.textContent = '전체 동의';
+    btn.textContent = '전체 동의합니다 / I agree to all policies';
     btn.classList.remove('done');
   }
 }
 
 function agreeAll() {
-  var items = document.querySelectorAll('.consent-item');
-  items.forEach(function(item) {
+  document.querySelectorAll('.consent-item').forEach(function(item) {
     item.classList.add('checked');
     consentChecked[item.getAttribute('data-id')] = true;
   });
@@ -757,19 +501,13 @@ function agreeAll() {
   updateProgress();
 }
 
-// ── 차량 토글 ──
 function toggleCar() {
   var checked = document.getElementById('carToggle').checked;
   var wrap = document.getElementById('carInputWrap');
-  if (checked) {
-    wrap.classList.add('visible');
-  } else {
-    wrap.classList.remove('visible');
-    document.getElementById('carNumber').value = '';
-  }
+  if (checked) { wrap.classList.add('visible'); }
+  else { wrap.classList.remove('visible'); document.getElementById('carNumber').value = ''; }
 }
 
-// ── 생년월일 자동 포커스 이동 ──
 function onBirthInput(el, nextId, maxLen) {
   if (el.value.length >= maxLen) {
     var next = document.getElementById(nextId);
@@ -778,42 +516,28 @@ function onBirthInput(el, nextId, maxLen) {
   updateProgress();
 }
 
-// ── 국적 변경 시 여권번호 표시 ──
 function onNationalityChange() {
   var nat = document.getElementById('nationality').value;
   var wrap = document.getElementById('passportWrap');
-  if (nat !== '' && nat !== '내국인') {
-    wrap.classList.add('visible');
-  } else {
-    wrap.classList.remove('visible');
-    document.getElementById('passport').value = '';
-  }
+  if (nat && nat !== '대한민국') { wrap.classList.add('visible'); }
+  else { wrap.classList.remove('visible'); document.getElementById('passport').value = ''; }
   updateProgress();
 }
 
-// ── 박수 계산 ──
 function calcNights() {
   var ci = document.getElementById('checkin').value;
   var co = document.getElementById('checkout').value;
   var badge = document.getElementById('nightsBadge');
   if (ci && co) {
-    var d1 = new Date(ci);
-    var d2 = new Date(co);
-    var diff = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
-    if (diff > 0) {
-      badge.textContent = diff + '박 ' + (diff + 1) + '일';
-    } else {
-      badge.textContent = '⚠️ 날짜를 확인해주세요';
-    }
+    var diff = Math.round((new Date(co) - new Date(ci)) / 86400000);
+    badge.textContent = diff > 0 ? diff + '박 ' + (diff + 1) + '일 / ' + diff + ' night(s)' : '⚠️ 날짜를 다시 확인해 주세요.';
   } else {
-    badge.textContent = '';
+    badge.textContent = '투숙 기간 / Length of Stay';
   }
   updateProgress();
 }
 
-// ── 진행률 계산 ──
 function updateProgress() {
-  var total = 9;
   var done = 0;
   if (selectedChannel) done++;
   if (document.getElementById('name').value.trim()) done++;
@@ -823,108 +547,53 @@ function updateProgress() {
   if (document.getElementById('checkin').value && document.getElementById('checkout').value) done++;
   if (document.getElementById('adult').value) done++;
   if (selectedArrivalTime) done++;
-  var reqConsent = ['c1','c2','c3','c4','c5','c6'];
-  var allReq = reqConsent.every(function(id) { return consentChecked[id]; });
-  if (allReq) done++;
-  var pct = Math.round((done / total) * 100);
+  var allConsent = ['c1','c2','c3','c4','c5','c6','c7'].every(function(id) { return consentChecked[id]; });
+  if (allConsent) done++;
+  var pct = Math.round(done / 9 * 100);
   document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressText').textContent = pct + '% 완료';
+  document.getElementById('progressText').textContent = '입력 진행률 ' + pct + '%';
 }
 
-// ── 유효성 검사 ──
 function validate() {
-  var errors = [];
   var firstError = null;
-
-  function markError(id) {
+  function mark(id) {
     var el = document.getElementById(id);
-    if (el) {
-      el.classList.add('error');
-      if (!firstError) firstError = el;
-    }
+    if (el) { el.classList.add('error'); if (!firstError) firstError = el; }
   }
-  function clearError(id) {
-    var el = document.getElementById(id);
-    if (el) el.classList.remove('error');
-  }
+  function clr(id) { var el = document.getElementById(id); if (el) el.classList.remove('error'); }
+  ['name','birthYY','birthMM','birthDD','nationality','passport','phone','checkin','checkout','adult'].forEach(clr);
 
-  clearError('name'); clearError('birthYY'); clearError('birthMM'); clearError('birthDD');
-  clearError('nationality'); clearError('passport'); clearError('phone');
-  clearError('checkin'); clearError('checkout'); clearError('adult');
-
-  if (!selectedChannel) {
-    errors.push('예약 채널을 선택해주세요.');
-    if (!firstError) firstError = document.getElementById('channelGrid');
-  }
-  if (!document.getElementById('name').value.trim()) {
-    errors.push('성명을 입력해주세요.');
-    markError('name');
-  }
-  if (!document.getElementById('birthYY').value || !document.getElementById('birthMM').value || !document.getElementById('birthDD').value) {
-    errors.push('생년월일을 입력해주세요.');
-    markError('birthYY'); markError('birthMM'); markError('birthDD');
-  }
-  if (!document.getElementById('nationality').value) {
-    errors.push('국적을 선택해주세요.');
-    markError('nationality');
-  }
+  var ok = true;
+  if (!selectedChannel) { if (!firstError) firstError = document.getElementById('channelGrid'); ok = false; }
+  if (!document.getElementById('name').value.trim()) { mark('name'); ok = false; }
+  if (!document.getElementById('birthYY').value) { mark('birthYY'); ok = false; }
+  if (!document.getElementById('birthMM').value) { mark('birthMM'); ok = false; }
+  if (!document.getElementById('birthDD').value) { mark('birthDD'); ok = false; }
+  if (!document.getElementById('nationality').value) { mark('nationality'); ok = false; }
   var nat = document.getElementById('nationality').value;
-  if (nat && nat !== '내국인' && !document.getElementById('passport').value.trim()) {
-    errors.push('여권번호를 입력해주세요.');
-    markError('passport');
-  }
-  if (!document.getElementById('phone').value.trim()) {
-    errors.push('연락처를 입력해주세요.');
-    markError('phone');
-  }
-  if (!document.getElementById('checkin').value) {
-    errors.push('체크인 날짜를 입력해주세요.');
-    markError('checkin');
-  }
-  if (!document.getElementById('checkout').value) {
-    errors.push('체크아웃 날짜를 입력해주세요.');
-    markError('checkout');
-  }
-  if (!document.getElementById('adult').value) {
-    errors.push('성인 인원을 선택해주세요.');
-    markError('adult');
-  }
-  if (!selectedArrivalTime) {
-    errors.push('예상 도착 시간을 선택해주세요.');
-    if (!firstError) firstError = document.getElementById('timeGrid');
-  }
-  var reqConsent = ['c1','c2','c3','c4','c5','c6'];
-  var allReq = reqConsent.every(function(id) { return consentChecked[id]; });
-  if (!allReq) {
-    errors.push('필수 동의 항목을 모두 체크해주세요.');
-    if (!firstError) firstError = document.getElementById('consentList');
-  }
+  if (nat && nat !== '대한민국' && !document.getElementById('passport').value.trim()) { mark('passport'); ok = false; }
+  if (!document.getElementById('phone').value.trim()) { mark('phone'); ok = false; }
+  if (!document.getElementById('checkin').value) { mark('checkin'); ok = false; }
+  if (!document.getElementById('checkout').value) { mark('checkout'); ok = false; }
+  if (!document.getElementById('adult').value) { mark('adult'); ok = false; }
+  var allConsent = ['c1','c2','c3','c4','c5','c6','c7'].every(function(id) { return consentChecked[id]; });
+  if (!allConsent) { if (!firstError) firstError = document.getElementById('consentList'); ok = false; }
 
-  if (errors.length > 0) {
-    if (firstError) {
-      firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-    return false;
-  }
-  return true;
+  if (!ok && firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return ok;
 }
 
-// ── 제출 ──
 function submitForm() {
   if (!validate()) return;
-
   var btn = document.querySelector('.submit-btn');
   btn.disabled = true;
-  btn.textContent = '전송 중...';
-
-  var birth = document.getElementById('birthYY').value + '-' + document.getElementById('birthMM').value + '-' + document.getElementById('birthDD').value;
-  var car = document.getElementById('carToggle').checked ? (document.getElementById('carNumber').value || '있음') : '없음';
+  btn.textContent = '전송 중... / Submitting...';
 
   var data = {
     type: 'checkin',
     channel: selectedChannel,
     name: document.getElementById('name').value.trim(),
-    birth: birth,
+    birth: document.getElementById('birthYY').value + '-' + document.getElementById('birthMM').value + '-' + document.getElementById('birthDD').value,
     nationality: document.getElementById('nationality').value,
     passport: document.getElementById('passport').value.trim() || '-',
     phone: document.getElementById('phone').value.trim(),
@@ -932,55 +601,39 @@ function submitForm() {
     checkout: document.getElementById('checkout').value,
     adult: document.getElementById('adult').value,
     child: document.getElementById('child').value,
-    car: car,
-    arrivalTime: selectedArrivalTime,
+    car: document.getElementById('carToggle').checked ? (document.getElementById('carNumber').value.trim() || '있음') : '없음',
+    arrivalTime: selectedArrivalTime || '미선택',
     timestamp: new Date().toISOString()
   };
 
-  var GAS_URL = 'https://script.google.com/macros/s/AKfycbwEm2TWWFugQ4VXVBXNxV92oyDrpgcdsZRfS0jF57QCH_ygkMAzvfps7bUJvcu0WPV5tQ/exec';
-
-  fetch(GAS_URL, {
-    method: 'POST',
-    mode: 'no-cors',
+  fetch('https://script.google.com/macros/s/AKfycbwEm2TWWFugQ4VXVBXNxV92oyDrpgcdsZRfS0jF57QCH_ygkMAzvfps7bUJvcu0WPV5tQ/exec', {
+    method: 'POST', mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
-  }).then(function() {
-    showComplete(data);
-  }).catch(function(err) {
-    console.error('Submit error:', err);
-    showComplete(data);
-  });
+  }).then(function() { showComplete(data); }).catch(function() { showComplete(data); });
 }
 
 function showComplete(data) {
   document.getElementById('form-wrapper').style.display = 'none';
-  var screen = document.getElementById('completeScreen');
-  screen.classList.add('show');
-
+  document.getElementById('completeScreen').classList.add('show');
   var nights = '';
   if (data.checkin && data.checkout) {
-    var d1 = new Date(data.checkin);
-    var d2 = new Date(data.checkout);
-    var diff = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+    var diff = Math.round((new Date(data.checkout) - new Date(data.checkin)) / 86400000);
     if (diff > 0) nights = diff + '박';
   }
-
-  document.getElementById('completeInfo').innerHTML =
+  document.getElementById('completeGuestInfo').innerHTML =
     '<div class="info-row"><span class="info-label">이름</span><span class="info-val">' + data.name + '</span></div>' +
     '<div class="info-row"><span class="info-label">체크인</span><span class="info-val">' + data.checkin + '</span></div>' +
     '<div class="info-row"><span class="info-label">체크아웃</span><span class="info-val">' + data.checkout + (nights ? ' (' + nights + ')' : '') + '</span></div>' +
-    '<div class="info-row"><span class="info-label">도착 예정</span><span class="info-val">' + data.arrivalTime + '</span></div>' +
+    (data.arrivalTime !== '미선택' ? '<div class="info-row"><span class="info-label">도착 예정</span><span class="info-val">' + data.arrivalTime + '</span></div>' : '') +
     '<div class="info-row"><span class="info-label">예약 채널</span><span class="info-val">' + data.channel + '</span></div>';
 }
 
-// ── 이벤트 리스너로 진행률 갱신 ──
 document.addEventListener('DOMContentLoaded', function() {
   ['name','phone','checkin','checkout','adult','child'].forEach(function(id) {
     var el = document.getElementById(id);
-    if (el) el.addEventListener('input', updateProgress);
-    if (el) el.addEventListener('change', updateProgress);
+    if (el) { el.addEventListener('input', updateProgress); el.addEventListener('change', updateProgress); }
   });
-  document.getElementById('birthDD').addEventListener('input', updateProgress);
   updateProgress();
 });
 </script>
