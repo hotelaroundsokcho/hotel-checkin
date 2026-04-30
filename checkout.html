@@ -426,6 +426,11 @@
       <input type="text" id="name" placeholder="성함 / Full Name">
       <p class="error-msg">성명을 입력해 주세요. / Please enter your name.</p>
     </div>
+    <div class="field" id="field-room-number">
+      <div class="field-label">객실 번호 / Room Number <span class="req">*</span></div>
+      <input type="text" id="roomNumber" placeholder="예: 101, 202 / e.g. 101, 202" inputmode="numeric">
+      <p class="error-msg">객실 번호를 입력해 주세요. / Please enter your room number.</p>
+    </div>
   </div>
 
   <!-- SECTION 2: 객실 상태 확인 -->
@@ -533,6 +538,10 @@
     </p>
     <div class="success-box">
       <div class="success-row">
+        <span>객실 번호 / Room Number</span>
+        <span id="success-room-number">—</span>
+      </div>
+      <div class="success-row">
         <span>체크아웃 시간 / Check-out Time</span>
         <span id="checkout-time">—</span>
       </div>
@@ -563,7 +572,7 @@
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw9i8fTUpLrIsscpncQqCQkNkOnSaCXeKUSlZocBjc8faA52nrVQ8edF90h-2Q8JWf-eQ/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxMy56-rzxB8lRxUY-9fEPHP5UcWreCtQgghwah_mtEg2M3yIy_LG4oMb5WWCZtqFD76g/exec';
 
 let roomChecked = [false, false];
 let smokingChecked = false;
@@ -597,6 +606,13 @@ function validate() {
     ok = false;
   } else {
     document.getElementById('field-name').classList.remove('has-error');
+  }
+
+  if (!document.getElementById('roomNumber').value.trim()) {
+    document.getElementById('field-room-number').classList.add('has-error');
+    ok = false;
+  } else {
+    document.getElementById('field-room-number').classList.remove('has-error');
   }
 
   if (!roomChecked[0] || !roomChecked[1]) {
@@ -634,7 +650,9 @@ async function submitForm() {
     type: 'checkout',
     timestamp: timeStr,
     name: document.getElementById('name').value.trim(),
+    roomNumber: document.getElementById('roomNumber').value.trim(),
     roomCondition: '확인완료',
+    specialConfirm: '확인완료',
     smokingConfirm: '흡연없음확인',
     rating: rating || '미입력',
     comment: document.getElementById('comment').value.trim() || '없음'
@@ -649,6 +667,7 @@ async function submitForm() {
     });
   } catch(e) {}
 
+  document.getElementById('success-room-number').textContent = document.getElementById('roomNumber').value.trim();
   document.getElementById('checkout-time').textContent = now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
   document.getElementById('main-form').style.display = 'none';
   document.getElementById('success-screen').style.display = 'block';
