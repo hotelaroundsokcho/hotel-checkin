@@ -606,10 +606,9 @@ function submitForm() {
     timestamp: new Date().toISOString()
   };
 
-  fetch('https://script.google.com/macros/s/AKfycbzGyRko-YDA24Eikmk71QZq1yhZNOPCXnWHOXLoQ9duQmg0ZppdRO2Mj8P3DCl4QldkeQ/exec', {
-    method: 'POST', mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+  var encoded = encodeURIComponent(JSON.stringify(data));
+  fetch('https://script.google.com/macros/s/AKfycbzGyRko-YDA24Eikmk71QZq1yhZNOPCXnWHOXLoQ9duQmg0ZppdRO2Mj8P3DCl4QldkeQ/exec?data=' + encoded, {
+    method: 'GET', mode: 'no-cors'
   }).then(function() { showComplete(data); }).catch(function() { showComplete(data); });
 }
 

@@ -659,11 +659,10 @@ async function submitForm() {
   };
 
   try {
-    await fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    const encoded = encodeURIComponent(JSON.stringify(payload));
+    await fetch(SHEET_URL + '?data=' + encoded, {
+      method: 'GET',
+      mode: 'no-cors'
     });
   } catch(e) {}
 
