@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>모바일 체크인 — 호텔어라운드 속초</title>
-  <style>
-      :root {
+    <style>
+        :root {
             --primary: #0A2342;
             --accent: #00B4D8;
             --accent-light: #e0f7fc;
@@ -21,17 +21,16 @@
             --gray-900: #111827;
             --radius: 12px;
             --shadow: 0 2px 12px rgba(10,35,66,0.10);
-      }
-      * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-      body {
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
             background: var(--gray-100);
             color: var(--gray-900);
             min-height: 100vh;
             padding-bottom: 40px;
-      }
-
-      .header {
+        }
+        .header {
             background: var(--primary);
             color: white;
             padding: 20px 20px 16px;
@@ -39,13 +38,99 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      }
-      .header-logo { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
-      .header-title { font-size: 18px; font-weight: 700; }
-
-      .progress-wrap { background: var(--primary); padding: 0 20px 14px; }
-      .progress-bar-bg { background: rgba(255,255,255,0.2); border-radius: 99px; height: 4px; overflow: hidden; }
-      .progress-bar-fill { background: var(--accent); height: 4px; border-radius: 99px; transition: width 0.4s ease; width: 0%; }
-    
-  </style></title>
-  </head>
+        }
+        .header-logo { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
+        .header-title { font-size: 18px; font-weight: 700; }
+        .progress-wrap { background: var(--primary); padding: 0 20px 14px; }
+        .progress-bar-bg { background: rgba(255,255,255,0.2); border-radius: 99px; height: 4px; overflow: hidden; }
+        .progress-bar-fill { background: var(--accent); height: 4px; border-radius: 99px; transition: width 0.4s ease; width: 0%; }
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        .card { background: white; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
+        .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--gray-700); }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            transition: all 0.2s;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            outline: none;
+        }
+        .form-control:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 3px var(--accent-light); }
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+        .btn-submit:active { transform: scale(0.98); opacity: 0.9; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">Hotel Around Sokcho</div>
+        <div class="header-title">모바일 체크인</div>
+    </div>
+    <div class="progress-wrap">
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+    </div>
+    <div class="container">
+        <form id="checkinForm">
+            <div class="card">
+                <div class="section-title">예약 정보 확인</div>
+                <div class="form-group">
+                    <label class="form-label">예약 채널</label>
+                    <select class="form-control" name="channel" required>
+                        <option value="">선택해주세요</option>
+                        <option value="네이버 예약">네이버 예약</option>
+                        <option value="아고다">아고다</option>
+                        <option value="야놀자">야놀자</option>
+                        <option value="여기어때">여기어때</option>
+                        <option value="직접 예약">직접 예약</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">예약자 성함</label>
+                    <input type="text" class="form-control" name="name" placeholder="성함을 입력해주세요" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">연락처</label>
+                    <input type="tel" class="form-control" name="phone" placeholder="010-0000-0000" required>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">체크인 완료하기</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('checkinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+            data.timestamp = new Date().toLocaleString();
+            
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyegtH5BOPiw-fyX70atVUx0NdpVqjLhkY5LJc8pSlPoCva-R2B3h7nkLU4-LxaaqYM/exec';
+            const finalUrl = scriptUrl + '?data=' + encodeURIComponent(JSON.stringify(data));
+            
+            fetch(finalUrl, { method: 'GET', mode: 'no-cors' })
+                .then(() => {
+                    alert('체크인이 완료되었습니다. 감사합니다!');
+                    location.reload();
+                })
+                .catch(err => alert('오류가 발생했습니다. 다시 시도해주세요.'));
+        });
+    </script>
+</body>
+</html>
