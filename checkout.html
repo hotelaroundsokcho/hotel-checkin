@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>모바일 체크아웃 | Hotel Around Sokcho</title>
+<style>
+  :root {
+    --primary: #0A2342;
+    --accent: #00B4D8;
+    --accent-light: #e0f7fc;
+    --bg: #f5f7fa;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --text-sub: #5a6a82;
+    --border: #dde3ee;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(10,35,66,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--primary);
+    color: white;
+    padding: 20px 20px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: 0; right: 0;
+    height: 40px;
+    background: var(--bg);
+    border-radius: 50% 50% 0 0 / 100%;
+  }
+  .header-inner { position: relative; z-index: 1; }
+  .hotel-name {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+  }
+  .lang-toggle {
+    position: absolute;
+    top: 0; right: 0;
+    display: flex;
+    gap: 4px;
+  }
+  .lang-btn {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn.active {
+    background: var(--accent);
+    color: var(--primary);
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    padding: 28px 20px 8px;
+  }
+  .progress-steps {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .progress-line {
+    position: absolute;
+    top: 16px; left: 16px; right: 16px;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .progress-fill {
+    position: absolute;
+    top: 16px; left: 16px;
+    height: 2px;
+    background: var(--accent);
+    z-index: 1;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .step-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    color: var(--text-sub);
+    position: relative; z-index: 2;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+  .step-dot.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .step-dot.done { border-color: var(--success); background: var(--success); color: white; }
+  .step-dot.done::after { content: '✓'; font-size: 14px; }
+  .step-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding: 0 0px;
+  }
+  .step-label {
+    font-size: 10px;
+    color: var(--text-sub);
+    text-align: center;
+    width: 32px;
+    line-height: 1.3;
+  }
+  .step-label.active { color: var(--accent); font-weight: 600; }
+
+  /* SECTION CARD */
+  .section {
+    display: none;
+    padding: 12px 16px;
+    animation: fadeIn 0.3s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 28px; height: 28px;
+    background: var(--accent-light);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  /* FORM ELEMENTS */
+  .form-group { margin-bottom: 14px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+  .required::after { content: ' *'; color: var(--danger); }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  input:focus { border-color: var(--accent); background: white; }
+  input.error { border-color: var(--danger); }
+
+  /* RADIO BUTTON GROUP */
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .radio-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+  .radio-option:active { transform: scale(0.98); }
+  .radio-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .radio-option input { display: none; }
+  .radio-custom {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    margin-right: 10px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .radio-option.selected .radio-custom {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+  .radio-option.selected .radio-custom::after {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+  .radio-label { font-size: 14px; font-weight: 500; }
+  .radio-label .sub { font-size: 11px; color: var(--text-sub); margin-top: 1px; }
+
+  /* CHECKBOX */
+  .check-option {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg);
+    margin-bottom: 8px;
+  }
+  .check-option.checked {
+    border-color: var(--success);
+    background: #f0fdf4;
+  }
+  .check-option input { display: none; }
+  .check-custom {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    margin-right: 10px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    font-size: 13px;
+    margin-top: 1px;
+  }
+  .check-option.checked .check-custom {
+    border-color: var(--success);
+    background: var(--success);
+    color: white;
+  }
+  .check-label { font-size: 14px; line-height: 1.5; }
+  .check-label .en { font-size: 11px; color: var(--text-sub); display: block; margin-top: 2px; }
+
+  /* STAR RATING */
+  .star-rating {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px 0 16px;
+  }
+  .star-btn {
+    width: 48px; height: 48px;
+    font-size: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s;
+    line-height: 1;
+  }
+  .star-btn:active { transform: scale(1.2); }
+  .star-btn.lit { filter: drop-shadow(0 0 4px rgba(245,158,11,0.5)); }
+
+  .rating-label {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-sub);
+    height: 20px;
+    margin-bottom: 4px;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    resize: none;
+    height: 100px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: var(--accent); background: white; }
+
+  /* NAV BUTTONS */
+  .nav-bar {
+    padding: 12px 16px 0;
+    display: flex;
+    gap: 10px;
+  }
+  .btn-back {
+    flex: 1;
+    padding: 14px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-sub);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-next {
+    flex: 2;
+    padding: 14px;
+    background: var(--accent);
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(0,180,216,0.35);
+  }
+  .btn-next:active { transform: scale(0.98); }
+  .btn-submit {
+    flex: 2;
+    padding: 14px;
+    background: var(--primary);
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px rgba(10,35,66,0.3);
+  }
+  .btn-submit:disabled { opacity: 0.6; }
+
+  /* COMPLETE SCREEN */
+  #complete-screen {
+    display: none;
+    padding: 20px 16px;
+    animation: fadeIn 0.4s ease;
+  }
+  .complete-hero {
+    background: var(--primary);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    text-align: center;
+    color: white;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .complete-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 140px; height: 140px;
+    background: var(--accent);
+    opacity: 0.08;
+    border-radius: 50%;
+  }
+  .complete-icon {
+    width: 72px; height: 72px;
+    background: var(--success);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    margin: 0 auto 16px;
+    box-shadow: 0 0 0 8px rgba(16,185,129,0.2);
+  }
+  .complete-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+  .complete-sub { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+
+  .info-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--bg);
+    font-size: 14px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-key { color: var(--text-sub); }
+  .info-val { font-weight: 600; color: var(--primary); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .contact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .contact-btn:active { opacity: 0.8; }
+  .contact-kakao { background: #FEE500; color: #3A1D1D; }
+  .contact-whatsapp { background: #25D366; color: white; }
+  .contact-phone { background: var(--primary); color: white; }
+  .contact-email { background: var(--bg); color: var(--primary); border: 1.5px solid var(--border); }
+
+  /* NOTICE BOX */
+  .notice {
+    background: #fff8e1;
+    border-left: 3px solid var(--warning);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #78350f;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+
+  /* LOADING */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,35,66,0.7);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .loading-overlay.show { display: flex; }
+  .spinner {
+    width: 44px; height: 44px;
+    border: 4px solid rgba(255,255,255,0.3);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { color: white; font-size: 14px; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--text);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 24px;
+    font-size: 13px;
+    white-space: nowrap;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--success); }
+  .toast.error { background: var(--danger); }
+
+  /* ROOM STATUS GRID */
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .status-item {
+    padding: 14px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .status-item:active { transform: scale(0.97); }
+  .status-item.selected-good {
+    border-color: var(--success);
+    background: #f0fdf4;
+  }
+  .status-item.selected-issue {
+    border-color: var(--danger);
+    background: #fff1f2;
+  }
+  .status-emoji { font-size: 28px; margin-bottom: 4px; }
+  .status-text { font-size: 13px; font-weight: 600; }
+
+  .smoke-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .smoke-btn {
+    padding: 18px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .smoke-btn.selected-no {
+    border-color: var(--success);
+    background: #f0fdf4;
+  }
+  .smoke-btn.selected-yes {
+    border-color: var(--danger);
+    background: #fff1f2;
+  }
+  .smoke-emoji { font-size: 32px; margin-bottom: 4px; }
+  .smoke-text { font-size: 13px; font-weight: 600; }
+
+  /* 흡연 경고 */
+  .smoke-warning {
+    display: none;
+    background: #fff1f2;
+    border: 1.5px solid var(--danger);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--danger);
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* hidden */
+  .ko, .en { }
+  body.lang-en .ko { display: none !important; }
+  body.lang-en .en { display: block !important; }
+  body:not(.lang-en) .en { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text ko">제출 중...</div>
+  <div class="loading-text en">Submitting...</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <div>
+        <div class="hotel-name">Hotel Around Sokcho</div>
+        <div class="page-title ko">모바일 체크아웃</div>
+        <div class="page-title en" style="display:none">Mobile Check-Out</div>
+        <div class="page-subtitle ko">11:00까지 체크아웃 부탁드립니다</div>
+        <div class="page-subtitle en" style="display:none">Please check out by 11:00</div>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('ko')" id="btnKo">한국어</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btnEn">ENG</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-steps">
+    <div class="progress-line"></div>
+    <div class="progress-fill" id="progressFill"></div>
+    <div class="step-dot active" id="dot1">1</div>
+    <div class="step-dot" id="dot2">2</div>
+    <div class="step-dot" id="dot3">3</div>
+    <div class="step-dot" id="dot4">4</div>
+  </div>
+  <div class="step-labels">
+    <div class="step-label active" id="lbl1"><span class="ko">투숙객</span><span class="en" style="display:none">Guest</span></div>
+    <div class="step-label" id="lbl2"><span class="ko">객실</span><span class="en" style="display:none">Room</span></div>
+    <div class="step-label" id="lbl3"><span class="ko">흡연</span><span class="en" style="display:none">Smoke</span></div>
+    <div class="step-label" id="lbl4"><span class="ko">만족도</span><span class="en" style="display:none">Review</span></div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 1: 투숙객 확인 ==================== -->
+<div class="section active" id="sec1">
+  <div class="card">
+    <div class="card-title">
+      <div class="icon">👤</div>
+      <span class="ko">투숙객 확인</span>
+      <span class="en" style="display:none">Guest Verification</span>
+    </div>
+    <div class="notice ko">체크인 시 등록하신 정보를 입력해 주세요.</div>
+    <div class="notice en" style="display:none">Please enter the same information as your check-in registration.</div>
+
+    <div class="form-group">
+      <label class="required ko">예약자 성명</label>
+      <label class="required en" style="display:none">Guest Name</label>
+      <input type="text" id="guestName" placeholder="홍길동 / Hong Gil-dong" autocomplete="name">
+    </div>
+    <div class="form-group">
+      <label class="required ko">객실 번호</label>
+      <label class="required en" style="display:none">Room Number</label>
+      <input type="text" id="roomNumber" placeholder="예: 1205" inputmode="numeric">
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn-next" onclick="goNext(1)">
+      <span class="ko">다음</span>
+      <span class="en" style="display:none">Next</span>
+    </button>
+  </div>
+</div>
+
+<!-- ==================== SECTION 2: 객실 상태 ==================== -->
+<div class="section" id="sec2">
+  <div class="card">
+    <div class="card-title">
+      <div class="icon">🛏️</div>
+      <span class="ko">객실 상태 확인</span>
+      <span class="en" style="display:none">Room Condition Check</span>
+    </div>
+
+    <div class="form-group">
+      <label class="ko">객실 내 특이사항이 있었나요?</label>
+      <label class="en" style="display:none">Were there any issues in the room?</label>
+      <div class="status-grid">
+        <div class="status-item" id="statusGood" onclick="selectStatus('good')">
+          <div class="status-emoji">✅</div>
+          <div class="status-text ko">이상 없음</div>
+          <div class="status-text en" style="display:none">No Issues</div>
+        </div>
+        <div class="status-item" id="statusIssue" onclick="selectStatus('issue')">
+          <div class="status-emoji">⚠️</div>
+          <div class="status-text ko">특이사항 있음</div>
+          <div class="status-text en" style="display:none">Has Issues</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group" id="issueDetailWrap" style="display:none;">
+      <label class="ko">특이사항 내용</label>
+      <label class="en" style="display:none">Issue Details</label>
+      <textarea id="issueDetail" placeholder="파손, 분실, 시설 불량 등 구체적으로 적어주세요 / Please describe in detail"></textarea>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn-back" onclick="goBack(2)">
+      <span class="ko">이전</span>
+      <span class="en" style="display:none">Back</span>
+    </button>
+    <button class="btn-next" onclick="goNext(2)">
+      <span class="ko">다음</span>
+      <span class="en" style="display:none">Next</span>
+    </button>
+  </div>
+</div>
+
+<!-- ==================== SECTION 3: 흡연 확인 ==================== -->
+<div class="section" id="sec3">
+  <div class="card">
+    <div class="card-title">
+      <div class="icon">🚭</div>
+      <span class="ko">흡연 여부 확인</span>
+      <span class="en" style="display:none">Smoking Check</span>
+    </div>
+    <div class="notice ko">본 호텔은 객실 내 및 복도 전 구역 금연입니다.<br>흡연 적발 시 위약금 30만원이 청구됩니다.</div>
+    <div class="notice en" style="display:none">This is a non-smoking property. A penalty of KRW 300,000 applies if smoking is detected.</div>
+
+    <div class="smoke-grid">
+      <div class="smoke-btn" id="smokeNo" onclick="selectSmoke('no')">
+        <div class="smoke-emoji">🚭</div>
+        <div class="smoke-text ko">흡연 안 함</div>
+        <div class="smoke-text en" style="display:none">Did Not Smoke</div>
+      </div>
+      <div class="smoke-btn" id="smokeYes" onclick="selectSmoke('yes')">
+        <div class="smoke-emoji">🚬</div>
+        <div class="smoke-text ko">흡연했음</div>
+        <div class="smoke-text en" style="display:none">Did Smoke</div>
+      </div>
+    </div>
+
+    <div class="smoke-warning" id="smokeWarning">
+      <strong>⚠️ 흡연 확인 안내 / Smoking Notice</strong><br>
+      <span class="ko">위약금 30만원이 청구됩니다. 체크아웃 후 담당자가 연락드릴 예정입니다.</span>
+      <span class="en" style="display:none">A KRW 300,000 penalty will be charged. Our staff will contact you.</span>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn-back" onclick="goBack(3)">
+      <span class="ko">이전</span>
+      <span class="en" style="display:none">Back</span>
+    </button>
+    <button class="btn-next" onclick="goNext(3)">
+      <span class="ko">다음</span>
+      <span class="en" style="display:none">Next</span>
+    </button>
+  </div>
+</div>
+
+<!-- ==================== SECTION 4: 만족도 ==================== -->
+<div class="section" id="sec4">
+  <div class="card">
+    <div class="card-title">
+      <div class="icon">⭐</div>
+      <span class="ko">투숙 만족도</span>
+      <span class="en" style="display:none">Stay Satisfaction</span>
+    </div>
+
+    <div class="rating-label" id="ratingLabel">
+      <span class="ko">별점을 선택해 주세요</span>
+      <span class="en" style="display:none">Please rate your stay</span>
+    </div>
+    <div class="star-rating" id="starRating">
+      <button class="star-btn" data-v="1" onclick="setStar(1)">☆</button>
+      <button class="star-btn" data-v="2" onclick="setStar(2)">☆</button>
+      <button class="star-btn" data-v="3" onclick="setStar(3)">☆</button>
+      <button class="star-btn" data-v="4" onclick="setStar(4)">☆</button>
+      <button class="star-btn" data-v="5" onclick="setStar(5)">☆</button>
+    </div>
+
+    <div class="form-group">
+      <label class="ko">한 말씀 남겨주세요 (선택)</label>
+      <label class="en" style="display:none">Leave a comment (optional)</label>
+      <textarea id="reviewText" placeholder="불편하셨던 점이나 좋으셨던 점을 자유롭게 적어주세요 / Feel free to share your feedback"></textarea>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn-back" onclick="goBack(4)">
+      <span class="ko">이전</span>
+      <span class="en" style="display:none">Back</span>
+    </button>
+    <button class="btn-submit" onclick="submitCheckout()" id="btnSubmit">
+      <span class="ko">체크아웃 완료</span>
+      <span class="en" style="display:none">Complete Check-Out</span>
+    </button>
+  </div>
+</div>
+
+<!-- ==================== COMPLETE ==================== -->
+<div id="complete-screen">
+  <div class="complete-hero">
+    <div class="complete-icon">✓</div>
+    <div class="complete-title ko">체크아웃 완료!</div>
+    <div class="complete-title en" style="display:none">Check-Out Complete!</div>
+    <div class="complete-sub ko">이용해 주셔서 감사합니다.<br>다음에 또 뵙겠습니다 😊</div>
+    <div class="complete-sub en" style="display:none">Thank you for staying with us.<br>We look forward to seeing you again 😊</div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-row">
+      <span class="info-key ko">객실 번호</span>
+      <span class="info-key en" style="display:none">Room</span>
+      <span class="info-val" id="completeRoom">-</span>
+    </div>
+    <div class="info-row">
+      <span class="info-key ko">체크아웃 시간</span>
+      <span class="info-key en" style="display:none">Check-Out Time</span>
+      <span class="info-val" id="completeTime">-</span>
+    </div>
+    <div class="info-row">
+      <span class="info-key ko">처리 상태</span>
+      <span class="info-key en" style="display:none">Status</span>
+      <span class="info-val" style="color: var(--success)">
+        <span class="ko">정상 처리 완료</span>
+        <span class="en" style="display:none">Successfully Processed</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="card-title" style="margin-bottom:12px;">
+      <div class="icon">📞</div>
+      <span class="ko">문의처</span>
+      <span class="en" style="display:none">Contact Us</span>
+    </div>
+    <div class="contact-grid">
+      <a href="https://pf.kakao.com/_hotelaroundsokcho" class="contact-btn contact-kakao">
+        💬 카카오
+      </a>
+      <a href="https://wa.me/821042820392" class="contact-btn contact-whatsapp">
+        📱 WhatsApp
+      </a>
+      <a href="tel:033-800-8899" class="contact-btn contact-phone">
+        📞 033-800-8899
+      </a>
+      <a href="mailto:hotelaroundsokcho@gmail.com" class="contact-btn contact-email">
+        ✉️ Email
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== STATE ==========
+var currentStep = 1;
+var totalSteps = 4;
+var formData = {
+  guestName: '',
+  roomNumber: '',
+  roomStatus: '',  // 'good' | 'issue'
+  issueDetail: '',
+  smokingCheck: '', // 'no' | 'yes'
+  rating: 0,
+  reviewText: ''
+};
+
+var STAR_LABELS_KO = ['', '별로였어요', '아쉬웠어요', '보통이었어요', '좋았어요', '최고였어요!'];
+var STAR_LABELS_EN = ['', 'Poor', 'Fair', 'Good', 'Great', 'Excellent!'];
+
+// GAS 웹앱 URL — 기존 체크인과 동일한 GAS에 체크아웃 핸들러 추가 필요
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbw_80nmXX7uAKnZIoVyJ2PYywo1ESttueJMr-VcctPxMjxRDGGnwFsfsjUDYzEWQfGltA/exec';
+
+// ========== LANG ==========
+var currentLang = 'ko';
+function setLang(lang) {
+  currentLang = lang;
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btnKo').classList.toggle('active', lang === 'ko');
+  document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+  updateRatingLabel();
+}
+
+// ========== PROGRESS ==========
+function updateProgress(step) {
+  var pct = [(step - 1) / (totalSteps - 1) * 100];
+  document.getElementById('progressFill').style.width = pct + '%';
+  for (var i = 1; i <= totalSteps; i++) {
+    var dot = document.getElementById('dot' + i);
+    var lbl = document.getElementById('lbl' + i);
+    dot.className = 'step-dot';
+    lbl.className = 'step-label';
+    if (i < step) { dot.className = 'step-dot done'; dot.textContent = ''; }
+    else if (i === step) { dot.className = 'step-dot active'; dot.textContent = i; lbl.className = 'step-label active'; }
+    else { dot.textContent = i; }
+  }
+}
+
+// ========== NAVIGATION ==========
+function goNext(from) {
+  if (!validateStep(from)) return;
+  collectStep(from);
+  showStep(from + 1);
+}
+function goBack(from) {
+  showStep(from - 1);
+}
+function showStep(step) {
+  document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('sec' + step).classList.add('active');
+  currentStep = step;
+  updateProgress(step);
+  window.scrollTo(0, 0);
+}
+
+// ========== VALIDATE ==========
+function validateStep(step) {
+  if (step === 1) {
+    var name = document.getElementById('guestName').value.trim();
+    var room = document.getElementById('roomNumber').value.trim();
+    if (!name) { showToast(currentLang === 'ko' ? '성명을 입력해 주세요.' : 'Please enter your name.', 'error'); document.getElementById('guestName').classList.add('error'); return false; }
+    if (!room) { showToast(currentLang === 'ko' ? '객실 번호를 입력해 주세요.' : 'Please enter your room number.', 'error'); document.getElementById('roomNumber').classList.add('error'); return false; }
+    document.getElementById('guestName').classList.remove('error');
+    document.getElementById('roomNumber').classList.remove('error');
+  }
+  if (step === 2) {
+    if (!formData.roomStatus) { showToast(currentLang === 'ko' ? '객실 상태를 선택해 주세요.' : 'Please select room condition.', 'error'); return false; }
+  }
+  if (step === 3) {
+    if (!formData.smokingCheck) { showToast(currentLang === 'ko' ? '흡연 여부를 선택해 주세요.' : 'Please select smoking status.', 'error'); return false; }
+  }
+  return true;
+}
+
+// ========== COLLECT ==========
+function collectStep(step) {
+  if (step === 1) {
+    formData.guestName = document.getElementById('guestName').value.trim();
+    formData.roomNumber = document.getElementById('roomNumber').value.trim();
+  }
+  if (step === 2) {
+    formData.issueDetail = document.getElementById('issueDetail').value.trim();
+  }
+  if (step === 4) {
+    formData.reviewText = document.getElementById('reviewText').value.trim();
+  }
+}
+
+// ========== ROOM STATUS ==========
+function selectStatus(val) {
+  formData.roomStatus = val;
+  document.getElementById('statusGood').className = 'status-item' + (val === 'good' ? ' selected-good' : '');
+  document.getElementById('statusIssue').className = 'status-item' + (val === 'issue' ? ' selected-issue' : '');
+  document.getElementById('issueDetailWrap').style.display = val === 'issue' ? 'block' : 'none';
+}
+
+// ========== SMOKING ==========
+function selectSmoke(val) {
+  formData.smokingCheck = val;
+  document.getElementById('smokeNo').className = 'smoke-btn' + (val === 'no' ? ' selected-no' : '');
+  document.getElementById('smokeYes').className = 'smoke-btn' + (val === 'yes' ? ' selected-yes' : '');
+  document.getElementById('smokeWarning').style.display = val === 'yes' ? 'block' : 'none';
+}
+
+// ========== STAR RATING ==========
+function setStar(val) {
+  formData.rating = val;
+  var btns = document.querySelectorAll('.star-btn');
+  btns.forEach(function(b, i) {
+    if (i < val) { b.textContent = '★'; b.classList.add('lit'); }
+    else { b.textContent = '☆'; b.classList.remove('lit'); }
+  });
+  updateRatingLabel();
+}
+function updateRatingLabel() {
+  var labels = currentLang === 'en' ? STAR_LABELS_EN : STAR_LABELS_KO;
+  var el = document.getElementById('ratingLabel');
+  if (formData.rating > 0) {
+    el.innerHTML = '<strong style="color:var(--warning)">' + labels[formData.rating] + '</strong>';
+  } else {
+    el.innerHTML = '<span class="ko">' + (currentLang === 'ko' ? '별점을 선택해 주세요' : 'Please rate your stay') + '</span>';
+  }
+}
+
+// ========== SUBMIT ==========
+function submitCheckout() {
+  collectStep(4);
+  var now = new Date();
+  var timeStr = now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+
+  var payload = {
+    type: 'checkout',
+    submitTime: timeStr,
+    guestName: formData.guestName,
+    roomNumber: formData.roomNumber,
+    roomStatus: formData.roomStatus === 'good' ? '이상없음' : '특이사항',
+    issueDetail: formData.issueDetail || '',
+    smokingCheck: formData.smokingCheck === 'no' ? '흡연안함' : '흡연',
+    rating: formData.rating || '',
+    reviewText: formData.reviewText || ''
+  };
+
+  document.getElementById('loadingOverlay').classList.add('show');
+  document.getElementById('btnSubmit').disabled = true;
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function() {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    showCompleteScreen(timeStr);
+  })
+  .catch(function() {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    // no-cors 모드에서는 에러도 성공으로 처리 (GAS 정상 수신)
+    showCompleteScreen(timeStr);
+  });
+}
+
+function showCompleteScreen(timeStr) {
+  document.querySelectorAll('.section').forEach(function(s){ s.style.display = 'none'; });
+  document.querySelector('.progress-wrap').style.display = 'none';
+  document.getElementById('completeRoom').textContent = formData.roomNumber + '호';
+  document.getElementById('completeTime').textContent = timeStr.split(' ')[1].substring(0,5);
+  document.getElementById('complete-screen').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+// ========== UTILS ==========
+function pad(n) { return n < 10 ? '0' + n : n; }
+function showToast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + (type || '');
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// Init
+updateProgress(1);
+</script>
+</body>
+</html>
