@@ -1,136 +1,1278 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>모바일 체크인 — 호텔어라운드 속초</title>
-    <style>
-        :root {
-            --primary: #0A2342;
-            --accent: #00B4D8;
-            --accent-light: #e0f7fc;
-            --success: #22c55e;
-            --error: #ef4444;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-700: #374151;
-            --gray-900: #111827;
-            --radius: 12px;
-            --shadow: 0 2px 12px rgba(10,35,66,0.10);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-            background: var(--gray-100);
-            color: var(--gray-900);
-            min-height: 100vh;
-            padding-bottom: 40px;
-        }
-        .header {
-            background: var(--primary);
-            color: white;
-            padding: 20px 20px 16px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        .header-logo { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
-        .header-title { font-size: 18px; font-weight: 700; }
-        .progress-wrap { background: var(--primary); padding: 0 20px 14px; }
-        .progress-bar-bg { background: rgba(255,255,255,0.2); border-radius: 99px; height: 4px; overflow: hidden; }
-        .progress-bar-fill { background: var(--accent); height: 4px; border-radius: 99px; transition: width 0.4s ease; width: 0%; }
-        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-        .card { background: white; border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
-        .section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--gray-700); }
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 16px;
-            border: 1.5px solid var(--gray-200);
-            border-radius: 8px;
-            transition: all 0.2s;
-            background: var(--gray-50);
-            color: var(--gray-900);
-            outline: none;
-        }
-        .form-control:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 3px var(--accent-light); }
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 10px;
-        }
-        .btn-submit:active { transform: scale(0.98); opacity: 0.9; }
-        .hidden { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mobile Check-in — Hotel Around Sokcho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy: #0A2342;
+  --cyan: #00B4D8;
+  --navy-light: #0d2d55;
+  --navy-dark: #061628;
+  --cyan-dim: rgba(0,180,216,0.15);
+  --cyan-border: rgba(0,180,216,0.35);
+  --white: #FFFFFF;
+  --off-white: #F4F7FA;
+  --gray-light: rgba(255,255,255,0.08);
+  --gray-text: rgba(255,255,255,0.55);
+  --error: #FF6B6B;
+  --success: #4ECDC4;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy-dark);
+  color: var(--white);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND TEXTURE ─────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(10,35,66,0.8) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── LANG TOGGLE ────────────────────────────── */
+.lang-bar {
+  position: fixed;
+  top: 0; right: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  display: flex;
+  gap: 4px;
+}
+.lang-btn {
+  background: transparent;
+  border: 1px solid var(--cyan-border);
+  color: var(--gray-text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.lang-btn.active {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--navy-dark);
+  font-weight: 500;
+}
+
+/* ── WRAPPER ────────────────────────────────── */
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ── HERO HEADER ────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 56px 0 40px;
+  animation: fadeUp 0.8s ease both;
+}
+.hotel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--cyan-border);
+  border-radius: 24px;
+  padding: 6px 16px;
+  margin-bottom: 20px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+.hotel-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--cyan);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 7vw, 38px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--cyan);
+}
+.hero-sub {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: var(--gray-text);
+  text-transform: uppercase;
+}
+
+/* ── PROGRESS STEPS ─────────────────────────── */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 36px;
+  animation: fadeUp 0.8s 0.1s ease both;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+.step-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--gray-text);
+  transition: var(--transition);
+  flex-shrink: 0;
+  position: relative;
+}
+.step-dot.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0,180,216,0.15);
+}
+.step-dot.done {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--navy-dark);
+}
+.step-dot.done::after {
+  content: '✓';
+  font-size: 11px;
+}
+.step-line {
+  width: 32px;
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  transition: background var(--transition);
+}
+.step-line.done { background: var(--cyan); }
+
+/* ── SECTION CARD ───────────────────────────── */
+.section-card {
+  background: var(--gray-light);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(10px);
+  animation: fadeUp 0.6s ease both;
+  display: none;
+}
+.section-card.active { display: block; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.section-num {
+  width: 32px; height: 32px;
+  background: var(--cyan-dim);
+  border: 1px solid var(--cyan-border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+.section-title {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.section-title-en {
+  font-size: 11px;
+  color: var(--gray-text);
+  letter-spacing: 0.1em;
+  display: block;
+  margin-top: 2px;
+}
+
+/* ── FORM ELEMENTS ──────────────────────────── */
+.form-group {
+  margin-bottom: 16px;
+}
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--gray-text);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.form-label .required {
+  color: var(--cyan);
+  margin-left: 3px;
+}
+.form-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--white);
+  outline: none;
+  transition: var(--transition);
+  -webkit-appearance: none;
+}
+.form-input::placeholder { color: rgba(255,255,255,0.25); }
+.form-input:focus {
+  border-color: var(--cyan);
+  background: rgba(0,180,216,0.06);
+  box-shadow: 0 0 0 3px rgba(0,180,216,0.08);
+}
+.form-input.error { border-color: var(--error); }
+.form-input option { background: var(--navy); color: var(--white); }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ── CHANNEL CHIPS ──────────────────────────── */
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.channel-chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 11px;
+  color: var(--gray-text);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  user-select: none;
+}
+.channel-chip:hover {
+  border-color: var(--cyan-border);
+  color: var(--white);
+}
+.channel-chip.selected {
+  background: var(--cyan-dim);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  font-weight: 500;
+}
+.channel-chip .ch-icon {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ── DATE INPUTS ────────────────────────────── */
+.stay-display {
+  background: rgba(0,180,216,0.06);
+  border: 1px solid var(--cyan-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stay-nights {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--cyan);
+  line-height: 1;
+}
+.stay-nights-label {
+  font-size: 11px;
+  color: var(--gray-text);
+  letter-spacing: 0.08em;
+}
+.stay-info {
+  text-align: right;
+  font-size: 12px;
+  color: var(--gray-text);
+  line-height: 1.6;
+}
+
+/* ── COUNTER ────────────────────────────────── */
+.counter-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+}
+.counter-label { font-size: 13px; font-weight: 400; }
+.counter-label small { display: block; font-size: 10px; color: var(--gray-text); letter-spacing: 0.08em; margin-top: 2px; }
+.counter-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.counter-btn {
+  width: 32px; height: 32px;
+  background: rgba(0,180,216,0.1);
+  border: 1px solid var(--cyan-border);
+  border-radius: 8px;
+  color: var(--cyan);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  user-select: none;
+}
+.counter-btn:hover { background: var(--cyan); color: var(--navy-dark); }
+.counter-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* ── TIME PICKER ────────────────────────────── */
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.time-chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 11px 4px;
+  text-align: center;
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--gray-text);
+  user-select: none;
+}
+.time-chip:hover { border-color: var(--cyan-border); color: var(--white); }
+.time-chip.selected { background: var(--cyan-dim); border-color: var(--cyan); color: var(--cyan); font-weight: 500; }
+
+/* ── CONSENT ────────────────────────────────── */
+.consent-all {
+  background: rgba(0,180,216,0.06);
+  border: 1px solid var(--cyan-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: var(--transition);
+}
+.consent-all.checked { background: rgba(0,180,216,0.12); }
+.consent-item {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+.consent-item:last-child { border-bottom: none; padding-bottom: 0; }
+.consent-check {
+  width: 20px; height: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+  margin-top: 1px;
+}
+.consent-check.checked {
+  background: var(--cyan);
+  border-color: var(--cyan);
+}
+.consent-check.checked::after { content: '✓'; font-size: 11px; color: var(--navy-dark); font-weight: 600; }
+.consent-text { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.75); }
+.consent-text strong { color: var(--white); font-weight: 500; }
+.consent-text .opt { font-size: 10px; color: var(--cyan); margin-left: 4px; letter-spacing: 0.06em; }
+.consent-text .penalty { font-size: 11px; color: rgba(255,107,107,0.8); display: block; margin-top: 3px; }
+
+/* ── NAV BUTTONS ────────────────────────────── */
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.btn-prev {
+  flex: 0 0 auto;
+  padding: 14px 20px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-sm);
+  color: var(--gray-text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.btn-prev:hover { border-color: rgba(255,255,255,0.35); color: var(--white); }
+.btn-next {
+  flex: 1;
+  padding: 15px 24px;
+  background: var(--cyan);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--navy-dark);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-next:hover { background: #00cff7; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,180,216,0.3); }
+.btn-next:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-submit {
+  width: 100%;
+  padding: 18px 24px;
+  background: var(--cyan);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--navy-dark);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-submit:hover { background: #00cff7; transform: translateY(-1px); box-shadow: 0 12px 32px rgba(0,180,216,0.35); }
+.btn-submit:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-submit .loading-spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(10,35,66,0.3);
+  border-top-color: var(--navy-dark);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* ── SUCCESS SCREEN ─────────────────────────── */
+#success-screen {
+  display: none;
+  text-align: center;
+  padding: 40px 0;
+  animation: fadeUp 0.6s ease;
+}
+#success-screen.show { display: block; }
+.success-icon {
+  width: 72px; height: 72px;
+  background: rgba(0,180,216,0.1);
+  border: 1px solid var(--cyan-border);
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+}
+.success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+.success-title em { font-style: italic; color: var(--cyan); }
+.success-sub {
+  font-size: 13px;
+  color: var(--gray-text);
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+.summary-card {
+  background: var(--gray-light);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 13px;
+}
+.summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+.summary-row .label { color: var(--gray-text); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.summary-row .value { font-weight: 500; text-align: right; }
+.contacts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.contact-item {
+  background: var(--gray-light);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--white);
+  transition: var(--transition);
+}
+.contact-item:hover { border-color: var(--cyan-border); }
+.contact-item .c-icon { font-size: 20px; margin-bottom: 6px; display: block; }
+.contact-item .c-label { font-size: 10px; color: var(--gray-text); letter-spacing: 0.1em; text-transform: uppercase; display: block; }
+.contact-item .c-val { font-size: 12px; font-weight: 500; margin-top: 3px; display: block; }
+
+/* ── ERROR MSG ──────────────────────────────── */
+.error-msg {
+  color: var(--error);
+  font-size: 11px;
+  margin-top: 6px;
+  display: none;
+}
+.error-msg.show { display: block; }
+
+/* ── FOOTER ─────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── ANIMATIONS ─────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── TOAST ──────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: rgba(10,35,66,0.95);
+  border: 1px solid var(--cyan-border);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
+  padding: 12px 24px;
+  font-size: 13px;
+  color: var(--white);
+  z-index: 999;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.error { border-color: rgba(255,107,107,0.5); }
+
+/* ── NATIONALITY HIDDEN ─────────────────────── */
+.form-input[name="nationality"] { display: block; }
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-logo">Hotel Around Sokcho</div>
-        <div class="header-title">모바일 체크인</div>
+
+<!-- LANG TOGGLE -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('ko')" id="btn-ko">KO</button>
+  <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+</div>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hotel-badge">
+      <span class="t" data-ko="모바일 체크인" data-en="Mobile Check-in">모바일 체크인</span>
     </div>
-    <div class="progress-wrap">
-        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+    <h1><em class="t" data-ko="환영합니다" data-en="Welcome">환영합니다</em></h1>
+    <p class="hero-sub">Hotel Around Sokcho</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar" id="progress-bar">
+    <div class="step-dot active" id="dot-1">1</div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step-dot" id="dot-2">2</div>
+    <div class="step-line" id="line-2"></div>
+    <div class="step-dot" id="dot-3">3</div>
+    <div class="step-line" id="line-3"></div>
+    <div class="step-dot" id="dot-4">4</div>
+    <div class="step-line" id="line-4"></div>
+    <div class="step-dot" id="dot-5">5</div>
+    <div class="step-line" id="line-5"></div>
+    <div class="step-dot" id="dot-6">6</div>
+  </div>
+
+  <!-- FORM SECTIONS (1~6) -->
+
+  <!-- SECTION 1: 예약 채널 -->
+  <div class="section-card active" id="sec-1">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title t" data-ko="예약 채널" data-en="Booking Channel">예약 채널</div>
+        <span class="section-title-en t" data-ko="어디서 예약하셨나요?" data-en="Where did you book?">어디서 예약하셨나요?</span>
+      </div>
     </div>
-    <div class="container">
-        <form id="checkinForm">
-            <div class="card">
-                <div class="section-title">예약 정보 확인</div>
-                <div class="form-group">
-                    <label class="form-label">예약 채널</label>
-                    <select class="form-control" name="channel" required>
-                        <option value="">선택해주세요</option>
-                        <option value="네이버 예약">네이버 예약</option>
-                        <option value="아고다">아고다</option>
-                        <option value="야놀자">야놀자</option>
-                        <option value="여기어때">여기어때</option>
-                        <option value="직접 예약">직접 예약</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">예약자 성함</label>
-                    <input type="text" class="form-control" name="name" placeholder="성함을 입력해주세요" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">연락처</label>
-                    <input type="tel" class="form-control" name="phone" placeholder="010-0000-0000" required>
-                </div>
-            </div>
-            <button type="submit" class="btn-submit">체크인 완료하기</button>
-        </form>
+    <div class="channel-grid" id="channel-grid">
+      <div class="channel-chip" data-val="아고다" onclick="selectChannel(this)"><span class="ch-icon">🌏</span>Agoda</div>
+      <div class="channel-chip" data-val="부킹닷컴" onclick="selectChannel(this)"><span class="ch-icon">🔵</span>Booking</div>
+      <div class="channel-chip" data-val="익스피디아" onclick="selectChannel(this)"><span class="ch-icon">✈️</span>Expedia</div>
+      <div class="channel-chip" data-val="네이버" onclick="selectChannel(this)"><span class="ch-icon">🟢</span>Naver</div>
+      <div class="channel-chip" data-val="야놀자" onclick="selectChannel(this)"><span class="ch-icon">🎯</span>야놀자</div>
+      <div class="channel-chip" data-val="여기어때" onclick="selectChannel(this)"><span class="ch-icon">📍</span>여기어때</div>
+      <div class="channel-chip" data-val="직접예약" onclick="selectChannel(this)"><span class="ch-icon">🏨</span><span class="t" data-ko="직접" data-en="Direct">직접</span></div>
+      <div class="channel-chip" data-val="기타" onclick="selectChannel(this)"><span class="ch-icon">➕</span><span class="t" data-ko="기타" data-en="Other">기타</span></div>
     </div>
-    <script>
-        document.getElementById('checkinForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-            data.timestamp = new Date().toLocaleString();
-            
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyegtH5BOPiw-fyX70atVUx0NdpVqjLhkY5LJc8pSlPoCva-R2B3h7nkLU4-LxaaqYM/exec';
-            const finalUrl = scriptUrl + '?data=' + encodeURIComponent(JSON.stringify(data));
-            
-            fetch(finalUrl, { method: 'GET', mode: 'no-cors' })
-                .then(() => {
-                    alert('체크인이 완료되었습니다. 감사합니다!');
-                    location.reload();
-                })
-                .catch(err => alert('오류가 발생했습니다. 다시 시도해주세요.'));
-        });
-    </script>
+    <div class="error-msg" id="err-channel" >
+      <span class="t" data-ko="예약 채널을 선택해 주세요." data-en="Please select a booking channel.">예약 채널을 선택해 주세요.</span>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-next" onclick="goNext(1)">
+        <span class="t" data-ko="다음" data-en="Next">다음</span> →
+      </button>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 투숙객 정보 -->
+  <div class="section-card" id="sec-2">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title t" data-ko="투숙객 정보" data-en="Guest Information">투숙객 정보</div>
+        <span class="section-title-en t" data-ko="예약자 기준으로 입력해 주세요" data-en="Please enter the primary guest's details">예약자 기준으로 입력해 주세요</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><span class="t" data-ko="성명" data-en="Full Name">성명</span><span class="required">*</span></label>
+      <input class="form-input" id="inp-name" type="text" name="name" placeholder="홍길동 / Hong Gildong" autocomplete="name">
+      <div class="error-msg" id="err-name"><span class="t" data-ko="성명을 입력해 주세요." data-en="Please enter your name.">성명을 입력해 주세요.</span></div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span class="t" data-ko="생년월일" data-en="Date of Birth">생년월일</span><span class="required">*</span></label>
+        <input class="form-input" id="inp-dob" type="text" name="dob" placeholder="YYYYMMDD" maxlength="8" inputmode="numeric">
+        <div class="error-msg" id="err-dob"><span class="t" data-ko="8자리로 입력해 주세요." data-en="Enter 8 digits.">8자리로 입력해 주세요.</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="t" data-ko="국적" data-en="Nationality">국적</span><span class="required">*</span></label>
+        <select class="form-input" id="inp-nat" name="nationality">
+          <option value="" disabled selected><span class="t" data-ko="선택" data-en="Select">선택</span></option>
+          <option value="한국">🇰🇷 한국</option>
+          <option value="중국">🇨🇳 중국</option>
+          <option value="일본">🇯🇵 일본</option>
+          <option value="미국">🇺🇸 미국</option>
+          <option value="기타">기타 / Other</option>
+        </select>
+        <div class="error-msg" id="err-nat"><span class="t" data-ko="국적을 선택해 주세요." data-en="Please select nationality.">국적을 선택해 주세요.</span></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><span class="t" data-ko="연락처" data-en="Phone Number">연락처</span><span class="required">*</span></label>
+      <input class="form-input" id="inp-phone" type="tel" name="phone" placeholder="010-0000-0000" inputmode="tel" autocomplete="tel">
+      <div class="error-msg" id="err-phone"><span class="t" data-ko="연락처를 입력해 주세요." data-en="Please enter your phone number.">연락처를 입력해 주세요.</span></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">
+        <span class="t" data-ko="여권번호" data-en="Passport No.">여권번호</span>
+        <span style="font-size:9px;color:var(--gray-text);margin-left:6px;letter-spacing:0.06em;" class="t" data-ko="(외국인 필수)" data-en="(Required for foreigners)">(외국인 필수)</span>
+      </label>
+      <input class="form-input" id="inp-passport" type="text" name="passport" placeholder="M00000000" style="text-transform:uppercase">
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-prev" onclick="goPrev(2)">←</button>
+      <button class="btn-next" onclick="goNext(2)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3: 투숙 일정 -->
+  <div class="section-card" id="sec-3">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title t" data-ko="투숙 일정" data-en="Stay Dates">투숙 일정</div>
+        <span class="section-title-en t" data-ko="체크인 15:30 · 체크아웃 11:00" data-en="Check-in 15:30 · Check-out 11:00">체크인 15:30 · 체크아웃 11:00</span>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label"><span class="t" data-ko="체크인" data-en="Check-in">체크인</span><span class="required">*</span></label>
+        <input class="form-input" id="inp-ci" type="date" name="checkin" onchange="calcNights()">
+        <div class="error-msg" id="err-ci"><span class="t" data-ko="날짜를 선택해 주세요." data-en="Select a date.">날짜를 선택해 주세요.</span></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label"><span class="t" data-ko="체크아웃" data-en="Check-out">체크아웃</span><span class="required">*</span></label>
+        <input class="form-input" id="inp-co" type="date" name="checkout" onchange="calcNights()">
+        <div class="error-msg" id="err-co"><span class="t" data-ko="날짜를 선택해 주세요." data-en="Select a date.">날짜를 선택해 주세요.</span></div>
+      </div>
+    </div>
+
+    <div class="stay-display" id="stay-display" style="display:none">
+      <div>
+        <div class="stay-nights" id="stay-nights">—</div>
+        <div class="stay-nights-label t" data-ko="박" data-en="Night(s)">박</div>
+      </div>
+      <div class="stay-info" id="stay-info"></div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-prev" onclick="goPrev(3)">←</button>
+      <button class="btn-next" onclick="goNext(3)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 4: 인원 및 차량 -->
+  <div class="section-card" id="sec-4">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <div class="section-title t" data-ko="인원 및 차량" data-en="Guests & Vehicle">인원 및 차량</div>
+        <span class="section-title-en t" data-ko="노키즈 정책 — 만 18세 이상만 투숙 가능" data-en="No Kids Policy — Guests 18+ only">노키즈 정책 — 만 18세 이상만 투숙 가능</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <div class="counter-group">
+        <div class="counter-label">
+          <span class="t" data-ko="성인" data-en="Adults">성인</span>
+          <small class="t" data-ko="만 18세 이상" data-en="Age 18+">만 18세 이상</small>
+        </div>
+        <div class="counter-controls">
+          <div class="counter-btn" onclick="adjustCount('adult',-1)">−</div>
+          <div class="counter-value" id="cnt-adult">1</div>
+          <div class="counter-btn" onclick="adjustCount('adult',1)">+</div>
+        </div>
+      </div>
+      <div class="counter-group" style="opacity:0.5;">
+        <div class="counter-label">
+          <span class="t" data-ko="아동" data-en="Children">아동</span>
+          <small style="color:var(--error)" class="t" data-ko="입실 불가 (노키즈)" data-en="Not allowed (No Kids)">입실 불가 (노키즈)</small>
+        </div>
+        <div class="counter-controls">
+          <div class="counter-btn" style="opacity:0.3;pointer-events:none;">−</div>
+          <div class="counter-value">0</div>
+          <div class="counter-btn" style="opacity:0.3;pointer-events:none;">+</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label"><span class="t" data-ko="차량번호" data-en="Vehicle No.">차량번호</span> <span style="font-size:9px;color:var(--gray-text);" class="t" data-ko="(없으면 비워두세요)" data-en="(Leave blank if N/A)">(없으면 비워두세요)</span></label>
+      <input class="form-input" id="inp-car" type="text" name="car" placeholder="12가 3456" style="text-transform:uppercase">
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-prev" onclick="goPrev(4)">←</button>
+      <button class="btn-next" onclick="goNext(4)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 5: 예상 도착 시간 -->
+  <div class="section-card" id="sec-5">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <div class="section-title t" data-ko="예상 도착 시간" data-en="Expected Arrival">예상 도착 시간</div>
+        <span class="section-title-en t" data-ko="체크인은 15:30부터 가능합니다" data-en="Check-in available from 15:30">체크인은 15:30부터 가능합니다</span>
+      </div>
+    </div>
+
+    <div class="time-grid" id="time-grid">
+      <div class="time-chip" data-val="16:00~17:00" onclick="selectTime(this)">16:00</div>
+      <div class="time-chip" data-val="17:00~18:00" onclick="selectTime(this)">17:00</div>
+      <div class="time-chip" data-val="18:00~19:00" onclick="selectTime(this)">18:00</div>
+      <div class="time-chip" data-val="19:00~20:00" onclick="selectTime(this)">19:00</div>
+      <div class="time-chip" data-val="20:00~21:00" onclick="selectTime(this)">20:00</div>
+      <div class="time-chip" data-val="21:00~22:00" onclick="selectTime(this)">21:00</div>
+      <div class="time-chip" data-val="22:00~23:00" onclick="selectTime(this)">22:00</div>
+      <div class="time-chip" data-val="23:00이후" onclick="selectTime(this)">23:00+</div>
+    </div>
+    <div class="error-msg" id="err-time"><span class="t" data-ko="도착 예정 시간을 선택해 주세요." data-en="Please select your expected arrival time.">도착 예정 시간을 선택해 주세요.</span></div>
+
+    <div class="nav-buttons">
+      <button class="btn-prev" onclick="goPrev(5)">←</button>
+      <button class="btn-next" onclick="goNext(5)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 6: 정책 동의 -->
+  <div class="section-card" id="sec-6">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div>
+        <div class="section-title t" data-ko="정책 동의" data-en="Policies & Consent">정책 동의</div>
+        <span class="section-title-en t" data-ko="투숙 전 필수 확인 사항입니다" data-en="Please read before check-in">투숙 전 필수 확인 사항입니다</span>
+      </div>
+    </div>
+
+    <!-- 전체 동의 -->
+    <div class="consent-all" id="consent-all-btn" onclick="toggleAll()">
+      <div class="consent-check" id="chk-all"></div>
+      <div class="consent-text">
+        <strong class="t" data-ko="전체 동의" data-en="Agree to All">전체 동의</strong>
+      </div>
+    </div>
+
+    <!-- 개별 동의 항목 -->
+    <div id="consent-list">
+      <div class="consent-item" onclick="toggleConsent(0)">
+        <div class="consent-check" id="chk-0"></div>
+        <div class="consent-text">
+          <strong class="t" data-ko="흡연 금지 동의" data-en="No Smoking Policy">흡연 금지 동의</strong>
+          <span class="penalty t" data-ko="객실 내 흡연 적발 시 300,000원 추가 청구" data-en="₩300,000 penalty for in-room smoking">객실 내 흡연 적발 시 300,000원 추가 청구</span>
+        </div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(1)">
+        <div class="consent-check" id="chk-1"></div>
+        <div class="consent-text">
+          <strong class="t" data-ko="반려동물 반입 금지" data-en="No Pets Policy">반려동물 반입 금지</strong>
+          <span class="penalty t" data-ko="반입 적발 시 즉시 퇴실 조치" data-en="Immediate eviction if violation detected">반입 적발 시 즉시 퇴실 조치</span>
+        </div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(2)">
+        <div class="consent-check" id="chk-2"></div>
+        <div class="consent-text">
+          <strong class="t" data-ko="노키즈 정책 확인" data-en="No Kids Policy Confirmed">노키즈 정책 확인</strong>
+          <span style="font-size:12px;color:rgba(255,255,255,0.55);display:block;margin-top:3px;" class="t" data-ko="만 18세 미만 투숙 불가" data-en="Guests under 18 are not permitted">만 18세 미만 투숙 불가</span>
+        </div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(3)">
+        <div class="consent-check" id="chk-3"></div>
+        <div class="consent-text">
+          <strong class="t" data-ko="파손·분실 시 실비 청구 동의" data-en="Damage/Loss Liability">파손·분실 시 실비 청구 동의</strong>
+        </div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(4)">
+        <div class="consent-check" id="chk-4"></div>
+        <div class="consent-text">
+          <strong class="t" data-ko="개인정보 수집·이용 동의" data-en="Personal Data Collection">개인정보 수집·이용 동의</strong>
+          <span style="font-size:12px;color:rgba(255,255,255,0.55);display:block;margin-top:3px;" class="t" data-ko="투숙 목적으로만 사용됩니다" data-en="Used only for accommodation purposes">투숙 목적으로만 사용됩니다</span>
+        </div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(5)">
+        <div class="consent-check" id="chk-5"></div>
+        <div class="consent-text">
+          <strong class="t" data-ko="하우스룰 확인" data-en="House Rules Acknowledged">하우스룰 확인</strong>
+          <span style="font-size:12px;color:rgba(255,255,255,0.55);display:block;margin-top:3px;" class="t" data-ko="체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지" data-en="Check-out 11:00 / Recycling / Quiet hours">체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지</span>
+        </div>
+      </div>
+      <div class="consent-item" onclick="toggleConsent(6)">
+        <div class="consent-check" id="chk-6"></div>
+        <div class="consent-text">
+          <span class="t" data-ko="마케팅 수신 동의" data-en="Marketing Consent">마케팅 수신 동의</span>
+          <span class="opt t" data-ko="선택" data-en="Optional">선택</span>
+          <span style="font-size:12px;color:rgba(255,255,255,0.55);display:block;margin-top:3px;" class="t" data-ko="이벤트·할인 정보 수신 (언제든 철회 가능)" data-en="Receive promotions (can opt out anytime)">이벤트·할인 정보 수신 (언제든 철회 가능)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-msg" id="err-consent"><span class="t" data-ko="필수 항목에 모두 동의해 주세요." data-en="Please agree to all required items.">필수 항목에 모두 동의해 주세요.</span></div>
+
+    <button class="btn-submit" id="btn-submit" onclick="submitForm()">
+      <span class="t" data-ko="체크인 완료하기" data-en="Complete Check-in">체크인 완료하기</span>
+    </button>
+  </div>
+
+  <!-- SUCCESS -->
+  <div id="success-screen">
+    <div class="success-icon">✅</div>
+    <div class="success-title t" data-ko="체크인 <em>완료</em>" data-en="Check-in <em>Complete</em>">체크인 <em>완료</em></div>
+    <p class="success-sub">
+      <span class="t" data-ko="객실 키패드 번호는 15:30 이후 문자로 발송됩니다.<br>즐거운 숙박이 되시길 바랍니다." data-en="Your room keypad code will be sent by SMS after 15:30.<br>We hope you enjoy your stay.">객실 키패드 번호는 15:30 이후 문자로 발송됩니다.<br>즐거운 숙박이 되시길 바랍니다.</span>
+    </p>
+    <div class="summary-card" id="summary-card"></div>
+    <div style="font-size:11px;color:var(--gray-text);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;" class="t" data-ko="문의 연락처" data-en="Contact Us">문의 연락처</div>
+    <div class="contacts-grid">
+      <a href="tel:033-800-8899" class="contact-item">
+        <span class="c-icon">📞</span>
+        <span class="c-label">Phone</span>
+        <span class="c-val">033-800-8899</span>
+      </a>
+      <a href="https://pf.kakao.com/_hotelaroundsokcho" class="contact-item">
+        <span class="c-icon">💬</span>
+        <span class="c-label">Kakao</span>
+        <span class="c-val">@hotelaroundsokcho</span>
+      </a>
+      <a href="https://wa.me/821042820392" class="contact-item">
+        <span class="c-icon">📱</span>
+        <span class="c-label">WhatsApp</span>
+        <span class="c-val">+82-10-4282-0392</span>
+      </a>
+      <a href="mailto:hotelaroundsokcho@gmail.com" class="contact-item">
+        <span class="c-icon">✉️</span>
+        <span class="c-label">Email</span>
+        <span class="c-val">Gmail</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer">© Hotel Around Sokcho · 033-800-8899</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  CONFIG — GAS 웹앱 URL 교체 시 이 줄만 수정
+// ═══════════════════════════════════════════════
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbw9kw55YpwqBW8Qv5x_0gUWV4RdklgrDJjxN61whD6yoV_DGWCTDDB1BQ6Gce6wlHs9rw/exec';
+// ═══════════════════════════════════════════════
+
+// ── STATE ──────────────────────────────────────
+const state = {
+  lang: 'ko',
+  step: 1,
+  channel: '',
+  name: '',
+  dob: '',
+  nationality: '',
+  phone: '',
+  passport: '',
+  checkin: '',
+  checkout: '',
+  nights: 0,
+  adults: 1,
+  car: '',
+  arrivalTime: '',
+  consents: [false,false,false,false,false,false,false]
+};
+
+// ── LANG ───────────────────────────────────────
+function setLang(lang) {
+  state.lang = lang;
+  document.querySelectorAll('[data-ko]').forEach(el => {
+    el.innerHTML = el.getAttribute('data-' + lang);
+  });
+  document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+}
+
+// ── CHANNEL ────────────────────────────────────
+function selectChannel(el) {
+  document.querySelectorAll('.channel-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.channel = el.dataset.val;
+  document.getElementById('err-channel').classList.remove('show');
+}
+
+// ── TIME ───────────────────────────────────────
+function selectTime(el) {
+  document.querySelectorAll('.time-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.arrivalTime = el.dataset.val;
+  document.getElementById('err-time').classList.remove('show');
+}
+
+// ── COUNTER ────────────────────────────────────
+function adjustCount(type, delta) {
+  if (type === 'adult') {
+    state.adults = Math.max(1, Math.min(8, state.adults + delta));
+    document.getElementById('cnt-adult').textContent = state.adults;
+  }
+}
+
+// ── NIGHTS ────────────────────────────────────
+function calcNights() {
+  const ci = document.getElementById('inp-ci').value;
+  const co = document.getElementById('inp-co').value;
+  if (!ci || !co) return;
+  const d1 = new Date(ci), d2 = new Date(co);
+  const n = Math.round((d2 - d1) / 86400000);
+  if (n > 0) {
+    state.nights = n;
+    state.checkin = ci;
+    state.checkout = co;
+    document.getElementById('stay-nights').textContent = n;
+    const opts = { month: 'short', day: 'numeric' };
+    const lang = state.lang === 'ko' ? 'ko-KR' : 'en-US';
+    document.getElementById('stay-info').innerHTML =
+      `<span>${d1.toLocaleDateString(lang, opts)} → ${d2.toLocaleDateString(lang, opts)}</span>`;
+    document.getElementById('stay-display').style.display = 'flex';
+    document.getElementById('err-ci').classList.remove('show');
+    document.getElementById('err-co').classList.remove('show');
+  } else if (n <= 0 && co) {
+    document.getElementById('stay-display').style.display = 'none';
+    state.nights = 0;
+  }
+}
+
+// ── CONSENT ───────────────────────────────────
+function toggleConsent(idx) {
+  state.consents[idx] = !state.consents[idx];
+  const chk = document.getElementById('chk-' + idx);
+  chk.classList.toggle('checked', state.consents[idx]);
+  updateAllCheck();
+}
+function toggleAll() {
+  const allChecked = state.consents.slice(0,6).every(Boolean);
+  const newVal = !allChecked;
+  state.consents = state.consents.map((v, i) => i < 6 ? newVal : v);
+  for (let i = 0; i < 7; i++) {
+    document.getElementById('chk-' + i).classList.toggle('checked', state.consents[i]);
+  }
+  document.getElementById('chk-all').classList.toggle('checked', newVal);
+  document.getElementById('consent-all-btn').classList.toggle('checked', newVal);
+}
+function updateAllCheck() {
+  const allRequired = state.consents.slice(0,6).every(Boolean);
+  document.getElementById('chk-all').classList.toggle('checked', allRequired);
+  document.getElementById('consent-all-btn').classList.toggle('checked', allRequired);
+}
+
+// ── TOAST ─────────────────────────────────────
+function showToast(msg, isErr) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isErr ? ' error' : '') + ' show';
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── VALIDATION ────────────────────────────────
+function validate(step) {
+  if (step === 1) {
+    if (!state.channel) { document.getElementById('err-channel').classList.add('show'); return false; }
+  }
+  if (step === 2) {
+    let ok = true;
+    const name = document.getElementById('inp-name').value.trim();
+    const dob  = document.getElementById('inp-dob').value.trim();
+    const nat  = document.getElementById('inp-nat').value;
+    const ph   = document.getElementById('inp-phone').value.trim();
+    if (!name) { document.getElementById('err-name').classList.add('show'); ok = false; }
+    else { document.getElementById('err-name').classList.remove('show'); state.name = name; }
+    if (dob.length !== 8 || isNaN(dob)) { document.getElementById('err-dob').classList.add('show'); ok = false; }
+    else { document.getElementById('err-dob').classList.remove('show'); state.dob = dob; }
+    if (!nat) { document.getElementById('err-nat').classList.add('show'); ok = false; }
+    else { document.getElementById('err-nat').classList.remove('show'); state.nationality = nat; }
+    if (!ph) { document.getElementById('err-phone').classList.add('show'); ok = false; }
+    else { document.getElementById('err-phone').classList.remove('show'); state.phone = ph; }
+    state.passport = document.getElementById('inp-passport').value.trim().toUpperCase();
+    return ok;
+  }
+  if (step === 3) {
+    let ok = true;
+    if (!document.getElementById('inp-ci').value) { document.getElementById('err-ci').classList.add('show'); ok = false; }
+    if (!document.getElementById('inp-co').value) { document.getElementById('err-co').classList.add('show'); ok = false; }
+    if (state.nights <= 0) {
+      showToast(state.lang === 'ko' ? '체크아웃은 체크인 이후여야 합니다.' : 'Check-out must be after check-in.', true);
+      return false;
+    }
+    return ok;
+  }
+  if (step === 4) {
+    state.car = document.getElementById('inp-car').value.trim().toUpperCase();
+  }
+  if (step === 5) {
+    if (!state.arrivalTime) { document.getElementById('err-time').classList.add('show'); return false; }
+  }
+  if (step === 6) {
+    const required = state.consents.slice(0,6).every(Boolean);
+    if (!required) { document.getElementById('err-consent').classList.add('show'); return false; }
+    document.getElementById('err-consent').classList.remove('show');
+  }
+  return true;
+}
+
+// ── NAVIGATION ────────────────────────────────
+function goNext(step) {
+  if (!validate(step)) return;
+  goToStep(step + 1);
+}
+function goPrev(step) {
+  goToStep(step - 1);
+}
+function goToStep(step) {
+  document.getElementById('sec-' + state.step).classList.remove('active');
+  state.step = step;
+  const sec = document.getElementById('sec-' + step);
+  if (sec) { sec.classList.add('active'); sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  updateProgress();
+}
+function updateProgress() {
+  for (let i = 1; i <= 6; i++) {
+    const dot = document.getElementById('dot-' + i);
+    dot.className = 'step-dot';
+    dot.textContent = i;
+    if (i < state.step) {
+      dot.classList.add('done');
+      dot.textContent = '';
+    } else if (i === state.step) {
+      dot.classList.add('active');
+    }
+    if (i < 6) {
+      document.getElementById('line-' + i).classList.toggle('done', i < state.step);
+    }
+  }
+}
+
+// ── AGE CALC ──────────────────────────────────
+function getAgeGroup(dob) {
+  if (!dob || dob.length !== 8) return '미상';
+  const y = parseInt(dob.substring(0,4));
+  const now = new Date().getFullYear();
+  const age = now - y;
+  if (age < 20) return '10대';
+  if (age < 30) return '20대';
+  if (age < 40) return '30대';
+  if (age < 50) return '40대';
+  if (age < 60) return '50대';
+  return '60대이상';
+}
+
+// ── SUBMIT ────────────────────────────────────
+async function submitForm() {
+  if (!validate(6)) return;
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-spinner"></span><span class="t" data-ko="제출 중..." data-en="Submitting...">제출 중...</span>';
+
+  const now = new Date();
+  const ts = now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+
+  const payload = {
+    type: 'checkin',
+    제출시각: ts,
+    예약채널: state.channel,
+    예약자성명: state.name,
+    생년월일: state.dob,
+    연령대: getAgeGroup(state.dob),
+    국적: state.nationality,
+    여권번호: state.passport,
+    연락처: state.phone,
+    체크인날짜: state.checkin,
+    체크아웃날짜: state.checkout,
+    '투숙기간(박)': state.nights,
+    성인수: state.adults,
+    아동수: 0,
+    총인원: state.adults,
+    차량번호: state.car,
+    예상도착시간: state.arrivalTime,
+    동의완료: state.consents.slice(0,6).every(Boolean) ? 'Y' : 'N',
+    키패드발송: '',
+    리마인드발송: ''
+  };
+
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    if (json.result === 'success' || res.ok) {
+      showSuccess();
+    } else {
+      throw new Error(json.message || 'Error');
+    }
+  } catch (e) {
+    console.error(e);
+    btn.disabled = false;
+    btn.innerHTML = '<span class="t" data-ko="체크인 완료하기" data-en="Complete Check-in">체크인 완료하기</span>';
+    showToast(
+      state.lang === 'ko'
+        ? '제출 중 오류가 발생했습니다. 다시 시도해 주세요.'
+        : 'An error occurred. Please try again.',
+      true
+    );
+  }
+}
+
+// ── SUCCESS ───────────────────────────────────
+function showSuccess() {
+  document.getElementById('sec-6').classList.remove('active');
+  document.getElementById('progress-bar').style.display = 'none';
+  const ss = document.getElementById('success-screen');
+  ss.classList.add('show');
+
+  const fmt = d => new Date(d).toLocaleDateString(state.lang === 'ko' ? 'ko-KR' : 'en-US', { year:'numeric', month:'short', day:'numeric' });
+  document.getElementById('summary-card').innerHTML = `
+    <div class="summary-row"><span class="label">${state.lang==='ko'?'예약자':'Guest'}</span><span class="value">${state.name}</span></div>
+    <div class="summary-row"><span class="label">${state.lang==='ko'?'채널':'Channel'}</span><span class="value">${state.channel}</span></div>
+    <div class="summary-row"><span class="label">${state.lang==='ko'?'체크인':'Check-in'}</span><span class="value">${fmt(state.checkin)}</span></div>
+    <div class="summary-row"><span class="label">${state.lang==='ko'?'체크아웃':'Check-out'}</span><span class="value">${fmt(state.checkout)}</span></div>
+    <div class="summary-row"><span class="label">${state.lang==='ko'?'투숙':'Stay'}</span><span class="value">${state.nights}${state.lang==='ko'?'박':' night(s)'}</span></div>
+    <div class="summary-row"><span class="label">${state.lang==='ko'?'도착 예정':'Arrival'}</span><span class="value">${state.arrivalTime}</span></div>
+  `;
+
+  ss.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── INIT ──────────────────────────────────────
+(function init() {
+  const today = new Date();
+  const fmt = d => d.toISOString().split('T')[0];
+  document.getElementById('inp-ci').value = fmt(today);
+  const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+  document.getElementById('inp-co').value = fmt(tomorrow);
+  calcNights();
+})();
+</script>
 </body>
 </html>
