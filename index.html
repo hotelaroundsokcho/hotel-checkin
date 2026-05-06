@@ -871,7 +871,7 @@ body::before {
     </div>
 
     <!-- 전체 동의 -->
-    <div class="consent-all" id="consent-all-btn" onclick="toggleAll()">
+    <div class="consent-all" id="consent-all-btn" onclick="toggleAll(event)">
       <div class="consent-check" id="chk-all"></div>
       <div class="consent-text">
         <strong class="t" data-ko="전체 동의" data-en="Agree to All">전체 동의</strong>
@@ -1069,11 +1069,13 @@ function toggleConsent(idx) {
   chk.classList.toggle('checked', state.consents[idx]);
   updateAllCheck();
 }
-function toggleAll() {
+function toggleAll(e) {
+  if (e) e.stopPropagation();
   const allChecked = state.consents.slice(0,6).every(Boolean);
   const newVal = !allChecked;
+  // 필수 6개만 토글 (마케팅 선택항목 index 6 제외)
   state.consents = state.consents.map((v, i) => i < 6 ? newVal : v);
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 6; i++) {
     document.getElementById('chk-' + i).classList.toggle('checked', state.consents[i]);
   }
   document.getElementById('chk-all').classList.toggle('checked', newVal);
