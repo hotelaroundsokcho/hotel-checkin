@@ -11,7 +11,7 @@
 :root{
   --esp:#2C1810;--mah:#5C3317;--ter:#8B5E3C;--car:#B8895A;
   --sand:#D4B896;--parch:#EDE0D0;--cream:#F5EFE6;--ivory:#FAF7F3;--ww:#FFFCF9;
-  --gold:#C9973A;--gl:#F5EAD2;
+  --gold:#C9973A;--gl:#F5EAD2;h
   --tp:#2C1810;--ts:#6B4C35;--tm:#A08060;--th:#C4A882;
   --bd:rgba(44,24,16,0.10);--bdw:rgba(44,24,16,0.18);--bdf:#C9973A;
   --r:16px;--rm:10px;--rs:8px;
@@ -435,10 +435,10 @@ async function sub(){
   document.getElementById('lo').classList.add('on');
   const ci=document.getElementById('ci').value,co=document.getElementById('co').value;
   const nights=ci&&co?Math.round((new Date(co)-new Date(ci))/86400000):'';
-  const name=document.getElementById('gN').value.trim();
-  const birth=document.getElementById('gB').value.trim();
-  const age=birth.length===8?(new Date().getFullYear()-parseInt(birth.substr(0,4)))+'세':'';
-  const data={type:'checkin',channel,name,birth,age,nation:document.getElementById('gNa').value,phone:document.getElementById('gP').value.trim(),passport:document.getElementById('gPp').value.trim(),checkin:ci,checkout:co,nights,adults,children:0,total:adults,car:document.getElementById('car').value.trim(),arrivalTime:arr,agreed:true,marketing:!!ag[7]};
+  const guestName=document.getElementById('gN').value.trim();
+  const birthdate=document.getElementById('gB').value.trim();
+  const age=birthdate.length===8?(new Date().getFullYear()-parseInt(birthdate.substr(0,4)))+'세':'';
+  const data={type:'checkin',channel,guestName,birthdate,age,nationality:document.getElementById('gNa').value,phone:document.getElementById('gP').value.trim(),passport:document.getElementById('gPp').value.trim(),checkin:ci,checkout:co,nights,adults,children:0,totalGuests:adults,carNumber:document.getElementById('car').value.trim(),arrivalTime:arr,agreement:true,marketing:!!ag[7]};
   try{await fetch(GAS,{method:'POST',mode:'no-cors',body:JSON.stringify(data),headers:{'Content-Type':'application/json'}});}catch(e){}
   document.getElementById('lo').classList.remove('on');
   document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));
@@ -446,7 +446,7 @@ async function sub(){
   const t=T[lang];
   document.getElementById('cT').textContent=t.cT;
   document.getElementById('cD').innerHTML=(t.cD||'').replace(/\n/g,'<br>');
-  document.getElementById('sv1').textContent=channel;document.getElementById('sv2').textContent=name;
+  document.getElementById('sv1').textContent=channel;document.getElementById('sv2').textContent=guestName;
   document.getElementById('sv3').textContent=ci+' → '+co;document.getElementById('sv4').textContent=adults+(lang==='ko'?'명':'pax');
   document.getElementById('sv5').textContent=arr;
   document.getElementById('cw').classList.add('on');
