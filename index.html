@@ -131,9 +131,28 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .citem:hover{border-color:var(--gold);background:var(--gl);}
 .cico2{font-size:20px;}
 @media(max-width:360px){.htit{font-size:30px;}.tgrid{grid-template-columns:repeat(3,1fr);}.stit{font-size:23px;}}
+
+
+
+.park-notice{margin-top:10px;background:#FFF8EC;border:1px solid rgba(201,151,58,.40);border-left:4px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;padding:14px 16px;}
+.park-header{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.park-header-ico{font-size:17px;line-height:1;}
+.park-header-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;}
+.park-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;}
+.park-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px;}
+.park-row-text{font-size:13px;font-weight:500;color:var(--esp);line-height:1.6;}
+.park-divider{border:none;border-top:1px dashed rgba(201,151,58,.30);margin:10px 0;}
+.park-sms{display:flex;align-items:center;gap:8px;background:rgba(201,151,58,.10);border-radius:6px;padding:9px 11px;}
+.park-sms-ico{font-size:15px;flex-shrink:0;}
+.park-sms-text{font-size:12px;font-weight:600;color:var(--mah);line-height:1.5;}
+.park-link-row{margin-top:11px;display:flex;justify-content:flex-end;}
+.park-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--mah);text-decoration:none;border-bottom:1px solid rgba(92,51,23,.25);padding-bottom:1px;}
+
 </style>
 </head>
 <body>
+
+
 <div class="lovo" id="lo"><div class="lring"></div><div class="ltxt" id="ltxt">체크인 처리 중...</div></div>
 <header class="hdr">
 <div class="hdr-tex"></div>
@@ -197,7 +216,15 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div class="sh"><div class="seye" id="e4">Step 4 of 6</div><h2 class="stit" id="t4">인원 및 차량</h2><p class="sdesc" id="d4t">성인(만 18세 이상) · 어린이(36개월 이상)</p></div>
 <div class="ccard"><div class="crow"><div><div class="clbl" id="la">성인</div><div class="csub" id="las">만 18세 이상</div></div><div class="cctl"><button class="cbtnc" onclick="chA(-1)">−</button><span class="cval" id="av">1</span><button class="cbtnc" onclick="chA(1)">+</button></div></div></div>
 <div class="ccard"><div class="crow"><div><div class="clbl" id="lch">어린이</div><div class="csub" id="lchs">36개월 이상 · 만 18세 미만</div></div><div class="cctl"><button class="cbtnc" onclick="chC(-1)">−</button><span class="cval" id="cv">0</span><button class="cbtnc" onclick="chC(1)">+</button></div></div></div>
-<div class="fg"><label class="fl" id="lc">차량번호</label><input class="fi" type="text" id="car" placeholder="12가 3456 (없으면 비워두세요)"></div>
+<div class="fg"><label class="fl" id="lc">차량번호</label><input class="fi" type="text" id="car" placeholder="12가 3456 (없으면 비워두세요)">
+<div class="park-notice">
+<div class="park-header"><span class="park-header-ico">🅿️</span><span class="park-header-label" id="parkTitle">주차 안내</span></div>
+<div class="park-row"><span class="park-dot"></span><span class="park-row-text" id="parkMsg">주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.</span></div>
+<div class="park-divider"></div>
+<div class="park-sms"><span class="park-sms-ico">💬</span><span class="park-sms-text" id="parkSms">만차일 경우 별도의 문자메시지를 드리겠습니다.</span></div>
+<div class="park-link-row"><a class="park-link" href="https://naver.me/5M5sxNZs" target="_blank" id="parkLink">무료공영주차장 안내 ↗</a></div>
+</div>
+</div>
 </div>
 <div class="sec" id="s5">
 <div class="sh"><div class="seye" id="e5">Step 5 of 6</div><h2 class="stit" id="t5">예상 도착 시간</h2><p class="sdesc" id="d5t">체크인은 16:00부터 가능합니다</p></div>
@@ -257,10 +284,10 @@ const GAS='https://script.google.com/macros/s/AKfycbyqcZS1L1fXRnefFYe83G8RBp99BR
 let cur=1,lang='ko',adults=1,children=0,channel='',arr='';
 const ag={1:0,2:0,3:0,4:0,5:0,6:0,7:0};
 const T={
-ko:{hT:'환영합니다',hS:'Mobile Check-in · 모바일 체크인',e1:'Step 1 of 6',t1:'예약 채널',d1t:'어디서 예약하셨나요?',e2:'Step 2 of 6',t2:'투숙객 정보',d2t:'예약자 기준으로 입력해 주세요',e3:'Step 3 of 6',t3:'투숙 일정',d3t:'체크인 16:00 · 체크아웃 11:00',e4:'Step 4 of 6',t4:'인원 및 차량',d4t:'성인(만 18세 이상) · 어린이(36개월 이상)',e5:'Step 5 of 6',t5:'예상 도착 시간',d5t:'체크인은 16:00부터 가능합니다',e6:'Step 6 of 6',t6:'정책 동의',d6t:'투숙 전 필수 확인 사항입니다',ln:'성명',lb:'생년월일',lna:'국적',lp:'연락처',lpp:'여권번호',hb:'8자리 숫자 (예: 19900101)',lci:'체크인',lco:'체크아웃',nl:'박 숙박',la:'성인',las:'만 18세 이상',lch:'어린이',lchs:'36개월 이상 · 만 18세 미만',lc:'차량번호',ll:'늦은 도착',aL:'전체 동의',at1:'흡연 금지 동의',ad1:'객실 내 흡연 적발 시 300,000원 추가 청구',at2:'반려동물 반입 금지',ad2:'반입 적발 시 즉시 퇴실 조치',at3:'노키즈 정책 확인',ad3:'만 18세 미만 투숙 불가',at4:'파손·분실 시 실비 청구 동의',at5:'개인정보 수집·이용 동의',ad5:'투숙 목적으로만 사용됩니다',at6:'하우스룰 확인',ad6:'체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지',at7:'마케팅 수신 동의',ad7:'이벤트·할인 정보 수신 (언제든 철회 가능)',bnL:'다음',bsL:'체크인 완료하기',vCh:'예약 채널을 선택해 주세요.',vF:'필수 항목을 확인해 주세요.',vB:'생년월일을 8자리로 입력해 주세요.',vT:'예상 도착 시간을 선택해 주세요.',vA:'필수 항목에 모두 동의해 주세요.',cT:'체크인 완료',cD:'객실 키패드 번호는 16:00 이후\n문자로 발송됩니다.\n즐거운 숙박이 되시길 바랍니다.',se:'예약 요약',sk1:'예약 채널',sk2:'투숙객',sk3:'일정',sk4:'인원',sk5:'예상 도착',cL:'문의 연락처',ltxt:'체크인 처리 중...'},
-en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 6',t1:'Booking Channel',d1t:'Where did you book?',e2:'Step 2 of 6',t2:'Guest Info',d2t:"Booker's information",e3:'Step 3 of 6',t3:'Stay Dates',d3t:'Check-in 16:00 · Check-out 11:00',e4:'Step 4 of 6',t4:'Guests & Vehicle',d4t:'Adults (18+) · Children (36 months+)',e5:'Step 5 of 6',t5:'Arrival Time',d5t:'Check-in available from 16:00',e6:'Step 6 of 6',t6:'Policies',d6t:'Please review before staying',ln:'Full Name',lb:'Date of Birth',lna:'Nationality',lp:'Phone',lpp:'Passport No.',hb:'8 digits e.g. 19900101',lci:'Check-in',lco:'Check-out',nl:'night(s)',la:'Adults',las:'18 years or older',lch:'Children',lchs:'36 months+ · Under 18',lc:'Car Plate',ll:'Late arrival',aL:'Agree to all',at1:'No Smoking',ad1:'KRW 300,000 penalty if violated',at2:'No Pets',ad2:'Immediate check-out if violated',at3:'No Kids Policy',ad3:'No guests under 18',at4:'Damage / Loss Liability',at5:'Privacy Policy',ad5:'Used for stay purposes only',at6:'House Rules',ad6:'Check-out 11:00 / Recycling / No noise',at7:'Marketing Consent',ad7:'Promotions & events (opt-out anytime)',bnL:'Next',bsL:'Complete Check-in',vCh:'Please select a booking channel.',vF:'Please fill in all required fields.',vB:'Please enter date of birth (8 digits).',vT:'Please select arrival time.',vA:'Please agree to all required policies.',cT:'Check-in Complete',cD:'Your keypad code will be sent\nvia SMS from 16:00.\nEnjoy your stay!',se:'Booking Summary',sk1:'Channel',sk2:'Guest',sk3:'Dates',sk4:'Guests',sk5:'Arrival',cL:'Contact Us',ltxt:'Processing check-in...'}};
+ko:{hT:'환영합니다',hS:'Mobile Check-in · 모바일 체크인',e1:'Step 1 of 6',t1:'예약 채널',d1t:'어디서 예약하셨나요?',e2:'Step 2 of 6',t2:'투숙객 정보',d2t:'예약자 기준으로 입력해 주세요',e3:'Step 3 of 6',t3:'투숙 일정',d3t:'체크인 16:00 · 체크아웃 11:00',e4:'Step 4 of 6',t4:'인원 및 차량',d4t:'성인(만 18세 이상) · 어린이(36개월 이상)',e5:'Step 5 of 6',t5:'예상 도착 시간',d5t:'체크인은 16:00부터 가능합니다',e6:'Step 6 of 6',t6:'정책 동의',d6t:'투숙 전 필수 확인 사항입니다',ln:'성명',lb:'생년월일',lna:'국적',lp:'연락처',lpp:'여권번호',hb:'8자리 숫자 (예: 19900101)',lci:'체크인',lco:'체크아웃',nl:'박 숙박',la:'성인',las:'만 18세 이상',lch:'어린이',lchs:'36개월 이상 · 만 18세 미만',lc:'차량번호',ll:'늦은 도착',aL:'전체 동의',at1:'흡연 금지 동의',ad1:'객실 내 흡연 적발 시 300,000원 추가 청구',at2:'반려동물 반입 금지',ad2:'반입 적발 시 즉시 퇴실 조치',at3:'노키즈 정책 확인',ad3:'만 18세 미만 투숙 불가',at4:'파손·분실 시 실비 청구 동의',at5:'개인정보 수집·이용 동의',ad5:'투숙 목적으로만 사용됩니다',at6:'하우스룰 확인',ad6:'체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지',at7:'마케팅 수신 동의',ad7:'이벤트·할인 정보 수신 (언제든 철회 가능)',bnL:'다음',bsL:'체크인 완료하기',vCh:'예약 채널을 선택해 주세요.',vF:'필수 항목을 확인해 주세요.',vB:'생년월일을 8자리로 입력해 주세요.',vT:'예상 도착 시간을 선택해 주세요.',vA:'필수 항목에 모두 동의해 주세요.',cT:'체크인 완료',cD:'객실 키패드 번호는 16:00 이후\n문자로 발송됩니다.\n즐거운 숙박이 되시길 바랍니다.',se:'예약 요약',sk1:'예약 채널',sk2:'투숙객',sk3:'일정',sk4:'인원',sk5:'예상 도착',cL:'문의 연락처',ltxt:'체크인 처리 중...',parkTitle:'주차 안내',parkMsg:'주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.',parkSms:'만차일 경우 별도의 문자메시지를 드리겠습니다.',parkLink:'무료공영주차장 안내 ↗'},
+en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 6',t1:'Booking Channel',d1t:'Where did you book?',e2:'Step 2 of 6',t2:'Guest Info',d2t:"Booker's information",e3:'Step 3 of 6',t3:'Stay Dates',d3t:'Check-in 16:00 · Check-out 11:00',e4:'Step 4 of 6',t4:'Guests & Vehicle',d4t:'Adults (18+) · Children (36 months+)',e5:'Step 5 of 6',t5:'Arrival Time',d5t:'Check-in available from 16:00',e6:'Step 6 of 6',t6:'Policies',d6t:'Please review before staying',ln:'Full Name',lb:'Date of Birth',lna:'Nationality',lp:'Phone',lpp:'Passport No.',hb:'8 digits e.g. 19900101',lci:'Check-in',lco:'Check-out',nl:'night(s)',la:'Adults',las:'18 years or older',lch:'Children',lchs:'36 months+ · Under 18',lc:'Car Plate',ll:'Late arrival',aL:'Agree to all',at1:'No Smoking',ad1:'KRW 300,000 penalty if violated',at2:'No Pets',ad2:'Immediate check-out if violated',at3:'No Kids Policy',ad3:'No guests under 18',at4:'Damage / Loss Liability',at5:'Privacy Policy',ad5:'Used for stay purposes only',at6:'House Rules',ad6:'Check-out 11:00 / Recycling / No noise',at7:'Marketing Consent',ad7:'Promotions & events (opt-out anytime)',bnL:'Next',bsL:'Complete Check-in',vCh:'Please select a booking channel.',vF:'Please fill in all required fields.',vB:'Please enter date of birth (8 digits).',vT:'Please select arrival time.',vA:'Please agree to all required policies.',cT:'Check-in Complete',cD:'Your keypad code will be sent\nvia SMS from 16:00.\nEnjoy your stay!',se:'Booking Summary',sk1:'Channel',sk2:'Guest',sk3:'Dates',sk4:'Guests',sk5:'Arrival',cL:'Contact Us',ltxt:'Processing check-in...',parkTitle:'Parking Info',parkMsg:'Parking may be limited on weekends and peak seasons. We appreciate your understanding.',parkSms:'If the lot is full, we will notify you by text message.',parkLink:'Free public parking ↗'}};
 function setLang(l){lang=l;document.getElementById('bKO').className='lbtn'+(l==='ko'?' on':'');document.getElementById('bEN').className='lbtn'+(l==='en'?' on':'');applyT();}
-function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','e5','t5','d5t','e6','t6','d6t','hb','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','cL'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['la',1],['lc',0]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();}
+function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','e5','t5','d5t','e6','t6','d6t','hb','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','cL','parkTitle','parkMsg','parkSms','parkLink'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['la',1],['lc',0]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();}
 function upProg(){for(let i=1;i<=6;i++){const d=document.getElementById('d'+i);if(i<cur){d.className='sdot done';d.textContent='✓';}else if(i===cur){d.className='sdot act';d.textContent=i;}else{d.className='sdot';d.textContent=i;}if(i<6)document.getElementById('l'+i).className='sline'+(i<cur?' done':'');}document.getElementById('sL').textContent='Step '+cur;document.getElementById('pB').style.width=(cur/6*100).toFixed(1)+'%';document.getElementById('bp').style.display=cur>1?'flex':'none';const last=cur===6;document.getElementById('bn').style.display=last?'none':'flex';document.getElementById('bs').style.display=last?'flex':'none';}
 function showSec(n){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));const s=document.getElementById('s'+n);if(s)s.classList.add('act');document.getElementById('cw').classList.remove('on');document.getElementById('nav').style.display='';window.scrollTo({top:0,behavior:'smooth'});}
 function flash(m){const v=document.getElementById('vm');v.textContent=m;v.className='vmsg on';setTimeout(()=>{v.className='vmsg';},3200);}
@@ -305,6 +332,8 @@ document.getElementById('sv5').textContent=arr;
 document.getElementById('cw').classList.add('on');
 window.scrollTo({top:0,behavior:'smooth'});
 }
+
+
 upProg();setLang('ko');
 </script>
 </body>
