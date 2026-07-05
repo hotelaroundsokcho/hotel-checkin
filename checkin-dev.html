@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mobile Check-in — Hotel Around Sokcho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ── DEV BANNER ── */
+#dev-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#8B3A2C;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-align:center;padding:8px 16px;pointer-events:none;}
+body{padding-top:36px;}
+:root{
+--esp:#2C1810;--mah:#5C3317;--ter:#8B5E3C;--car:#B8895A;
+--sand:#D4B896;--parch:#EDE0D0;--cream:#F5EFE6;--ivory:#FAF7F3;--ww:#FFFCF9;
+--gold:#C9973A;--gl:#F5EAD2;
+--tp:#2C1810;--ts:#6B4C35;--tm:#A08060;--th:#C4A882;
+--bd:rgba(44,24,16,0.10);--bdw:rgba(44,24,16,0.18);--bdf:#C9973A;
+--r:16px;--rm:10px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--cream);color:var(--tp);min-height:100vh;max-width:480px;margin:0 auto;overflow-x:hidden;}
+.hdr{background:var(--esp);position:relative;overflow:hidden;}
+.hdr-tex{position:absolute;inset:0;background:radial-gradient(ellipse 200px 160px at 90% -20%,rgba(201,151,58,.12),transparent 70%),radial-gradient(ellipse 160px 200px at -10% 110%,rgba(184,137,90,.08),transparent 70%);pointer-events:none;}
+.hdr-in{padding:32px 24px 22px;position:relative;z-index:1;}
+.lang-row{display:flex;justify-content:flex-end;gap:8px;margin-bottom:24px;}
+.lbtn{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:.10em;color:rgba(255,255,255,.38);background:none;border:.5px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 13px;cursor:pointer;transition:all .2s;}
+.lbtn.on,.lbtn:hover{color:var(--gold);border-color:rgba(201,151,58,.45);}
+.eye{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.htit{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:400;font-style:italic;color:var(--ww);line-height:1.12;margin-bottom:8px;}
+.hsub{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;color:rgba(255,255,255,.38);letter-spacing:.04em;}
+.prog-wrap{background:rgba(0,0,0,.22);padding:16px 24px 18px;position:relative;z-index:1;}
+.step-track{display:flex;align-items:center;}
+.sdot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;flex-shrink:0;transition:all .3s;background:rgba(255,255,255,.07);color:rgba(255,255,255,.28);border:.5px solid rgba(255,255,255,.10);}
+.sdot.act{background:var(--gold);color:var(--esp);border-color:var(--gold);font-weight:600;}
+.sdot.done{background:rgba(201,151,58,.18);color:var(--gold);border-color:rgba(201,151,58,.35);}
+.sline{flex:1;height:.5px;background:rgba(255,255,255,.08);transition:background .35s;}
+.sline.done{background:rgba(201,151,58,.30);}
+.prog-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;}
+.plabel{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;letter-spacing:.06em;color:rgba(255,255,255,.35);}
+.plabel span{color:var(--gold);}
+.pbar-w{width:80px;height:2px;background:rgba(255,255,255,.10);border-radius:2px;overflow:hidden;}
+.pbar{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease;}
+.sw{padding:0 20px 110px;}
+.sec{display:none;animation:fu .28s ease;}
+.sec.act{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.sh{padding:26px 0 18px;}
+.seye{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--car);margin-bottom:8px;}
+.stit{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--esp);line-height:1.18;}
+.sdesc{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:var(--ts);margin-top:6px;line-height:1.65;}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.cbtn{background:var(--ivory);border:1px solid var(--bd);border-radius:var(--rm);padding:18px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.cbtn:active{transform:scale(.97);}
+.cbtn.on{border-color:var(--gold);background:var(--gl);box-shadow:0 0 0 1.5px var(--gold);}
+.cico{font-size:24px;line-height:1;}
+.cnm{font-size:13px;font-weight:500;color:var(--tp);text-align:center;}
+.fg{margin-bottom:16px;}
+.fl{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:.04em;color:var(--ts);margin-bottom:7px;display:block;}
+.fl .req{color:var(--gold);margin-left:2px;}
+.fi{width:100%;background:var(--ivory);border:1px solid var(--bd);border-radius:var(--rm);padding:16px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:400;color:var(--tp);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none;}
+.fi::placeholder{color:var(--th);font-weight:300;}
+.fi:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,151,58,.13);background:var(--ww);}
+select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23A08060' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;cursor:pointer;}
+.fh{font-size:12px;font-weight:300;color:var(--th);margin-top:6px;}
+.dr{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;}
+.dsep{padding-bottom:16px;text-align:center;color:var(--th);font-size:18px;font-weight:300;}
+.npill{display:inline-flex;align-items:center;gap:8px;background:var(--gl);border:.5px solid rgba(201,151,58,.35);border-radius:24px;padding:8px 16px;margin-top:14px;}
+.nnum{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--mah);line-height:1;}
+.nlbl{font-size:13px;font-weight:400;color:var(--ts);}
+.ccard{background:var(--ivory);border:1px solid var(--bd);border-radius:var(--rm);padding:18px 16px;margin-bottom:12px;}
+.crow{display:flex;align-items:center;justify-content:space-between;}
+.clbl{font-size:15px;font-weight:500;color:var(--tp);}
+.csub{font-size:12px;font-weight:300;color:var(--tm);margin-top:3px;}
+.cctl{display:flex;align-items:center;gap:16px;}
+.cbtnc{width:44px;height:44px;border-radius:50%;border:1px solid var(--bdw);background:var(--cream);color:var(--mah);font-size:22px;font-weight:300;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;line-height:1;}
+.cbtnc:active{background:var(--gl);border-color:var(--gold);}
+.cval{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;color:var(--esp);min-width:28px;text-align:center;}
+.nkn{background:var(--parch);border:1px dashed rgba(44,24,16,.14);border-radius:var(--rm);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.nkni{font-size:18px;flex-shrink:0;}
+.nknt{font-size:13px;font-weight:300;color:var(--ts);line-height:1.55;}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.tbtn{background:var(--ivory);border:1px solid var(--bd);border-radius:var(--rm);padding:14px 4px;text-align:center;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.tbtn:active{transform:scale(.96);}
+.tbtn.on{border-color:var(--gold);background:var(--gl);box-shadow:0 0 0 1.5px var(--gold);}
+.tmain{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:var(--tp);display:block;}
+.tsub{font-size:11px;font-weight:300;color:var(--th);margin-top:3px;display:block;}
+.aall{background:var(--esp);border-radius:var(--rm);padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;}
+.aalbl{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:var(--ww);flex:1;}
+.cc{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.cc.on{background:var(--gold);border-color:var(--gold);}
+.cc.on::after{content:'';width:10px;height:6px;border-left:2px solid var(--esp);border-bottom:2px solid var(--esp);transform:rotate(-45deg) translate(1px,-1px);display:block;}
+.aitem{background:var(--ivory);border:1px solid var(--bd);border-radius:var(--rm);padding:14px 16px;display:flex;align-items:flex-start;gap:12px;margin-bottom:8px;cursor:pointer;transition:border-color .15s,background .15s;}
+.aitem.on{border-color:rgba(201,151,58,.45);background:var(--gl);}
+.csq{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--bdw);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;background:var(--ww);}
+.csq.on{background:var(--gold);border-color:var(--gold);}
+.csq.on::after{content:'';width:9px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);display:block;}
+.atit{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--tp);line-height:1.4;}
+.adesc{font-size:12px;font-weight:300;color:var(--tm);margin-top:3px;line-height:1.5;}
+.optb{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.04em;background:var(--parch);color:var(--ter);border-radius:4px;padding:1px 6px;margin-left:5px;vertical-align:middle;}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:10px 20px 30px;background:linear-gradient(to top,var(--cream) 72%,transparent);z-index:100;}
+.nrow{display:flex;gap:10px;}
+.bprev{width:52px;height:54px;background:var(--ivory);border:1px solid var(--bdw);border-radius:var(--rm);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--ts);transition:all .2s;}
+.bprev:hover{border-color:var(--esp);color:var(--esp);}
+.bnext{flex:1;height:54px;background:var(--esp);color:var(--ww);border:none;border-radius:var(--rm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;letter-spacing:.04em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
+.bnext:hover{background:var(--mah);}
+.bnext:active{transform:scale(.98);}
+.bsub{flex:1;height:54px;background:var(--gold);color:var(--esp);border:none;border-radius:var(--rm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;letter-spacing:.03em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;}
+.bsub:hover{filter:brightness(1.06);}
+.bsub:active{transform:scale(.98);}
+.vmsg{background:rgba(139,58,58,.07);border:1px solid rgba(139,58,58,.22);border-radius:var(--rm);padding:12px 14px;font-size:13px;font-weight:400;color:#7A2C2C;margin-bottom:14px;display:none;}
+.vmsg.on{display:block;}
+.lovo{display:none;position:fixed;inset:0;background:rgba(44,24,16,.65);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:18px;}
+.lovo.on{display:flex;}
+.lring{width:44px;height:44px;border:2px solid rgba(201,151,58,.20);border-top-color:var(--gold);border-radius:50%;animation:spin .85s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ltxt{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:rgba(255,255,255,.65);letter-spacing:.06em;}
+.cmpw{display:none;padding:44px 4px 80px;text-align:center;animation:fu .4s ease;}
+.cmpw.on{display:block;}
+.corn{width:64px;height:64px;background:var(--gl);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:28px;border:1px solid rgba(201,151,58,.28);}
+.ctit{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;font-style:italic;color:var(--esp);margin-bottom:12px;line-height:1.2;}
+.cdesc{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;color:var(--ts);line-height:1.75;margin-bottom:28px;}
+.scard{background:var(--esp);border-radius:var(--r);padding:22px 20px;margin-bottom:28px;text-align:left;}
+.seye2{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;}
+.srow{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:.5px solid rgba(255,255,255,.07);}
+.srow:last-child{border-bottom:none;}
+.sk{font-size:12px;font-weight:300;color:rgba(255,255,255,.40);}
+.sv{font-size:13px;font-weight:500;color:var(--ww);text-align:right;max-width:60%;}
+.clbl2{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--th);margin-bottom:12px;text-align:left;}
+.cgr{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.citem{background:var(--ivory);border:1px solid var(--bd);border-radius:var(--rm);padding:14px 10px;text-align:center;text-decoration:none;color:var(--tp);font-size:12px;font-weight:500;transition:all .2s;display:flex;flex-direction:column;gap:6px;align-items:center;}
+.citem:hover{border-color:var(--gold);background:var(--gl);}
+.cico2{font-size:20px;}
+@media(max-width:360px){.htit{font-size:30px;}.tgrid{grid-template-columns:repeat(3,1fr);}.stit{font-size:23px;}}
+
+
+
+.park-notice{margin-top:10px;background:#FFF8EC;border:1px solid rgba(201,151,58,.40);border-left:4px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;padding:14px 16px;}
+.park-header{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.park-header-ico{font-size:17px;line-height:1;}
+.park-header-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;}
+.park-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;}
+.park-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px;}
+.park-row-text{font-size:13px;font-weight:500;color:var(--esp);line-height:1.6;}
+.park-divider{border:none;border-top:1px dashed rgba(201,151,58,.30);margin:10px 0;}
+.park-sms{display:flex;align-items:center;gap:8px;background:rgba(201,151,58,.10);border-radius:6px;padding:9px 11px;}
+.park-sms-ico{font-size:15px;flex-shrink:0;}
+.park-sms-text{font-size:12px;font-weight:600;color:var(--mah);line-height:1.5;}
+.park-link-row{margin-top:11px;display:flex;justify-content:flex-end;}
+.park-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--mah);text-decoration:none;border-bottom:1px solid rgba(92,51,23,.25);padding-bottom:1px;}
+
+</style>
+</head>
+<body>
+
+
+<div class="lovo" id="lo"><div class="lring"></div><div class="ltxt" id="ltxt">체크인 처리 중...</div></div>
+<div id="dev-banner">⚠ DEV — checkin-dev.html · 테스트 환경 · 프로덕션 아님</div>
+<header class="hdr">
+<div class="hdr-tex"></div>
+<div class="hdr-in">
+<div class="lang-row">
+<button class="lbtn on" onclick="setLang('ko')" id="bKO">KO</button>
+<button class="lbtn" onclick="setLang('en')" id="bEN">EN</button>
+</div>
+<div class="eye">Hotel Around Sokcho</div>
+<h1 class="htit" id="hT">환영합니다</h1>
+<p class="hsub" id="hS">Mobile Check-in · 모바일 체크인</p>
+</div>
+<div class="prog-wrap">
+<div class="step-track">
+<div class="sdot act" id="d1">1</div><div class="sline" id="l1"></div>
+<div class="sdot" id="d2">2</div><div class="sline" id="l2"></div>
+<div class="sdot" id="d3">3</div><div class="sline" id="l3"></div>
+<div class="sdot" id="d4">4</div><div class="sline" id="l4"></div>
+<div class="sdot" id="d5">5</div><div class="sline" id="l5"></div>
+<div class="sdot" id="d6">6</div>
+</div>
+<div class="prog-meta">
+<div class="plabel"><span id="sL">Step 1</span> / 6</div>
+<div class="pbar-w"><div class="pbar" id="pB" style="width:16.6%"></div></div>
+</div>
+</div>
+</header>
+<div class="sw">
+<div class="vmsg" id="vm"></div>
+<div class="sec act" id="s1">
+<div class="sh"><div class="seye" id="e1">Step 1 of 6</div><h2 class="stit" id="t1">예약 채널</h2><p class="sdesc" id="d1t">어디서 예약하셨나요?</p></div>
+<div class="cgrid">
+<button class="cbtn" data-v="Agoda" onclick="sch(this)"><span class="cico">🌏</span><span class="cnm">Agoda</span></button>
+<button class="cbtn" data-v="Booking.com" onclick="sch(this)"><span class="cico">🔵</span><span class="cnm">Booking.com</span></button>
+<button class="cbtn" data-v="Expedia" onclick="sch(this)"><span class="cico">✈️</span><span class="cnm">Expedia</span></button>
+<button class="cbtn" data-v="Trip.com" onclick="sch(this)"><span class="cico">🌐</span><span class="cnm">Trip.com</span></button>
+<button class="cbtn" data-v="야놀자" onclick="sch(this)"><span class="cico">🎯</span><span class="cnm">야놀자</span></button>
+<button class="cbtn" data-v="여기어때" onclick="sch(this)"><span class="cico">📍</span><span class="cnm">여기어때</span></button>
+<button class="cbtn" data-v="직접예약" onclick="sch(this)"><span class="cico">🏨</span><span class="cnm">직접예약</span></button>
+<button class="cbtn" data-v="기타" onclick="sch(this)"><span class="cico">➕</span><span class="cnm">기타</span></button>
+</div>
+</div>
+<div class="sec" id="s2">
+<div class="sh"><div class="seye" id="e2">Step 2 of 6</div><h2 class="stit" id="t2">투숙객 정보</h2><p class="sdesc" id="d2t">예약자 기준으로 입력해 주세요</p></div>
+<div class="fg"><label class="fl" id="ln">성명 <span class="req">*</span></label><input class="fi" type="text" id="gN" placeholder="홍길동" autocomplete="name"></div>
+<div class="fg"><label class="fl" id="lb">생년월일 <span class="req">*</span></label><input class="fi" type="text" id="gB" placeholder="19900101" maxlength="8" inputmode="numeric"><div class="fh" id="hb">8자리 숫자 (예: 19900101)</div></div>
+<div class="fg"><label class="fl" id="lna">국적 <span class="req">*</span></label><select class="fi" id="gNa"><option value="">선택</option><option value="한국">🇰🇷 한국</option><option value="중국">🇨🇳 중국</option><option value="일본">🇯🇵 일본</option><option value="미국">🇺🇸 미국</option><option value="기타">기타 / Other</option></select></div>
+<div class="fg"><label class="fl" id="lp">연락처 <span class="req">*</span></label><input class="fi" type="tel" id="gP" placeholder="010-0000-0000" inputmode="tel"></div>
+<div class="fg"><label class="fl" id="lpp">여권번호</label><input class="fi" type="text" id="gPp" placeholder="외국인 투숙객 필수" autocomplete="off"></div>
+</div>
+<div class="sec" id="s3">
+<div class="sh"><div class="seye" id="e3">Step 3 of 6</div><h2 class="stit" id="t3">투숙 일정</h2><p class="sdesc" id="d3t">체크인 16:00 · 체크아웃 11:00</p></div>
+<div class="dr">
+<div class="fg" style="margin-bottom:0"><label class="fl" id="lci">체크인 <span class="req">*</span></label><input class="fi" type="date" id="ci"></div>
+<div class="dsep">–</div>
+<div class="fg" style="margin-bottom:0"><label class="fl" id="lco">체크아웃 <span class="req">*</span></label><input class="fi" type="date" id="co"></div>
+</div>
+<div id="nb" style="display:none"><div class="npill"><span class="nnum" id="nn">1</span><span class="nlbl" id="nl">박 숙박</span></div></div>
+</div>
+<div class="sec" id="s4">
+<div class="sh"><div class="seye" id="e4">Step 4 of 6</div><h2 class="stit" id="t4">인원 및 차량</h2><p class="sdesc" id="d4t">성인(만 18세 이상) · 어린이(36개월 이상)</p></div>
+<div class="ccard"><div class="crow"><div><div class="clbl" id="la">성인</div><div class="csub" id="las">만 18세 이상</div></div><div class="cctl"><button class="cbtnc" onclick="chA(-1)">−</button><span class="cval" id="av">1</span><button class="cbtnc" onclick="chA(1)">+</button></div></div></div>
+<div class="ccard"><div class="crow"><div><div class="clbl" id="lch">어린이</div><div class="csub" id="lchs">36개월 이상 · 만 18세 미만</div></div><div class="cctl"><button class="cbtnc" onclick="chC(-1)">−</button><span class="cval" id="cv">0</span><button class="cbtnc" onclick="chC(1)">+</button></div></div></div>
+<div class="fg"><label class="fl" id="lc">차량번호</label><input class="fi" type="text" id="car" placeholder="12가 3456 (없으면 비워두세요)">
+<div class="park-notice">
+<div class="park-header"><span class="park-header-ico">🅿️</span><span class="park-header-label" id="parkTitle">주차 안내</span></div>
+<div class="park-row"><span class="park-dot"></span><span class="park-row-text" id="parkMsg">주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.</span></div>
+<div class="park-divider"></div>
+<div class="park-sms"><span class="park-sms-ico">💬</span><span class="park-sms-text" id="parkSms">만차일 경우 별도의 문자메시지를 드리겠습니다.</span></div>
+<div class="park-link-row"><a class="park-link" href="https://naver.me/5M5sxNZs" target="_blank" id="parkLink">무료공영주차장 안내 ↗</a></div>
+</div>
+</div>
+</div>
+<div class="sec" id="s5">
+<div class="sh"><div class="seye" id="e5">Step 5 of 6</div><h2 class="stit" id="t5">예상 도착 시간</h2><p class="sdesc" id="d5t">체크인은 16:00부터 가능합니다</p></div>
+<div class="tgrid">
+<button class="tbtn" data-v="16:00" onclick="st(this)"><span class="tmain">16:00</span></button>
+<button class="tbtn" data-v="17:00" onclick="st(this)"><span class="tmain">17:00</span></button>
+<button class="tbtn" data-v="18:00" onclick="st(this)"><span class="tmain">18:00</span></button>
+<button class="tbtn" data-v="19:00" onclick="st(this)"><span class="tmain">19:00</span></button>
+<button class="tbtn" data-v="20:00" onclick="st(this)"><span class="tmain">20:00</span></button>
+<button class="tbtn" data-v="21:00" onclick="st(this)"><span class="tmain">21:00</span></button>
+<button class="tbtn" data-v="23:00+" onclick="st(this)"><span class="tmain">23:00+</span><span class="tsub" id="ll">늦은 도착</span></button>
+</div>
+</div>
+<div class="sec" id="s6">
+<div class="sh"><div class="seye" id="e6">Step 6 of 6</div><h2 class="stit" id="t6">정책 동의</h2><p class="sdesc" id="d6t">투숙 전 필수 확인 사항입니다</p></div>
+<div class="aall" onclick="tAll()"><div class="cc" id="ac"></div><div class="aalbl" id="aL">전체 동의</div></div>
+<div class="aitem" onclick="ta('1')" id="ai1"><div class="csq" id="sq1"></div><div><div class="atit" id="at1">흡연 금지 동의</div><div class="adesc" id="ad1">객실 내 흡연 적발 시 300,000원 추가 청구</div></div></div>
+<div class="aitem" onclick="ta('2')" id="ai2"><div class="csq" id="sq2"></div><div><div class="atit" id="at2">반려동물 반입 금지</div><div class="adesc" id="ad2">반입 적발 시 즉시 퇴실 조치</div></div></div>
+<div class="aitem" onclick="ta('3')" id="ai3"><div class="csq" id="sq3"></div><div><div class="atit" id="at3">노키즈 정책 확인</div><div class="adesc" id="ad3">만 18세 미만 투숙 불가</div></div></div>
+<div class="aitem" onclick="ta('4')" id="ai4"><div class="csq" id="sq4"></div><div><div class="atit" id="at4">파손·분실 시 실비 청구 동의</div></div></div>
+<div class="aitem" onclick="ta('5')" id="ai5"><div class="csq" id="sq5"></div><div><div class="atit" id="at5">개인정보 수집·이용 동의</div><div class="adesc" id="ad5">투숙 목적으로만 사용됩니다</div></div></div>
+<div class="aitem" onclick="ta('6')" id="ai6"><div class="csq" id="sq6"></div><div><div class="atit" id="at6">하우스룰 확인</div><div class="adesc" id="ad6">체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지</div></div></div>
+<div class="aitem" onclick="ta('7')" id="ai7"><div class="csq" id="sq7"></div><div><div class="atit" id="at7">마케팅 수신 동의 <span class="optb">선택</span></div><div class="adesc" id="ad7">이벤트·할인 정보 수신 (언제든 철회 가능)</div></div></div>
+</div>
+<div class="cmpw" id="cw">
+<div class="corn">✦</div>
+<h2 class="ctit" id="cT">체크인 완료</h2>
+<p class="cdesc" id="cD">객실 키패드 번호는 16:00 이후<br>문자로 발송됩니다.<br>즐거운 숙박이 되시길 바랍니다.</p>
+<div class="scard">
+<div class="seye2" id="se">예약 요약</div>
+<div class="srow"><span class="sk" id="sk1">예약 채널</span><span class="sv" id="sv1">—</span></div>
+<div class="srow"><span class="sk" id="sk2">투숙객</span><span class="sv" id="sv2">—</span></div>
+<div class="srow"><span class="sk" id="sk3">일정</span><span class="sv" id="sv3">—</span></div>
+<div class="srow"><span class="sk" id="sk4">인원</span><span class="sv" id="sv4">—</span></div>
+<div class="srow"><span class="sk" id="sk5">예상 도착</span><span class="sv" id="sv5">—</span></div>
+</div>
+<div class="clbl2" id="cL">문의 연락처</div>
+<div class="cgr">
+<a class="citem" href="tel:033-800-8899"><span class="cico2">📞</span><span>033-800-8899</span></a>
+<a class="citem" href="https://pf.kakao.com/_hotelaroundsokcho"><span class="cico2">💬</span><span>카카오</span></a>
+<a class="citem" href="https://wa.me/821042820392"><span class="cico2">📱</span><span>WhatsApp</span></a>
+<a class="citem" href="mailto:hotelaroundsokcho@gmail.com"><span class="cico2">✉️</span><span>Email</span></a>
+</div>
+</div>
+</div>
+<div class="nav" id="nav">
+<div class="nrow">
+<button class="bprev" id="bp" onclick="prev()" style="display:none" aria-label="이전">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+</button>
+<button class="bnext" id="bn" onclick="next()"><span id="bnL">다음</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+<button class="bsub" id="bs" onclick="sub()" style="display:none"><span id="bsL">체크인 완료하기</span></button>
+</div>
+</div>
+<script>
+const GAS='https://script.google.com/macros/s/AKfycbyqcZS1L1fXRnefFYe83G8RBp99BRCn17fYct4vFZW931Xm26a8asA0lFFvwLnVSWZcPQ/exec';
+let cur=1,lang='ko',adults=1,children=0,channel='',arr='';
+const ag={1:0,2:0,3:0,4:0,5:0,6:0,7:0};
+const T={
+ko:{hT:'환영합니다',hS:'Mobile Check-in · 모바일 체크인',e1:'Step 1 of 6',t1:'예약 채널',d1t:'어디서 예약하셨나요?',e2:'Step 2 of 6',t2:'투숙객 정보',d2t:'예약자 기준으로 입력해 주세요',e3:'Step 3 of 6',t3:'투숙 일정',d3t:'체크인 16:00 · 체크아웃 11:00',e4:'Step 4 of 6',t4:'인원 및 차량',d4t:'성인(만 18세 이상) · 어린이(36개월 이상)',e5:'Step 5 of 6',t5:'예상 도착 시간',d5t:'체크인은 16:00부터 가능합니다',e6:'Step 6 of 6',t6:'정책 동의',d6t:'투숙 전 필수 확인 사항입니다',ln:'성명',lb:'생년월일',lna:'국적',lp:'연락처',lpp:'여권번호',hb:'8자리 숫자 (예: 19900101)',lci:'체크인',lco:'체크아웃',nl:'박 숙박',la:'성인',las:'만 18세 이상',lch:'어린이',lchs:'36개월 이상 · 만 18세 미만',lc:'차량번호',ll:'늦은 도착',aL:'전체 동의',at1:'흡연 금지 동의',ad1:'객실 내 흡연 적발 시 300,000원 추가 청구',at2:'반려동물 반입 금지',ad2:'반입 적발 시 즉시 퇴실 조치',at3:'노키즈 정책 확인',ad3:'만 18세 미만 투숙 불가',at4:'파손·분실 시 실비 청구 동의',at5:'개인정보 수집·이용 동의',ad5:'투숙 목적으로만 사용됩니다',at6:'하우스룰 확인',ad6:'체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지',at7:'마케팅 수신 동의',ad7:'이벤트·할인 정보 수신 (언제든 철회 가능)',bnL:'다음',bsL:'체크인 완료하기',vCh:'예약 채널을 선택해 주세요.',vF:'필수 항목을 확인해 주세요.',vB:'생년월일을 8자리로 입력해 주세요.',vT:'예상 도착 시간을 선택해 주세요.',vA:'필수 항목에 모두 동의해 주세요.',cT:'체크인 완료',cD:'객실 키패드 번호는 16:00 이후\n문자로 발송됩니다.\n즐거운 숙박이 되시길 바랍니다.',se:'예약 요약',sk1:'예약 채널',sk2:'투숙객',sk3:'일정',sk4:'인원',sk5:'예상 도착',cL:'문의 연락처',ltxt:'체크인 처리 중...',parkTitle:'주차 안내',parkMsg:'주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.',parkSms:'만차일 경우 별도의 문자메시지를 드리겠습니다.',parkLink:'무료공영주차장 안내 ↗'},
+en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 6',t1:'Booking Channel',d1t:'Where did you book?',e2:'Step 2 of 6',t2:'Guest Info',d2t:"Booker's information",e3:'Step 3 of 6',t3:'Stay Dates',d3t:'Check-in 16:00 · Check-out 11:00',e4:'Step 4 of 6',t4:'Guests & Vehicle',d4t:'Adults (18+) · Children (36 months+)',e5:'Step 5 of 6',t5:'Arrival Time',d5t:'Check-in available from 16:00',e6:'Step 6 of 6',t6:'Policies',d6t:'Please review before staying',ln:'Full Name',lb:'Date of Birth',lna:'Nationality',lp:'Phone',lpp:'Passport No.',hb:'8 digits e.g. 19900101',lci:'Check-in',lco:'Check-out',nl:'night(s)',la:'Adults',las:'18 years or older',lch:'Children',lchs:'36 months+ · Under 18',lc:'Car Plate',ll:'Late arrival',aL:'Agree to all',at1:'No Smoking',ad1:'KRW 300,000 penalty if violated',at2:'No Pets',ad2:'Immediate check-out if violated',at3:'No Kids Policy',ad3:'No guests under 18',at4:'Damage / Loss Liability',at5:'Privacy Policy',ad5:'Used for stay purposes only',at6:'House Rules',ad6:'Check-out 11:00 / Recycling / No noise',at7:'Marketing Consent',ad7:'Promotions & events (opt-out anytime)',bnL:'Next',bsL:'Complete Check-in',vCh:'Please select a booking channel.',vF:'Please fill in all required fields.',vB:'Please enter date of birth (8 digits).',vT:'Please select arrival time.',vA:'Please agree to all required policies.',cT:'Check-in Complete',cD:'Your keypad code will be sent\nvia SMS from 16:00.\nEnjoy your stay!',se:'Booking Summary',sk1:'Channel',sk2:'Guest',sk3:'Dates',sk4:'Guests',sk5:'Arrival',cL:'Contact Us',ltxt:'Processing check-in...',parkTitle:'Parking Info',parkMsg:'Parking may be limited on weekends and peak seasons. We appreciate your understanding.',parkSms:'If the lot is full, we will notify you by text message.',parkLink:'Free public parking ↗'}};
+function setLang(l){lang=l;document.getElementById('bKO').className='lbtn'+(l==='ko'?' on':'');document.getElementById('bEN').className='lbtn'+(l==='en'?' on':'');applyT();}
+function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','e5','t5','d5t','e6','t6','d6t','hb','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','cL','parkTitle','parkMsg','parkSms','parkLink'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['la',1],['lc',0]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();}
+function upProg(){for(let i=1;i<=6;i++){const d=document.getElementById('d'+i);if(i<cur){d.className='sdot done';d.textContent='✓';}else if(i===cur){d.className='sdot act';d.textContent=i;}else{d.className='sdot';d.textContent=i;}if(i<6)document.getElementById('l'+i).className='sline'+(i<cur?' done':'');}document.getElementById('sL').textContent='Step '+cur;document.getElementById('pB').style.width=(cur/6*100).toFixed(1)+'%';document.getElementById('bp').style.display=cur>1?'flex':'none';const last=cur===6;document.getElementById('bn').style.display=last?'none':'flex';document.getElementById('bs').style.display=last?'flex':'none';}
+function showSec(n){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));const s=document.getElementById('s'+n);if(s)s.classList.add('act');document.getElementById('cw').classList.remove('on');document.getElementById('nav').style.display='';window.scrollTo({top:0,behavior:'smooth'});}
+function flash(m){const v=document.getElementById('vm');v.textContent=m;v.className='vmsg on';setTimeout(()=>{v.className='vmsg';},3200);}
+function valid(n){const t=T[lang];if(n===1&&!channel){flash(t.vCh);return false;}if(n===2){if(!document.getElementById('gN').value.trim()||!document.getElementById('gB').value.trim()||!document.getElementById('gNa').value||!document.getElementById('gP').value.trim()){flash(t.vF);return false;}if(!/^\d{8}$/.test(document.getElementById('gB').value.trim())){flash(t.vB);return false;}}if(n===3){const ci=document.getElementById('ci').value,co=document.getElementById('co').value;if(!ci||!co||ci>=co){flash(t.vF);return false;}}if(n===5&&!arr){flash(t.vT);return false;}if(n===6&&![1,2,3,4,5,6].every(k=>ag[k])){flash(t.vA);return false;}return true;}
+function next(){if(!valid(cur))return;if(cur<6){cur++;showSec(cur);upProg();}}
+function prev(){if(cur>1){cur--;showSec(cur);upProg();}}
+function sch(b){document.querySelectorAll('.cbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');channel=b.dataset.v;}
+function st(b){document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');arr=b.dataset.v;}
+function chA(d){adults=Math.max(1,Math.min(10,adults+d));document.getElementById('av').textContent=adults;}
+function chC(d){children=Math.max(0,Math.min(10,children+d));document.getElementById('cv').textContent=children;}
+function ta(k){ag[k]=ag[k]?0:1;document.getElementById('sq'+k).className='csq'+(ag[k]?' on':'');document.getElementById('ai'+k).className='aitem'+(ag[k]?' on':'');syncAll();}
+function syncAll(){const all=[1,2,3,4,5,6].every(k=>ag[k])&&ag[7];document.getElementById('ac').className='cc'+(all?' on':'');}
+function tAll(){const all=[1,2,3,4,5,6].every(k=>ag[k])&&ag[7];const v=all?0:1;[1,2,3,4,5,6,7].forEach(k=>{ag[k]=v;document.getElementById('sq'+k).className='csq'+(v?' on':'');document.getElementById('ai'+k).className='aitem'+(v?' on':'');});document.getElementById('ac').className='cc'+(v?' on':'');}
+function upNights(){const ci=document.getElementById('ci').value,co=document.getElementById('co').value,b=document.getElementById('nb');if(ci&&co&&co>ci){const n=Math.round((new Date(co)-new Date(ci))/86400000);document.getElementById('nn').textContent=n;document.getElementById('nl').textContent=' '+(T[lang].nl||'박 숙박');b.style.display='block';}else b.style.display='none';}
+document.getElementById('ci').addEventListener('change',upNights);
+document.getElementById('co').addEventListener('change',upNights);
+const now=new Date(),pad=n=>String(n).padStart(2,'0');
+const ts=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+const tmr=new Date(now);tmr.setDate(tmr.getDate()+1);
+const tc=`${tmr.getFullYear()}-${pad(tmr.getMonth()+1)}-${pad(tmr.getDate())}`;
+document.getElementById('ci').value=ts;document.getElementById('ci').min=ts;
+document.getElementById('co').value=tc;document.getElementById('co').min=ts;
+upNights();
+async function sub(){
+document.getElementById('lo').classList.add('on');
+const ci=document.getElementById('ci').value,co=document.getElementById('co').value;
+const nights=ci&&co?Math.round((new Date(co)-new Date(ci))/86400000):'';
+const guestName=document.getElementById('gN').value.trim();
+const params=new URLSearchParams({type:'checkin',channel,guestName,birthdate:document.getElementById('gB').value.trim(),nationality:document.getElementById('gNa').value,passport:document.getElementById('gPp').value.trim()||'-',phone:document.getElementById('gP').value.trim(),checkin:ci,checkout:co,nights:String(nights),adults:String(adults),children:String(children),totalGuests:String(adults+children),carNumber:document.getElementById('car').value.trim()||'없음',arrivalTime:arr,agreement:'Y'});
+try{await fetch(GAS,{method:'POST',mode:'no-cors',body:params});}catch(e){}
+document.getElementById('lo').classList.remove('on');
+document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));
+document.getElementById('nav').style.display='none';
+const t=T[lang];
+document.getElementById('cT').textContent=t.cT;
+document.getElementById('cD').innerHTML=(t.cD||'').replace(/\n/g,'<br>');
+document.getElementById('sv1').textContent=channel;
+document.getElementById('sv2').textContent=guestName;
+document.getElementById('sv3').textContent=ci+' → '+co;
+document.getElementById('sv4').textContent=adults+(lang==='ko'?'명':'pax')+(children>0?(lang==='ko'?' · 어린이 '+children+'명':' · Children '+children):'');
+document.getElementById('sv5').textContent=arr;
+document.getElementById('cw').classList.add('on');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+
+upProg();setLang('ko');
+</script>
+</body>
+</html>
