@@ -3,394 +3,363 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mobile Check-out — Hotel Around Sokcho</title>
+  <title>[DEV] Mobile Check-out — Hotel Around Sokcho</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <style>
     /* ── DEV BANNER ── */
-    #dev-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#8B3A2C;color:#fff;font-family:sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-align:center;padding:8px 16px;pointer-events:none;}
-    body{padding-top:36px;}
+    #dev-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#8B3A2C;color:#fff;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-align:center;padding:8px 16px;pointer-events:none;}
+
     :root {
-      --navy: #0A2342;
-      --cyan: #00B4D8;
-      --navy-light: #0d2d55;
-      --navy-dark: #061628;
-      --cyan-dim: rgba(0,180,216,0.15);
-      --cyan-border: rgba(0,180,216,0.35);
-      --white: #FFFFFF;
-      --off-white: #F4F7FA;
-      --gray-light: rgba(255,255,255,0.08);
-      --gray-text: rgba(255,255,255,0.55);
-      --error: #FF6B6B;
-      --success: #4ECDC4;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+      --esp:#2C1810; --mah:#5C3317; --ter:#8B5E3C; --car:#B8895A;
+      --sand:#D4B896; --parch:#EDE0D0; --cream:#F5EFE6; --ivory:#FAF7F3; --ww:#FFFCF9;
+      --gold:#C9973A; --gl:#F5EAD2;
+      --tp:#2C1810; --ts:#6B4C35; --tm:#A08060; --th:#C4A882;
+      --bd:rgba(44,24,16,0.10); --bdw:rgba(44,24,16,0.18); --bdf:#C9973A;
+      --warn:#8B3A2C; --warnBg:#FFF0EC;
+      --r:16px; --rm:10px; --rs:8px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--navy-dark);
-      color: var(--white);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-weight: 300;
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--tp);
       min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
       overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,180,216,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(10,35,66,0.8) 0%, transparent 50%);
-      pointer-events: none;
-      z-index: 0;
+      padding-top: 36px; /* DEV banner offset */
     }
 
     /* ── LANG TOGGLE ── */
     .lang-bar {
-      position: fixed; top: 0; right: 0; z-index: 100;
-      padding: 12px 20px; display: flex; gap: 4px;
+      display: flex; justify-content: flex-end; gap: 8px;
+      padding: 14px 20px 0;
     }
     .lang-btn {
-      background: transparent;
-      border: 1px solid var(--cyan-border);
-      color: var(--gray-text);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 13px; font-weight: 400;
-      letter-spacing: 0.08em;
-      padding: 7px 14px; border-radius: 20px;
-      cursor: pointer; transition: var(--transition);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .10em;
+      color: rgba(44,24,16,.38);
+      background: none;
+      border: .5px solid rgba(44,24,16,.18);
+      border-radius: 20px; padding: 5px 13px;
+      cursor: pointer; transition: all .2s;
     }
-    .lang-btn.active {
-      background: var(--cyan); border-color: var(--cyan);
-      color: var(--navy-dark); font-weight: 500;
-    }
+    .lang-btn.active { color: var(--mah); border-color: var(--car); font-weight: 600; }
 
-    /* ── WRAPPER ── */
-    .wrapper {
+    /* ── HEADER ── */
+    .hdr {
+      background: var(--esp);
+      position: relative; overflow: hidden;
+    }
+    .hdr-tex {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 200px 160px at 90% -20%, rgba(201,151,58,.12), transparent 70%),
+        radial-gradient(ellipse 160px 200px at -10% 110%, rgba(184,137,90,.08), transparent 70%);
+      pointer-events: none;
+    }
+    .hdr-in {
+      padding: 28px 24px 22px;
       position: relative; z-index: 1;
-      max-width: 520px; margin: 0 auto;
-      padding: 0 20px 60px;
     }
-
-    /* ── HERO ── */
-    .hero {
-      text-align: center;
-      padding: 56px 0 40px;
-      animation: fadeUp 0.8s ease both;
+    .eye {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
     }
-    .hotel-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      border: 1px solid var(--cyan-border);
-      border-radius: 24px; padding: 7px 18px;
-      margin-bottom: 20px;
-      font-size: 12px; font-weight: 500;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--cyan);
+    .htit {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px; font-weight: 400; font-style: italic;
+      color: var(--ww); line-height: 1.14; margin-bottom: 6px;
     }
-    .hotel-badge::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: var(--cyan); border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(34px, 9vw, 46px);
-      font-weight: 300; line-height: 1.15;
-      letter-spacing: 0.02em; margin-bottom: 8px;
-    }
-    .hero h1 em { font-style: italic; color: var(--cyan); }
-    .hero-sub {
-      font-size: 14px; letter-spacing: 0.12em;
-      color: var(--gray-text); text-transform: uppercase;
+    .hsub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 300;
+      color: rgba(255,255,255,.38); letter-spacing: .04em;
     }
 
     /* ── PROGRESS ── */
-    .progress-bar {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0; margin-bottom: 36px;
-      animation: fadeUp 0.8s 0.1s ease both;
-      opacity: 0; animation-fill-mode: forwards;
+    .prog-wrap {
+      background: rgba(0,0,0,.22);
+      padding: 14px 24px 16px;
+      position: relative; z-index: 1;
     }
-    .step-dot {
-      width: 32px; height: 32px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.2);
+    .step-track { display: flex; align-items: center; }
+    .sdot {
+      width: 26px; height: 26px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 500; color: var(--gray-text);
-      transition: var(--transition); flex-shrink: 0;
+      font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500;
+      flex-shrink: 0; transition: all .3s;
+      background: rgba(255,255,255,.07);
+      color: rgba(255,255,255,.28);
+      border: .5px solid rgba(255,255,255,.10);
     }
-    .step-dot.active { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,180,216,0.15); }
-    .step-dot.done { background: var(--cyan); border-color: var(--cyan); color: var(--navy-dark); }
-    .step-dot.done::after { content: '✓'; font-size: 13px; }
-    .step-line { width: 40px; height: 1px; background: rgba(255,255,255,0.1); transition: background var(--transition); }
-    .step-line.done { background: var(--cyan); }
+    .sdot.act { background: var(--gold); color: var(--esp); border-color: var(--gold); font-weight: 600; }
+    .sdot.done { background: rgba(201,151,58,.18); color: var(--gold); border-color: rgba(201,151,58,.35); }
+    .sline { flex: 1; height: .5px; background: rgba(255,255,255,.08); transition: background .35s; }
+    .sline.done { background: rgba(201,151,58,.30); }
+    .prog-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .plabel { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: .06em; color: rgba(255,255,255,.35); }
+    .plabel span { color: var(--gold); }
+    .pbar-w { width: 80px; height: 2px; background: rgba(255,255,255,.10); border-radius: 2px; overflow: hidden; }
+    .pbar { height: 100%; background: var(--gold); border-radius: 2px; transition: width .4s ease; }
 
-    /* ── SECTION CARD ── */
-    .section-card {
-      background: var(--gray-light);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: var(--radius);
-      padding: 28px 24px; margin-bottom: 16px;
-      backdrop-filter: blur(10px);
-      animation: fadeUp 0.6s ease both;
-      display: none;
+    /* ── SECTIONS ── */
+    .sw { padding: 0 20px 100px; }
+    .sec { display: none; animation: fu .28s ease; }
+    .sec.active { display: block; }
+    @keyframes fu { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .sh { padding: 24px 0 16px; }
+    .seye {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--car); margin-bottom: 8px;
     }
-    .section-card.active { display: block; }
-    .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-    .section-num {
-      width: 32px; height: 32px;
-      background: var(--cyan-dim);
-      border: 1px solid var(--cyan-border);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px; color: var(--cyan); flex-shrink: 0;
+    .stit {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px; font-weight: 400;
+      color: var(--esp); line-height: 1.2;
     }
-    .section-title { font-size: 18px; font-weight: 500; letter-spacing: 0.04em; }
-    .section-title-en { font-size: 13px; color: var(--gray-text); letter-spacing: 0.1em; display: block; margin-top: 2px; }
+    .sdesc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 300;
+      color: var(--ts); margin-top: 6px; line-height: 1.65;
+    }
 
     /* ── FORM ── */
-    .form-group { margin-bottom: 16px; }
-    .form-label {
-      display: block; font-size: 13px; font-weight: 500;
-      letter-spacing: 0.1em; color: var(--gray-text);
-      text-transform: uppercase; margin-bottom: 8px;
+    .fg { margin-bottom: 16px; }
+    .fl {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 500;
+      letter-spacing: .04em; color: var(--ts);
+      margin-bottom: 7px; display: block;
     }
-    .form-label .required { color: var(--cyan); margin-left: 3px; }
-    .form-input {
+    .fl .req { color: var(--gold); margin-left: 2px; }
+    .fi {
       width: 100%;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius-sm);
-      padding: 15px 16px;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 16px; font-weight: 300;
-      color: var(--white); outline: none;
-      transition: var(--transition); -webkit-appearance: none;
+      background: var(--ivory);
+      border: 1px solid var(--bd);
+      border-radius: var(--rm);
+      padding: 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px; font-weight: 400;
+      color: var(--tp); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none; appearance: none;
     }
-    .form-input::placeholder { color: rgba(255,255,255,0.25); }
-    .form-input:focus {
-      border-color: var(--cyan);
-      background: rgba(0,180,216,0.06);
-      box-shadow: 0 0 0 3px rgba(0,180,216,0.08);
-    }
-    .form-input.error { border-color: var(--error); }
+    .fi::placeholder { color: var(--th); font-weight: 300; }
+    .fi:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,151,58,.13); background: var(--ww); }
+    .fi.error { border-color: var(--warn); }
+    textarea.fi { resize: none; min-height: 90px; line-height: 1.65; }
 
-    /* ── ROOM CONDITION OPTIONS ── */
-    .option-group { display: flex; flex-direction: column; gap: 10px; }
-    .option-item {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: var(--radius-sm);
+    /* ── OPTIONS (라디오 카드) ── */
+    .opt-group { display: flex; flex-direction: column; gap: 10px; }
+    .opt-item {
+      background: var(--ivory);
+      border: 1px solid var(--bd);
+      border-radius: var(--rm);
       padding: 16px;
       cursor: pointer;
-      transition: var(--transition);
+      transition: all .2s;
       display: flex; align-items: center; gap: 14px;
     }
-    .option-item:hover { border-color: var(--cyan-border); }
-    .option-item.selected {
-      background: var(--cyan-dim);
-      border-color: var(--cyan);
+    .opt-item:active { transform: scale(.98); }
+    .opt-item.selected {
+      background: var(--gl);
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1.5px var(--gold);
     }
-    .option-radio {
+    .opt-item.selected-warn {
+      background: var(--warnBg);
+      border-color: var(--warn);
+      box-shadow: 0 0 0 1.5px var(--warn);
+    }
+    .opt-radio {
       width: 20px; height: 20px;
-      border: 2px solid rgba(255,255,255,0.25);
+      border: 1.5px solid var(--bd);
       border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      transition: var(--transition);
+      transition: all .2s;
     }
-    .option-item.selected .option-radio {
-      border-color: var(--cyan);
-      background: var(--cyan);
+    .opt-item.selected .opt-radio {
+      border-color: var(--gold); background: var(--gold);
     }
-    .option-item.selected .option-radio::after {
-      content: '';
-      width: 8px; height: 8px;
-      background: var(--navy-dark); border-radius: 50%;
+    .opt-item.selected .opt-radio::after {
+      content: ''; width: 8px; height: 8px;
+      background: var(--ww); border-radius: 50%;
     }
-    .option-label { font-size: 16px; font-weight: 400; }
-    .option-label small { display: block; font-size: 13px; color: var(--gray-text); margin-top: 2px; letter-spacing: 0.06em; }
-    .option-label.warn small { color: rgba(255,107,107,0.8); }
+    .opt-item.selected-warn .opt-radio {
+      border-color: var(--warn); background: var(--warn);
+    }
+    .opt-item.selected-warn .opt-radio::after {
+      content: ''; width: 8px; height: 8px;
+      background: var(--ww); border-radius: 50%;
+    }
+    .opt-lbl { font-size: 15px; font-weight: 500; color: var(--tp); }
+    .opt-lbl small { display: block; font-size: 12px; font-weight: 300; color: var(--ts); margin-top: 3px; letter-spacing: .04em; }
+    .opt-lbl.warn-txt small { color: var(--warn); }
 
     /* 조건부 textarea */
-    .condition-detail {
-      margin-top: 12px;
-      display: none;
-      animation: fadeUp 0.3s ease;
-    }
-    .condition-detail.show { display: block; }
-    textarea.form-input {
-      resize: none;
-      min-height: 80px;
-      line-height: 1.6;
-    }
+    .cond-detail { margin-top: 12px; display: none; animation: fu .25s ease; }
+    .cond-detail.show { display: block; }
 
     /* ── STAR RATING ── */
-    .star-row {
-      display: flex; justify-content: center; gap: 8px;
-      padding: 12px 0;
-    }
-    .star {
-      font-size: 36px; cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-      opacity: 0.3;
-      user-select: none;
-    }
+    .star-row { display: flex; justify-content: center; gap: 10px; padding: 16px 0 4px; }
+    .star { font-size: 38px; cursor: pointer; opacity: .25; transition: transform .15s, opacity .15s; user-select: none; }
     .star.lit { opacity: 1; }
-    .star:hover { transform: scale(1.15); }
-    .star-label {
-      text-align: center; font-size: 14px;
-      color: var(--gray-text); margin-top: 4px;
-      letter-spacing: 0.06em; min-height: 20px;
-    }
+    .star:active { transform: scale(1.2); }
+    .star-label { text-align: center; font-size: 14px; color: var(--tm); min-height: 22px; letter-spacing: .04em; }
+
+    /* ── ERROR ── */
+    .emsg { color: var(--warn); font-size: 12px; margin-top: 6px; display: none; font-weight: 400; }
+    .emsg.show { display: block; }
 
     /* ── NAV BUTTONS ── */
-    .nav-buttons { display: flex; gap: 12px; margin-top: 24px; }
-    .btn-prev {
-      flex: 0 0 auto; padding: 16px 22px;
+    .nav { display: flex; gap: 10px; margin-top: 22px; }
+    .bprev {
+      flex: 0 0 auto; padding: 15px 18px;
       background: transparent;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: var(--radius-sm);
-      color: var(--gray-text);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 15px; cursor: pointer; transition: var(--transition);
+      border: 1px solid var(--bd);
+      border-radius: var(--rm);
+      color: var(--tm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; cursor: pointer; transition: all .2s;
     }
-    .btn-prev:hover { border-color: rgba(255,255,255,0.35); color: var(--white); }
-    .btn-next {
-      flex: 1; padding: 17px 24px;
-      background: var(--cyan); border: none;
-      border-radius: var(--radius-sm);
-      color: var(--navy-dark);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 16px; font-weight: 500;
-      letter-spacing: 0.05em; cursor: pointer;
-      transition: var(--transition);
+    .bprev:hover { border-color: var(--car); color: var(--mah); }
+    .bnext {
+      flex: 1; padding: 16px 24px;
+      background: var(--esp); border: none;
+      border-radius: var(--rm);
+      color: var(--ww);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 500;
+      letter-spacing: .06em; cursor: pointer;
+      transition: all .2s;
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .btn-next:hover { background: #00cff7; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,180,216,0.3); }
-    .btn-next:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); cursor: not-allowed; transform: none; box-shadow: none; }
-    .btn-submit {
+    .bnext:hover { background: var(--mah); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(44,24,16,.18); }
+    .bsub {
       width: 100%; padding: 18px 24px;
-      background: var(--cyan); border: none;
-      border-radius: var(--radius-sm);
-      color: var(--navy-dark);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 17px; font-weight: 500;
-      letter-spacing: 0.06em; cursor: pointer;
-      transition: var(--transition); margin-top: 24px;
-      position: relative; overflow: hidden;
+      background: var(--gold); border: none;
+      border-radius: var(--rm);
+      color: var(--esp);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px; font-weight: 600;
+      letter-spacing: .06em; cursor: pointer;
+      transition: all .2s; margin-top: 22px;
     }
-    .btn-submit:hover { background: #00cff7; transform: translateY(-1px); box-shadow: 0 12px 32px rgba(0,180,216,0.35); }
-    .btn-submit:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); cursor: not-allowed; transform: none; box-shadow: none; }
-    .btn-submit .loading-spinner {
-      display: inline-block; width: 16px; height: 16px;
-      border: 2px solid rgba(10,35,66,0.3); border-top-color: var(--navy-dark);
-      border-radius: 50%; animation: spin 0.8s linear infinite;
-      margin-right: 8px; vertical-align: middle;
+    .bsub:hover { background: var(--car); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(201,151,58,.30); }
+    .bsub:disabled { background: var(--parch); color: var(--th); cursor: not-allowed; transform: none; box-shadow: none; }
+    .spinner {
+      display: inline-block; width: 15px; height: 15px;
+      border: 2px solid rgba(44,24,16,.2); border-top-color: var(--esp);
+      border-radius: 50%; animation: spin .75s linear infinite;
+      margin-right: 7px; vertical-align: middle;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── ERROR MSG ── */
-    .error-msg { color: var(--error); font-size: 13px; margin-top: 6px; display: none; }
-    .error-msg.show { display: block; }
-
-    /* ── SUCCESS SCREEN ── */
-    #success-screen { display: none; text-align: center; padding: 40px 0; animation: fadeUp 0.6s ease; }
+    /* ── SUCCESS ── */
+    #success-screen { display: none; padding: 32px 0 20px; animation: fu .5s ease; }
     #success-screen.show { display: block; }
-    .success-icon {
+    .suc-icon {
       width: 72px; height: 72px;
-      background: rgba(0,180,216,0.1);
-      border: 1px solid var(--cyan-border);
-      border-radius: 50%; margin: 0 auto 24px;
+      background: var(--gl);
+      border: 1px solid rgba(201,151,58,.35);
+      border-radius: 50%; margin: 0 auto 22px;
       display: flex; align-items: center; justify-content: center;
       font-size: 32px;
     }
-    .success-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; margin-bottom: 8px; }
-    .success-title em { font-style: italic; color: var(--cyan); }
-    .success-sub { font-size: 15px; color: var(--gray-text); margin-bottom: 32px; line-height: 1.7; }
-
-    /* checkout time display */
-    .checkout-time-card {
-      background: var(--cyan-dim);
-      border: 1px solid var(--cyan-border);
-      border-radius: var(--radius); padding: 20px;
-      margin-bottom: 24px; text-align: center;
+    .suc-tit {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px; font-weight: 400; font-style: italic;
+      color: var(--esp); text-align: center; margin-bottom: 8px;
     }
-    .checkout-room {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 44px; font-weight: 300; color: var(--cyan);
-      line-height: 1; margin-bottom: 4px;
-    }
-    .checkout-room-label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray-text); }
-    .checkout-time-val {
-      margin-top: 14px; font-size: 15px; color: rgba(255,255,255,0.7);
-      letter-spacing: 0.04em;
+    .suc-sub {
+      font-size: 14px; color: var(--ts); text-align: center;
+      line-height: 1.75; margin-bottom: 28px;
     }
 
-    /* review nudge */
-    .review-nudge {
-      background: var(--gray-light);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: var(--radius); padding: 20px;
-      margin-bottom: 24px;
+    /* 객실 카드 */
+    .room-card {
+      background: var(--gl);
+      border: 1px solid rgba(201,151,58,.35);
+      border-radius: var(--r); padding: 22px;
+      text-align: center; margin-bottom: 20px;
     }
-    .review-nudge-title { font-size: 15px; font-weight: 500; margin-bottom: 12px; letter-spacing: 0.04em; }
+    .room-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px; font-weight: 400;
+      color: var(--gold); line-height: 1; margin-bottom: 4px;
+    }
+    .room-lbl { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--tm); }
+    .room-time { margin-top: 14px; font-size: 14px; color: var(--ts); letter-spacing: .03em; }
+    #success-time { font-size: 13px; color: var(--gold); margin-top: 5px; font-weight: 500; }
+
+    /* 리뷰 유도 */
+    .review-card {
+      background: var(--ivory);
+      border: 1px solid var(--bd);
+      border-radius: var(--r); padding: 20px;
+      margin-bottom: 20px;
+    }
+    .review-card-tit { font-size: 14px; font-weight: 500; color: var(--esp); margin-bottom: 12px; letter-spacing: .03em; }
     .review-links { display: flex; flex-direction: column; gap: 8px; }
     .review-link {
       display: flex; align-items: center; gap: 12px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius-sm); padding: 14px 16px;
-      text-decoration: none; color: var(--white);
-      transition: var(--transition); font-size: 15px;
+      background: var(--cream);
+      border: 1px solid var(--bd);
+      border-radius: var(--rm); padding: 13px 15px;
+      text-decoration: none; color: var(--tp);
+      transition: all .2s; font-size: 14px;
     }
-    .review-link:hover { border-color: var(--cyan-border); background: rgba(0,180,216,0.06); }
-    .review-link .r-icon { font-size: 20px; flex-shrink: 0; }
-    .review-link .r-name { font-weight: 500; font-size: 15px; }
-    .review-link .r-sub { font-size: 12px; color: var(--gray-text); letter-spacing: 0.06em; display: block; margin-top: 1px; }
-    .review-link .r-arrow { margin-left: auto; color: var(--gray-text); font-size: 14px; }
+    .review-link:hover { border-color: var(--gold); background: var(--gl); }
+    .r-icon { font-size: 20px; flex-shrink: 0; }
+    .r-name { font-weight: 500; font-size: 14px; }
+    .r-sub { font-size: 11px; color: var(--tm); letter-spacing: .05em; display: block; margin-top: 1px; }
+    .r-arrow { margin-left: auto; color: var(--tm); font-size: 14px; }
 
-    .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    /* 연락처 그리드 */
+    .cg-label { font-size: 11px; color: var(--tm); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+    .contacts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 30px; }
     .contact-item {
-      background: var(--gray-light);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: var(--radius-sm); padding: 14px;
-      text-align: center; text-decoration: none; color: var(--white);
-      transition: var(--transition);
+      background: var(--ivory);
+      border: 1px solid var(--bd);
+      border-radius: var(--rm); padding: 14px;
+      text-align: center; text-decoration: none; color: var(--tp);
+      transition: all .2s;
     }
-    .contact-item:hover { border-color: var(--cyan-border); }
-    .contact-item .c-icon { font-size: 24px; margin-bottom: 6px; display: block; }
-    .contact-item .c-label { font-size: 12px; color: var(--gray-text); letter-spacing: 0.1em; text-transform: uppercase; display: block; }
-    .contact-item .c-val { font-size: 14px; font-weight: 500; margin-top: 3px; display: block; }
+    .contact-item:hover { border-color: var(--gold); background: var(--gl); }
+    .c-icon { font-size: 22px; margin-bottom: 5px; display: block; }
+    .c-label { font-size: 11px; color: var(--tm); letter-spacing: .10em; text-transform: uppercase; display: block; }
+    .c-val { font-size: 13px; font-weight: 500; margin-top: 3px; display: block; }
 
     /* ── TOAST ── */
     .toast {
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(80px);
-      background: rgba(10,35,66,0.95);
-      border: 1px solid var(--cyan-border);
-      backdrop-filter: blur(12px);
-      border-radius: 24px; padding: 14px 26px;
-      font-size: 15px; color: var(--white);
-      z-index: 999; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      background: var(--esp);
+      border: 1px solid rgba(201,151,58,.35);
+      border-radius: 24px; padding: 13px 24px;
+      font-size: 14px; color: var(--ww);
+      z-index: 999; transition: transform .3s cubic-bezier(.34,1.56,.64,1);
       white-space: nowrap;
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
-    .toast.error { border-color: rgba(255,107,107,0.5); }
+    .toast.error { border-color: rgba(139,58,44,.6); }
 
     /* ── FOOTER ── */
-    .footer { text-align: center; padding: 24px 0; font-size: 12px; color: rgba(255,255,255,0.2); letter-spacing: 0.1em; text-transform: uppercase; }
+    .footer { text-align: center; padding: 20px 0; font-size: 11px; color: var(--tm); letter-spacing: .10em; text-transform: uppercase; }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -403,228 +372,64 @@
   <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
 </div>
 
-<div class="wrapper">
-
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hotel-badge">
-      <span class="t" data-ko="모바일 체크아웃" data-en="Mobile Check-out">모바일 체크아웃</span>
-    </div>
-    <h1><em class="t" data-ko="안녕히 가세요" data-en="Safe Travels">안녕히 가세요</em></h1>
-    <p class="hero-sub">Hotel Around Sokcho</p>
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-tex"></div>
+  <div class="hdr-in">
+    <div class="eye">HOTEL AROUND SOKCHO</div>
+    <h1 class="htit t" data-ko="안녕히 가세요" data-en="Safe Travels">안녕히 가세요</h1>
+    <p class="hsub">Mobile Check-out · 모바일 체크아웃</p>
   </div>
-
-  <!-- PROGRESS (4단계) -->
-  <div class="progress-bar" id="progress-bar">
-    <div class="step-dot active" id="dot-1">1</div>
-    <div class="step-line" id="line-1"></div>
-    <div class="step-dot" id="dot-2">2</div>
-    <div class="step-line" id="line-2"></div>
-    <div class="step-dot" id="dot-3">3</div>
-    <div class="step-line" id="line-3"></div>
-    <div class="step-dot" id="dot-4">4</div>
-  </div>
-
-  <!-- SECTION 1: 투숙객 확인 -->
-  <div class="section-card active" id="sec-1">
-    <div class="section-header">
-      <div class="section-num">1</div>
-      <div>
-        <div class="section-title t" data-ko="투숙객 확인" data-en="Guest Verification">투숙객 확인</div>
-        <span class="section-title-en t" data-ko="성명과 객실번호를 입력해 주세요" data-en="Please enter your name and room number">성명과 객실번호를 입력해 주세요</span>
-      </div>
+  <div class="prog-wrap">
+    <div class="step-track">
+      <div class="sdot act" id="dot-1">1</div>
+      <div class="sline" id="line-1"></div>
+      <div class="sdot" id="dot-2">2</div>
+      <div class="sline" id="line-2"></div>
+      <div class="sdot" id="dot-3">3</div>
+      <div class="sline" id="line-3"></div>
+      <div class="sdot" id="dot-4">4</div>
     </div>
-
-    <div class="form-group">
-      <label class="form-label"><span class="t" data-ko="예약자 성명" data-en="Guest Name">예약자 성명</span><span class="required">*</span></label>
-      <input class="form-input" id="inp-name" type="text" name="name" placeholder="홍길동 / Hong Gildong" autocomplete="name">
-      <div class="error-msg" id="err-name"><span class="t" data-ko="성명을 입력해 주세요." data-en="Please enter your name.">성명을 입력해 주세요.</span></div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label"><span class="t" data-ko="객실번호" data-en="Room Number">객실번호</span><span class="required">*</span></label>
-      <input class="form-input" id="inp-room" type="text" name="room" placeholder="예: 1203" inputmode="numeric" maxlength="6">
-      <div class="error-msg" id="err-room"><span class="t" data-ko="객실번호를 입력해 주세요." data-en="Please enter your room number.">객실번호를 입력해 주세요.</span></div>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn-next" onclick="goNext(1)">
-        <span class="t" data-ko="다음" data-en="Next">다음</span> →
-      </button>
+    <div class="prog-meta">
+      <span class="plabel">Step <span id="sL">1</span> of 4</span>
+      <div class="pbar-w"><div class="pbar" id="pB" style="width:25%"></div></div>
     </div>
   </div>
+</header>
 
-  <!-- SECTION 2: 객실 상태 확인 -->
-  <div class="section-card" id="sec-2">
-    <div class="section-header">
-      <div class="section-num">2</div>
-      <div>
-        <div class="section-title t" data-ko="객실 상태 확인" data-en="Room Condition">객실 상태 확인</div>
-        <span class="section-title-en t" data-ko="퇴실 전 객실을 확인해 주세요" data-en="Please inspect your room before leaving">퇴실 전 객실을 확인해 주세요</span>
-      </div>
-    </div>
-
-    <div class="option-group" id="condition-group">
-      <div class="option-item" data-val="이상없음" onclick="selectOption('condition', this)">
-        <div class="option-radio"></div>
-        <div class="option-label">
-          <span class="t" data-ko="이상 없음" data-en="No issues">이상 없음</span>
-          <small class="t" data-ko="파손·분실·오염 없음" data-en="No damage, loss, or contamination">파손·분실·오염 없음</small>
-        </div>
-      </div>
-      <div class="option-item" data-val="파손·분실있음" onclick="selectOption('condition', this)">
-        <div class="option-radio"></div>
-        <div class="option-label warn">
-          <span class="t" data-ko="파손·분실 있음" data-en="Damage or loss found">파손·분실 있음</span>
-          <small class="t" data-ko="내용을 아래에 기재해 주세요" data-en="Please describe below">내용을 아래에 기재해 주세요</small>
-        </div>
-      </div>
-    </div>
-
-    <!-- 파손·분실 상세 입력 (조건부 표시) -->
-    <div class="condition-detail" id="condition-detail">
-      <label class="form-label" style="margin-top:4px;">
-        <span class="t" data-ko="상세 내용" data-en="Details">상세 내용</span>
-      </label>
-      <textarea class="form-input" id="inp-condition-detail"
-        placeholder="파손·분실 내용을 간략히 적어주세요 / Please briefly describe the damage or loss"></textarea>
-    </div>
-
-    <div class="error-msg" id="err-condition">
-      <span class="t" data-ko="객실 상태를 선택해 주세요." data-en="Please select a room condition.">객실 상태를 선택해 주세요.</span>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn-prev" onclick="goPrev(2)">←</button>
-      <button class="btn-next" onclick="goNext(2)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
-    </div>
-  </div>
-
-  <!-- SECTION 3: 흡연 확인 -->
-  <div class="section-card" id="sec-3">
-    <div class="section-header">
-      <div class="section-num">3</div>
-      <div>
-        <div class="section-title t" data-ko="흡연 확인" data-en="Smoking Confirmation">흡연 확인</div>
-        <span class="section-title-en t" data-ko="객실 내 흡연 여부를 확인해 주세요" data-en="Please confirm smoking status in the room">객실 내 흡연 여부를 확인해 주세요</span>
-      </div>
-    </div>
-
-    <div class="option-group" id="smoking-group">
-      <div class="option-item" data-val="흡연없음" onclick="selectOption('smoking', this)">
-        <div class="option-radio"></div>
-        <div class="option-label">
-          <span class="t" data-ko="흡연 없음" data-en="No smoking">흡연 없음</span>
-          <small class="t" data-ko="객실 내 흡연하지 않았습니다" data-en="I did not smoke in the room">객실 내 흡연하지 않았습니다</small>
-        </div>
-      </div>
-      <div class="option-item" data-val="흡연있음" onclick="selectOption('smoking', this)">
-        <div class="option-radio"></div>
-        <div class="option-label warn">
-          <span class="t" data-ko="흡연 있음" data-en="Smoking occurred">흡연 있음</span>
-          <small class="t" data-ko="추가 요금이 청구될 수 있습니다 (30만원)" data-en="Additional charge may apply (₩300,000)">추가 요금이 청구될 수 있습니다 (30만원)</small>
-        </div>
-      </div>
-    </div>
-
-    <div class="error-msg" id="err-smoking">
-      <span class="t" data-ko="흡연 여부를 선택해 주세요." data-en="Please select smoking status.">흡연 여부를 선택해 주세요.</span>
-    </div>
-
-    <div class="nav-buttons">
-      <button class="btn-prev" onclick="goPrev(3)">←</button>
-      <button class="btn-next" onclick="goNext(3)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
-    </div>
-  </div>
-
-  <!-- SECTION 4: 만족도 -->
-  <div class="section-card" id="sec-4">
-    <div class="section-header">
-      <div class="section-num">4</div>
-      <div>
-        <div class="section-title t" data-ko="만족도" data-en="Your Experience">만족도</div>
-        <span class="section-title-en t" data-ko="이번 숙박은 어떠셨나요?" data-en="How was your stay?">이번 숙박은 어떠셨나요?</span>
-      </div>
-    </div>
-
-    <!-- 별점 -->
-    <div class="star-row" id="star-row">
-      <span class="star" data-val="1" onclick="setStar(1)">★</span>
-      <span class="star" data-val="2" onclick="setStar(2)">★</span>
-      <span class="star" data-val="3" onclick="setStar(3)">★</span>
-      <span class="star" data-val="4" onclick="setStar(4)">★</span>
-      <span class="star" data-val="5" onclick="setStar(5)">★</span>
-    </div>
-    <div class="star-label" id="star-label">
-      <span class="t" data-ko="별점을 선택해 주세요 (선택)" data-en="Rate your stay (optional)">별점을 선택해 주세요 (선택)</span>
-    </div>
-
-    <!-- 한마디 -->
-    <div class="form-group" style="margin-top:20px;">
-      <label class="form-label">
-        <span class="t" data-ko="한마디" data-en="Comments">한마디</span>
-        <span style="font-size:9px;color:var(--gray-text);margin-left:6px;letter-spacing:0.06em;" class="t" data-ko="(선택)" data-en="(optional)">(선택)</span>
-      </label>
-      <textarea class="form-input" id="inp-comment"
-        placeholder="좋은 점, 아쉬운 점 무엇이든 자유롭게 남겨주세요 / Feel free to share any feedback"></textarea>
-    </div>
-
-    <button class="btn-submit" id="btn-submit" onclick="submitForm()">
-      <span class="t" data-ko="체크아웃 완료하기" data-en="Complete Check-out">체크아웃 완료하기</span>
-    </button>
-
-    <div style="text-align:center;margin-top:12px;">
-      <button class="btn-prev" onclick="goPrev(4)" style="width:100%;text-align:center;">←  <span class="t" data-ko="이전" data-en="Back">이전</span></button>
-    </div>
-  </div>
+<div class="sw">
 
   <!-- SUCCESS SCREEN -->
   <div id="success-screen">
-    <div class="success-icon">🏨</div>
-    <div class="success-title"><em class="t" data-ko="체크아웃 완료" data-en="Check-out Complete">체크아웃 완료</em></div>
-    <p class="success-sub">
-      <span class="t"
-        data-ko="이용해 주셔서 진심으로 감사드립니다.<br>또 다시 찾아주실 날을 기다리겠습니다 😊"
-        data-en="Thank you so much for your stay.<br>We look forward to welcoming you again 😊">
-        이용해 주셔서 진심으로 감사드립니다.<br>또 다시 찾아주실 날을 기다리겠습니다 😊
-      </span>
+    <div class="suc-icon">🏨</div>
+    <div class="suc-tit t" data-ko="체크아웃 완료" data-en="Check-out Complete">체크아웃 완료</div>
+    <p class="suc-sub t"
+      data-ko="이용해 주셔서 진심으로 감사드립니다.<br>또 다시 찾아주실 날을 기다리겠습니다 😊"
+      data-en="Thank you so much for your stay.<br>We look forward to welcoming you again 😊">
+      이용해 주셔서 진심으로 감사드립니다.<br>또 다시 찾아주실 날을 기다리겠습니다 😊
     </p>
-
-    <!-- 객실번호 + 체크아웃 시간 -->
-    <div class="checkout-time-card">
-      <div class="checkout-room" id="success-room">—</div>
-      <div class="checkout-room-label t" data-ko="호실" data-en="Room">호실</div>
-      <div class="checkout-time-val t"
-        data-ko="체크아웃 시각이 기록되었습니다"
-        data-en="Your check-out time has been recorded">체크아웃 시각이 기록되었습니다</div>
-      <div id="success-time" style="font-size:13px;color:var(--cyan);margin-top:6px;font-weight:500;"></div>
+    <div class="room-card">
+      <div class="room-num" id="success-room">—</div>
+      <div class="room-lbl t" data-ko="호실" data-en="Room">호실</div>
+      <div class="room-time t" data-ko="체크아웃 시각이 기록되었습니다" data-en="Your check-out time has been recorded">체크아웃 시각이 기록되었습니다</div>
+      <div id="success-time"></div>
     </div>
-
-    <!-- 리뷰 유도 -->
-    <div class="review-nudge">
-      <div class="review-nudge-title t" data-ko="⭐ 소중한 리뷰를 남겨주세요" data-en="⭐ Please leave us a review">⭐ 소중한 리뷰를 남겨주세요</div>
+    <div class="review-card">
+      <div class="review-card-tit t" data-ko="⭐ 소중한 리뷰를 남겨주세요" data-en="⭐ Please leave us a review">⭐ 소중한 리뷰를 남겨주세요</div>
       <div class="review-links">
         <a href="https://www.google.com/maps/search/?api=1&query=호텔어라운드+속초" target="_blank" class="review-link">
           <span class="r-icon">🔍</span>
-          <div>
-            <span class="r-name">Google Maps</span>
-            <span class="r-sub">Google 리뷰 / Google Review</span>
-          </div>
+          <div><span class="r-name">Google Maps</span><span class="r-sub">Google 리뷰 / Google Review</span></div>
           <span class="r-arrow">→</span>
         </a>
         <a href="https://pf.kakao.com/_hotelaroundsokcho" target="_blank" class="review-link">
           <span class="r-icon">💬</span>
-          <div>
-            <span class="r-name">카카오채널</span>
-            <span class="r-sub">@hotelaroundsokcho</span>
-          </div>
+          <div><span class="r-name">카카오채널</span><span class="r-sub">@hotelaroundsokcho</span></div>
           <span class="r-arrow">→</span>
         </a>
       </div>
     </div>
-
-    <!-- 연락처 4개 -->
-    <div style="font-size:11px;color:var(--gray-text);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;" class="t" data-ko="문의 연락처" data-en="Contact Us">문의 연락처</div>
+    <div class="cg-label t" data-ko="문의 연락처" data-en="Contact Us">문의 연락처</div>
     <div class="contacts-grid">
       <a href="tel:033-800-8899" class="contact-item">
         <span class="c-icon">📞</span>
@@ -649,36 +454,156 @@
     </div>
   </div>
 
-  <div class="footer">© Hotel Around Sokcho · 033-800-8899</div>
-</div>
+  <!-- SECTION 1: 투숙객 확인 -->
+  <div class="sec active" id="sec-1">
+    <div class="sh">
+      <div class="seye t" data-ko="Step 1 of 4" data-en="Step 1 of 4">Step 1 of 4</div>
+      <div class="stit t" data-ko="투숙객 확인" data-en="Guest Verification">투숙객 확인</div>
+      <p class="sdesc t" data-ko="성명과 객실번호를 입력해 주세요" data-en="Please enter your name and room number">성명과 객실번호를 입력해 주세요</p>
+    </div>
+    <div class="fg">
+      <label class="fl"><span class="t" data-ko="예약자 성명" data-en="Guest Name">예약자 성명</span><span class="req">*</span></label>
+      <input class="fi" id="inp-name" type="text" placeholder="홍길동 / Hong Gildong" autocomplete="name">
+      <div class="emsg" id="err-name"><span class="t" data-ko="성명을 입력해 주세요." data-en="Please enter your name.">성명을 입력해 주세요.</span></div>
+    </div>
+    <div class="fg">
+      <label class="fl"><span class="t" data-ko="객실번호" data-en="Room Number">객실번호</span><span class="req">*</span></label>
+      <input class="fi" id="inp-room" type="text" placeholder="예: 1203" inputmode="numeric" maxlength="6">
+      <div class="emsg" id="err-room"><span class="t" data-ko="객실번호를 입력해 주세요." data-en="Please enter your room number.">객실번호를 입력해 주세요.</span></div>
+    </div>
+    <div class="nav">
+      <button class="bnext" onclick="goNext(1)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 객실 상태 확인 -->
+  <div class="sec" id="sec-2">
+    <div class="sh">
+      <div class="seye t" data-ko="Step 2 of 4" data-en="Step 2 of 4">Step 2 of 4</div>
+      <div class="stit t" data-ko="객실 상태 확인" data-en="Room Condition">객실 상태 확인</div>
+      <p class="sdesc t" data-ko="퇴실 전 객실을 확인해 주세요" data-en="Please inspect your room before leaving">퇴실 전 객실을 확인해 주세요</p>
+    </div>
+    <div class="opt-group" id="condition-group">
+      <div class="opt-item" data-val="이상없음" onclick="selOpt('condition', this)">
+        <div class="opt-radio"></div>
+        <div class="opt-lbl">
+          <span class="t" data-ko="이상 없음" data-en="No issues">이상 없음</span>
+          <small class="t" data-ko="파손·분실·오염 없음" data-en="No damage, loss, or contamination">파손·분실·오염 없음</small>
+        </div>
+      </div>
+      <div class="opt-item" data-val="파손·분실있음" onclick="selOpt('condition', this)">
+        <div class="opt-radio"></div>
+        <div class="opt-lbl warn-txt">
+          <span class="t" data-ko="파손·분실 있음" data-en="Damage or loss found">파손·분실 있음</span>
+          <small class="t" data-ko="내용을 아래에 기재해 주세요" data-en="Please describe below">내용을 아래에 기재해 주세요</small>
+        </div>
+      </div>
+    </div>
+    <div class="cond-detail" id="condition-detail">
+      <div class="fg" style="margin-top:12px;">
+        <label class="fl"><span class="t" data-ko="상세 내용" data-en="Details">상세 내용</span></label>
+        <textarea class="fi" id="inp-condition-detail" placeholder="파손·분실 내용을 간략히 적어주세요 / Please briefly describe the damage or loss"></textarea>
+      </div>
+    </div>
+    <div class="emsg" id="err-condition"><span class="t" data-ko="객실 상태를 선택해 주세요." data-en="Please select a room condition.">객실 상태를 선택해 주세요.</span></div>
+    <div class="nav">
+      <button class="bprev" onclick="goPrev(2)">←</button>
+      <button class="bnext" onclick="goNext(2)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 3: 흡연 확인 -->
+  <div class="sec" id="sec-3">
+    <div class="sh">
+      <div class="seye t" data-ko="Step 3 of 4" data-en="Step 3 of 4">Step 3 of 4</div>
+      <div class="stit t" data-ko="흡연 확인" data-en="Smoking Confirmation">흡연 확인</div>
+      <p class="sdesc t" data-ko="객실 내 흡연 여부를 확인해 주세요" data-en="Please confirm smoking status in the room">객실 내 흡연 여부를 확인해 주세요</p>
+    </div>
+    <div class="opt-group" id="smoking-group">
+      <div class="opt-item" data-val="흡연없음" onclick="selOpt('smoking', this)">
+        <div class="opt-radio"></div>
+        <div class="opt-lbl">
+          <span class="t" data-ko="흡연 없음" data-en="No smoking">흡연 없음</span>
+          <small class="t" data-ko="객실 내 흡연하지 않았습니다" data-en="I did not smoke in the room">객실 내 흡연하지 않았습니다</small>
+        </div>
+      </div>
+      <div class="opt-item" data-val="흡연있음" onclick="selOpt('smoking', this)">
+        <div class="opt-radio"></div>
+        <div class="opt-lbl warn-txt">
+          <span class="t" data-ko="흡연 있음" data-en="Smoking occurred">흡연 있음</span>
+          <small class="t" data-ko="추가 요금이 청구될 수 있습니다 (30만원)" data-en="Additional charge may apply (₩300,000)">추가 요금이 청구될 수 있습니다 (30만원)</small>
+        </div>
+      </div>
+    </div>
+    <div class="emsg" id="err-smoking"><span class="t" data-ko="흡연 여부를 선택해 주세요." data-en="Please select smoking status.">흡연 여부를 선택해 주세요.</span></div>
+    <div class="nav">
+      <button class="bprev" onclick="goPrev(3)">←</button>
+      <button class="bnext" onclick="goNext(3)"><span class="t" data-ko="다음" data-en="Next">다음</span> →</button>
+    </div>
+  </div>
+
+  <!-- SECTION 4: 만족도 -->
+  <div class="sec" id="sec-4">
+    <div class="sh">
+      <div class="seye t" data-ko="Step 4 of 4" data-en="Step 4 of 4">Step 4 of 4</div>
+      <div class="stit t" data-ko="만족도" data-en="Your Experience">만족도</div>
+      <p class="sdesc t" data-ko="이번 숙박은 어떠셨나요?" data-en="How was your stay?">이번 숙박은 어떠셨나요?</p>
+    </div>
+    <div class="star-row" id="star-row">
+      <span class="star" onclick="setStar(1)">★</span>
+      <span class="star" onclick="setStar(2)">★</span>
+      <span class="star" onclick="setStar(3)">★</span>
+      <span class="star" onclick="setStar(4)">★</span>
+      <span class="star" onclick="setStar(5)">★</span>
+    </div>
+    <div class="star-label" id="star-label">
+      <span class="t" data-ko="별점을 선택해 주세요 (선택)" data-en="Rate your stay (optional)">별점을 선택해 주세요 (선택)</span>
+    </div>
+    <div class="fg" style="margin-top:20px;">
+      <label class="fl">
+        <span class="t" data-ko="한마디" data-en="Comments">한마디</span>
+        <span style="font-size:10px;color:var(--tm);margin-left:6px;" class="t" data-ko="(선택)" data-en="(optional)">(선택)</span>
+      </label>
+      <textarea class="fi" id="inp-comment" placeholder="좋은 점, 아쉬운 점 무엇이든 자유롭게 남겨주세요 / Feel free to share any feedback"></textarea>
+    </div>
+    <button class="bsub" id="btn-submit" onclick="submitForm()">
+      <span class="t" data-ko="체크아웃 완료하기" data-en="Complete Check-out">체크아웃 완료하기</span>
+    </button>
+    <div class="nav" style="margin-top:10px;">
+      <button class="bprev" style="width:100%;text-align:center;" onclick="goPrev(4)">← <span class="t" data-ko="이전" data-en="Back">이전</span></button>
+    </div>
+  </div>
+
+</div><!-- /sw -->
+
+<div class="footer">© Hotel Around Sokcho · 033-800-8899</div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
 // ═══════════════════════════════════════════════
-// CONFIG — GAS 재배포 후 이 URL 교체
+// CONFIG
 // ═══════════════════════════════════════════════
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbzv0X8ZZSjz2WG4Es9thpHwIvvnigbDLAhlEmM0dNrHDZ_0_ltTWB16nYGliChTKvVCcg/exec';
 // ═══════════════════════════════════════════════
 
-// ── STATE
 const state = {
-  lang: 'ko',
-  step: 1,
-  name: '',
-  room: '',
-  condition: '',       // '이상없음' | '파손·분실있음'
-  conditionDetail: '',
-  smoking: '',         // '흡연없음' | '흡연있음'
-  star: 0,
-  comment: ''
+  lang: 'ko', step: 1,
+  name: '', room: '',
+  condition: '', conditionDetail: '',
+  smoking: '', star: 0, comment: ''
+};
+
+const starLabels = {
+  ko: ['','아쉬웠어요 😔','부족했어요 😐','괜찮았어요 🙂','좋았어요 😊','최고였어요 🤩'],
+  en: ['','Disappointing 😔','Below average 😐','Okay 🙂','Good 😊','Excellent! 🤩']
 };
 
 // ── LANG
 function setLang(lang) {
   state.lang = lang;
-  document.querySelectorAll('[data-ko]').forEach(el => {
+  document.querySelectorAll('.t[data-ko]').forEach(el => {
     el.innerHTML = el.getAttribute('data-' + lang);
   });
   document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
@@ -686,43 +611,32 @@ function setLang(lang) {
   updateStarLabel();
 }
 
-// ── OPTION SELECT (라디오 스타일)
-function selectOption(group, el) {
-  const container = document.getElementById(group + '-group');
-  container.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
+// ── OPTION SELECT
+function selOpt(group, el) {
+  const isWarn = el.dataset.val === '파손·분실있음' || el.dataset.val === '흡연있음';
+  document.getElementById(group + '-group').querySelectorAll('.opt-item').forEach(o => {
+    o.classList.remove('selected', 'selected-warn');
+  });
+  el.classList.add(isWarn ? 'selected-warn' : 'selected');
   state[group] = el.dataset.val;
   document.getElementById('err-' + group).classList.remove('show');
-
-  // 파손·분실 상세 조건부 표시
   if (group === 'condition') {
-    const detail = document.getElementById('condition-detail');
-    if (state.condition === '파손·분실있음') {
-      detail.classList.add('show');
-    } else {
-      detail.classList.remove('show');
-    }
+    document.getElementById('condition-detail').classList.toggle('show', state.condition === '파손·분실있음');
   }
 }
 
-// ── STAR RATING
-const starLabels = {
-  ko: ['', '아쉬웠어요 😔', '부족했어요 😐', '괜찮았어요 🙂', '좋았어요 😊', '최고였어요 🤩'],
-  en: ['', 'Disappointing 😔', 'Below average 😐', 'Okay 🙂', 'Good 😊', 'Excellent! 🤩']
-};
+// ── STAR
 function setStar(n) {
   state.star = n;
-  document.querySelectorAll('.star').forEach((s, i) => {
-    s.classList.toggle('lit', i < n);
-  });
+  document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('lit', i < n));
   updateStarLabel();
 }
 function updateStarLabel() {
-  const label = document.getElementById('star-label');
+  const lbl = document.getElementById('star-label');
   if (state.star > 0) {
-    label.textContent = starLabels[state.lang][state.star];
+    lbl.textContent = starLabels[state.lang][state.star];
   } else {
-    label.innerHTML = `<span class="t" data-ko="별점을 선택해 주세요 (선택)" data-en="Rate your stay (optional)">${state.lang === 'ko' ? '별점을 선택해 주세요 (선택)' : 'Rate your stay (optional)'}</span>`;
+    lbl.innerHTML = `<span class="t" data-ko="별점을 선택해 주세요 (선택)" data-en="Rate your stay (optional)">${state.lang === 'ko' ? '별점을 선택해 주세요 (선택)' : 'Rate your stay (optional)'}</span>`;
   }
 }
 
@@ -734,7 +648,21 @@ function showToast(msg, isErr) {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── VALIDATION
+// ── PROGRESS
+function updateProgress() {
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('dot-' + i);
+    dot.className = 'sdot';
+    dot.textContent = i;
+    if (i < state.step) { dot.classList.add('done'); dot.textContent = '✓'; }
+    else if (i === state.step) { dot.classList.add('act'); }
+    if (i < 4) document.getElementById('line-' + i).classList.toggle('done', i < state.step);
+  }
+  document.getElementById('sL').textContent = state.step;
+  document.getElementById('pB').style.width = (state.step / 4 * 100).toFixed(1) + '%';
+}
+
+// ── VALIDATE
 function validate(step) {
   if (step === 1) {
     let ok = true;
@@ -765,39 +693,21 @@ function goNext(step) {
   if (!validate(step)) return;
   goToStep(step + 1);
 }
-function goPrev(step) {
-  goToStep(step - 1);
-}
+function goPrev(step) { goToStep(step - 1); }
 function goToStep(step) {
   document.getElementById('sec-' + state.step).classList.remove('active');
   state.step = step;
   const sec = document.getElementById('sec-' + step);
-  if (sec) {
-    sec.classList.add('active');
-    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  if (sec) { sec.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
   updateProgress();
-}
-function updateProgress() {
-  for (let i = 1; i <= 4; i++) {
-    const dot = document.getElementById('dot-' + i);
-    dot.className = 'step-dot';
-    dot.textContent = i;
-    if (i < state.step) { dot.classList.add('done'); dot.textContent = ''; }
-    else if (i === state.step) { dot.classList.add('active'); }
-    if (i < 4) {
-      document.getElementById('line-' + i).classList.toggle('done', i < state.step);
-    }
-  }
 }
 
 // ── SUBMIT
 async function submitForm() {
   state.comment = document.getElementById('inp-comment').value.trim();
-
   const btn = document.getElementById('btn-submit');
   btn.disabled = true;
-  btn.innerHTML = '<span class="loading-spinner"></span><span class="t" data-ko="제출 중..." data-en="Submitting...">제출 중...</span>';
+  btn.innerHTML = '<span class="spinner"></span><span class="t" data-ko="제출 중..." data-en="Submitting...">제출 중...</span>';
 
   const now = new Date();
   const ts = now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
@@ -816,8 +726,7 @@ async function submitForm() {
 
   try {
     await fetch(GAS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
@@ -825,24 +734,25 @@ async function submitForm() {
   } catch (e) {
     console.error(e);
     btn.disabled = false;
-    btn.innerHTML = '<span class="t" data-ko="체크아웃 완료하기" data-en="Complete Check-out">체크아웃 완료하기</span>';
-    showToast(
-      state.lang === 'ko' ? '제출 중 오류가 발생했습니다. 다시 시도해 주세요.' : 'An error occurred. Please try again.',
-      true
-    );
+    btn.innerHTML = `<span class="t" data-ko="체크아웃 완료하기" data-en="Complete Check-out">${state.lang === 'ko' ? '체크아웃 완료하기' : 'Complete Check-out'}</span>`;
+    showToast(state.lang === 'ko' ? '제출 중 오류가 발생했습니다. 다시 시도해 주세요.' : 'An error occurred. Please try again.', true);
   }
 }
 
 // ── SUCCESS
 function showSuccess(ts) {
-  document.getElementById('sec-4').classList.remove('active');
-  document.getElementById('progress-bar').style.display = 'none';
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.querySelector('.prog-wrap').style.display = 'none';
   const ss = document.getElementById('success-screen');
   ss.classList.add('show');
   document.getElementById('success-room').textContent = state.room;
   document.getElementById('success-time').textContent = ts;
-  ss.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// ── INIT
+updateProgress();
+setLang('ko');
 </script>
 </body>
 </html>
