@@ -213,7 +213,7 @@
     .cond-detail.show { display: block; }
 
     /* ── STAR RATING ── */
-    .star-row { display: flex; justify-content: center; gap: 10px; padding: 16px 0 4px; }
+    .star-row { display: flex; justify-content: center; gap: 14px; padding: 16px 0 4px; }
     .star { font-size: 38px; cursor: pointer; opacity: .25; transition: transform .15s, opacity .15s; user-select: none; }
     .star.lit { opacity: 1; }
     .star:active { transform: scale(1.2); }
@@ -710,11 +710,10 @@ async function submitForm() {
   btn.innerHTML = '<span class="spinner"></span><span class="t" data-ko="제출 중..." data-en="Submitting...">제출 중...</span>';
 
   const now = new Date();
-  const ts = now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+  const ts = now.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }); // 성공화면 표시 전용 — 시트 기록은 GAS 서버사이드 타임스탬프 사용
 
   const payload = {
     type: 'checkout',
-    제출시각: ts,
     예약자성명: state.name,
     객실번호: state.room,
     객실상태확인: state.condition,
