@@ -321,8 +321,8 @@ document.getElementById('lo').classList.add('on');
 const ci=document.getElementById('ci').value,co=document.getElementById('co').value;
 const nights=ci&&co?Math.round((new Date(co)-new Date(ci))/86400000):'';
 const guestName=document.getElementById('gN').value.trim();
-const params=new URLSearchParams({type:'checkin',channel,guestName,birthdate:document.getElementById('gB').value.trim(),nationality:document.getElementById('gNa').value,passport:document.getElementById('gPp').value.trim()||'-',phone:document.getElementById('gP').value.trim(),checkin:ci,checkout:co,nights:String(nights),adults:String(adults),children:String(children),totalGuests:String(adults+children),carNumber:document.getElementById('car').value.trim()||'없음',arrivalTime:arr,agreement:'Y'});
-try{await fetch(GAS,{method:'POST',mode:'no-cors',body:params});}catch(e){}
+const payload={type:'checkin',channel,guestName,birthdate:document.getElementById('gB').value.trim(),nationality:document.getElementById('gNa').value,passport:document.getElementById('gPp').value.trim()||'-',phone:document.getElementById('gP').value.trim(),checkin:ci,checkout:co,nights:String(nights),adults:String(adults),children:String(children),totalGuests:String(adults+children),carNumber:document.getElementById('car').value.trim()||'없음',arrivalTime:arr,agreement:'Y'};
+try{await fetch(GAS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)});}catch(e){}
 document.getElementById('lo').classList.remove('on');
 document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));
 document.getElementById('nav').style.display='none';
