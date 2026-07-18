@@ -135,19 +135,24 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 
 
 
-.park-notice{margin-top:10px;background:#FFF8EC;border:1px solid rgba(201,151,58,.40);border-left:4px solid var(--gold);border-radius:0 var(--rm) var(--rm) 0;padding:14px 16px;}
-.park-header{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
-.park-header-ico{font-size:17px;line-height:1;}
-.park-header-label{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--gold);text-transform:uppercase;}
-.park-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;}
-.park-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:6px;}
-.park-row-text{font-size:13px;font-weight:500;color:var(--esp);line-height:1.6;}
-.park-divider{border:none;border-top:1px dashed rgba(201,151,58,.30);margin:10px 0;}
-.park-sms{display:flex;align-items:center;gap:8px;background:rgba(201,151,58,.10);border-radius:6px;padding:9px 11px;}
-.park-sms-ico{font-size:15px;flex-shrink:0;}
-.park-sms-text{font-size:12px;font-weight:600;color:var(--mah);line-height:1.5;}
-.park-link-row{margin-top:11px;display:flex;justify-content:flex-end;}
-.park-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--mah);text-decoration:none;border-bottom:1px solid rgba(92,51,23,.25);padding-bottom:1px;}
+.park-warn{margin-top:16px;background:#FFF3F1;border:2px solid #D7263D;border-radius:var(--r);padding:0;overflow:hidden;box-shadow:0 4px 18px rgba(215,38,61,.18);}
+.park-warn-head{display:flex;align-items:center;gap:8px;background:#B0202F;padding:13px 16px;}
+.park-warn-head-ico{font-size:19px;line-height:1;}
+.park-warn-head-label{font-size:13px;font-weight:800;letter-spacing:.06em;color:#fff;text-transform:uppercase;}
+.park-warn-body{padding:16px 16px 17px;}
+.park-warn-hero{display:flex;align-items:center;gap:10px;background:#D7263D;border-radius:10px;padding:14px 14px;margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);}
+.park-warn-hero-ico{font-size:24px;line-height:1;flex-shrink:0;}
+.park-warn-hero-text{font-size:16px;font-weight:800;color:#fff;line-height:1.42;letter-spacing:-.01em;}
+.park-warn-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:11px;}
+.park-warn-row:last-of-type{margin-bottom:0;}
+.park-warn-num{width:20px;height:20px;border-radius:50%;background:rgba(215,38,61,.14);color:#B0202F;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.park-warn-text{font-size:13.5px;font-weight:500;color:var(--esp);line-height:1.62;}
+.park-warn-row.danger{background:#B0202F;border:none;border-radius:10px;padding:13px 14px;margin:14px 0;}
+.park-warn-row.danger .park-warn-num{background:rgba(255,255,255,.25);color:#fff;}
+.park-warn-row.danger .park-warn-text{color:#fff;font-weight:800;font-size:14.5px;}
+.park-warn-foot{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:#B0202F;background:rgba(215,38,61,.10);border:1px dashed rgba(215,38,61,.45);border-radius:8px;padding:11px 12px;margin-top:2px;}
+.park-warn-link-row{margin-top:13px;display:flex;justify-content:flex-end;}
+.park-warn-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:#B0202F;text-decoration:none;border-bottom:1px solid rgba(176,32,47,.40);padding-bottom:1px;}
 
 </style>
 </head>
@@ -173,10 +178,11 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div class="sdot" id="d3">3</div><div class="sline" id="l3"></div>
 <div class="sdot" id="d4">4</div><div class="sline" id="l4"></div>
 <div class="sdot" id="d5">5</div><div class="sline" id="l5"></div>
-<div class="sdot" id="d6">6</div>
+<div class="sdot" id="d6">6</div><div class="sline" id="l6"></div>
+<div class="sdot" id="d7">7</div>
 </div>
 <div class="prog-meta">
-<div class="plabel"><span id="sL">Step 1</span> / 6</div>
+<div class="plabel"><span id="sL">Step 1</span> / 7</div>
 <div class="pbar-w"><div class="pbar" id="pB" style="width:16.6%"></div></div>
 </div>
 </div>
@@ -184,7 +190,7 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div class="sw">
 <div class="vmsg" id="vm"></div>
 <div class="sec act" id="s1">
-<div class="sh"><div class="seye" id="e1">Step 1 of 6</div><h2 class="stit" id="t1">예약 채널</h2><p class="sdesc" id="d1t">어디서 예약하셨나요?</p></div>
+<div class="sh"><div class="seye" id="e1">Step 1 of 7</div><h2 class="stit" id="t1">예약 채널</h2><p class="sdesc" id="d1t">어디서 예약하셨나요?</p></div>
 <div class="cgrid">
 <button class="cbtn" data-v="Agoda" onclick="sch(this)"><span class="cico">🌏</span><span class="cnm">Agoda</span></button>
 <button class="cbtn" data-v="Booking.com" onclick="sch(this)"><span class="cico">🔵</span><span class="cnm">Booking.com</span></button>
@@ -197,7 +203,7 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 </div>
 </div>
 <div class="sec" id="s2">
-<div class="sh"><div class="seye" id="e2">Step 2 of 6</div><h2 class="stit" id="t2">투숙객 정보</h2></div>
+<div class="sh"><div class="seye" id="e2">Step 2 of 7</div><h2 class="stit" id="t2">투숙객 정보</h2></div>
 <div class="fg"><label class="fl" id="ln">성명 <span class="req">*</span></label><input class="fi" type="text" id="gN" placeholder="홍길동(투숙객명을 반드시 기재)" autocomplete="name"></div>
 <div class="fg"><label class="fl" id="lb">생년월일 <span class="req">*</span></label><input class="fi" type="text" id="gB" placeholder="19900101" maxlength="8" inputmode="numeric"><div class="fh" id="hb">8자리 숫자 (예: 19900101)</div></div>
 <div class="fg"><label class="fl" id="lna">국적 <span class="req">*</span></label><select class="fi" id="gNa"><option value="">선택</option><option value="한국">🇰🇷 한국</option><option value="중국">🇨🇳 중국</option><option value="일본">🇯🇵 일본</option><option value="미국">🇺🇸 미국</option><option value="기타">기타 / Other</option></select></div>
@@ -205,7 +211,7 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div class="fg"><label class="fl" id="lpp">여권번호</label><input class="fi" type="text" id="gPp" placeholder="외국인 투숙객 필수" autocomplete="off"></div>
 </div>
 <div class="sec" id="s3">
-<div class="sh"><div class="seye" id="e3">Step 3 of 6</div><h2 class="stit" id="t3">투숙 일정</h2><p class="sdesc" id="d3t">체크인 16:00 · 체크아웃 11:00</p></div>
+<div class="sh"><div class="seye" id="e3">Step 3 of 7</div><h2 class="stit" id="t3">투숙 일정</h2><p class="sdesc" id="d3t">체크인 16:00 · 체크아웃 11:00</p></div>
 <div class="dr">
 <div class="fg" style="margin-bottom:0"><label class="fl" id="lci">체크인 <span class="req">*</span></label><input class="fi" type="date" id="ci"></div>
 <div class="dsep">–</div>
@@ -214,21 +220,29 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <div id="nb" style="display:none"><div class="npill"><span class="nnum" id="nn">1</span><span class="nlbl" id="nl">박 숙박</span></div></div>
 </div>
 <div class="sec" id="s4">
-<div class="sh"><div class="seye" id="e4">Step 4 of 6</div><h2 class="stit" id="t4">인원 및 차량</h2><p class="sdesc" id="d4t">성인(만 18세 이상) · 어린이(36개월 이상)</p></div>
+<div class="sh"><div class="seye" id="e4">Step 4 of 7</div><h2 class="stit" id="t4">인원</h2><p class="sdesc" id="d4t">성인(만 18세 이상) · 어린이(36개월 이상)</p></div>
 <div class="ccard"><div class="crow"><div><div class="clbl" id="la">성인</div><div class="csub" id="las">만 18세 이상</div></div><div class="cctl"><button class="cbtnc" onclick="chA(-1)">−</button><span class="cval" id="av">1</span><button class="cbtnc" onclick="chA(1)">+</button></div></div></div>
 <div class="ccard"><div class="crow"><div><div class="clbl" id="lch">어린이</div><div class="csub" id="lchs">36개월 이상 · 만 18세 미만</div></div><div class="cctl"><button class="cbtnc" onclick="chC(-1)">−</button><span class="cval" id="cv">0</span><button class="cbtnc" onclick="chC(1)">+</button></div></div></div>
-<div class="fg"><label class="fl" id="lc">차량번호</label><input class="fi" type="text" id="car" placeholder="12가 3456 (없으면 비워두세요)">
-<div class="park-notice">
-<div class="park-header"><span class="park-header-ico">🅿️</span><span class="park-header-label" id="parkTitle">주차 안내</span></div>
-<div class="park-row"><span class="park-dot"></span><span class="park-row-text" id="parkMsg">주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.</span></div>
-<div class="park-divider"></div>
-<div class="park-sms"><span class="park-sms-ico">💬</span><span class="park-sms-text" id="parkSms">만차일 경우 별도의 문자메시지를 드리겠습니다.</span></div>
-<div class="park-link-row"><a class="park-link" href="https://naver.me/5M5sxNZs" target="_blank" id="parkLink">무료공영주차장 안내 ↗</a></div>
-</div>
-</div>
 </div>
 <div class="sec" id="s5">
-<div class="sh"><div class="seye" id="e5">Step 5 of 6</div><h2 class="stit" id="t5">예상 도착 시간</h2><p class="sdesc" id="d5t">체크인은 16:00부터 가능합니다</p></div>
+<div class="sh"><div class="seye" id="e5">Step 5 of 7</div><h2 class="stit" id="t5">주차 등록</h2><p class="sdesc" id="d5t">차량으로 방문하시는 경우, 아래 안내를 꼭 확인해 주세요</p></div>
+<div class="fg"><label class="fl" id="lc">차량번호</label><input class="fi" type="text" id="car" placeholder="12가 3456 (없으면 비워두세요)"></div>
+<div class="park-warn">
+<div class="park-warn-head"><span class="park-warn-head-ico">🚫</span><span class="park-warn-head-label" id="parkAlertLabel">주차 공간 한정 · 반드시 확인해 주세요</span></div>
+<div class="park-warn-body">
+<div class="park-warn-hero"><span class="park-warn-hero-ico">🅿️</span><span class="park-warn-hero-text" id="parkHero">빈 자리가 보이더라도, 저희 호텔에 배정된 구역이 아닐 수 있습니다.</span></div>
+<div class="park-warn-row"><span class="park-warn-num">1</span><span class="park-warn-text" id="parkA1">호텔어라운드 속초는 건물 내 공동 지하주차장 중 <strong>정해진 대수만 배정</strong>받아 운영하고 있습니다.</span></div>
+<div class="park-warn-row"><span class="park-warn-num">2</span><span class="park-warn-text" id="parkA2">주말 또는 성수기에는 배정된 주차 공간이 먼저 소진될 수 있습니다.</span></div>
+<div class="park-warn-row"><span class="park-warn-num">3</span><span class="park-warn-text" id="parkA3">공간이 부족한 경우, <strong>도보 5~6분 거리의 무료 공영주차장</strong> 안내 링크를 문자메시지로 보내드립니다.</span></div>
+<div class="park-warn-row"><span class="park-warn-num">4</span><span class="park-warn-text" id="parkA4">저희 호텔 지하주차장은 <strong>회차시간이 1시간</strong>이니, 짐을 먼저 푸신 후 여유롭게 공영주차장으로 이동하셔도 됩니다.</span></div>
+<div class="park-warn-row danger"><span class="park-warn-num">!</span><span class="park-warn-text" id="parkA5">배정 구역이 아닌 자리에 임의로 주차하실 경우, <strong>빈 자리 여부와 관계없이 주차료가 발생할 수 있습니다.</strong></span></div>
+<div class="park-warn-foot"><span>⚠️</span><span id="parkA6">꼭 주의하여 주시기 바랍니다.</span></div>
+<div class="park-warn-link-row"><a class="park-warn-link" href="https://naver.me/5M5sxNZs" target="_blank" id="parkLink">무료공영주차장 안내 ↗</a></div>
+</div>
+</div>
+</div>
+<div class="sec" id="s6">
+<div class="sh"><div class="seye" id="e6">Step 6 of 7</div><h2 class="stit" id="t6">예상 도착 시간</h2><p class="sdesc" id="d6t">체크인은 16:00부터 가능합니다</p></div>
 <div class="tgrid">
 <button class="tbtn" data-v="16:00" onclick="st(this)"><span class="tmain">16:00</span></button>
 <button class="tbtn" data-v="17:00" onclick="st(this)"><span class="tmain">17:00</span></button>
@@ -239,8 +253,8 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 <button class="tbtn" data-v="23:00+" onclick="st(this)"><span class="tmain">23:00+</span><span class="tsub" id="ll">늦은 도착</span></button>
 </div>
 </div>
-<div class="sec" id="s6">
-<div class="sh"><div class="seye" id="e6">Step 6 of 6</div><h2 class="stit" id="t6">정책 동의</h2><p class="sdesc" id="d6t">투숙 전 필수 확인 사항입니다</p></div>
+<div class="sec" id="s7">
+<div class="sh"><div class="seye" id="e7">Step 7 of 7</div><h2 class="stit" id="t7">정책 동의</h2><p class="sdesc" id="d7t">투숙 전 필수 확인 사항입니다</p></div>
 <div class="aall" onclick="tAll()"><div class="cc" id="ac"></div><div class="aalbl" id="aL">전체 동의</div></div>
 <div class="aitem" onclick="ta('1')" id="ai1"><div class="csq" id="sq1"></div><div><div class="atit" id="at1">흡연 금지 동의</div><div class="adesc" id="ad1">객실 내 흡연 적발 시 300,000원 추가 청구</div></div></div>
 <div class="aitem" onclick="ta('2')" id="ai2"><div class="csq" id="sq2"></div><div><div class="atit" id="at2">반려동물 반입 금지</div><div class="adesc" id="ad2">반입 적발 시 즉시 퇴실 조치</div></div></div>
@@ -286,15 +300,15 @@ const GAS='https://script.google.com/macros/s/AKfycbzvOX8ZZSjz2WG4Es9thpHwIvvnig
 let cur=1,lang='ko',adults=1,children=0,channel='',arr='';
 const ag={1:0,2:0,3:0,4:0,5:0,6:0,7:0};
 const T={
-ko:{hT:'환영합니다',hS:'Mobile Check-in · 모바일 체크인',e1:'Step 1 of 6',t1:'예약 채널',d1t:'어디서 예약하셨나요?',e2:'Step 2 of 6',t2:'투숙객 정보',d2t:'',e3:'Step 3 of 6',t3:'투숙 일정',d3t:'체크인 16:00 · 체크아웃 11:00',e4:'Step 4 of 6',t4:'인원 및 차량',d4t:'성인(만 18세 이상) · 어린이(36개월 이상)',e5:'Step 5 of 6',t5:'예상 도착 시간',d5t:'체크인은 16:00부터 가능합니다',e6:'Step 6 of 6',t6:'정책 동의',d6t:'투숙 전 필수 확인 사항입니다',ln:'성명',lb:'생년월일',lna:'국적',lp:'연락처',lpp:'여권번호',hb:'8자리 숫자 (예: 19900101)',lci:'체크인',lco:'체크아웃',nl:'박 숙박',la:'성인',las:'만 18세 이상',lch:'어린이',lchs:'36개월 이상 · 만 18세 미만',lc:'차량번호',ll:'늦은 도착',aL:'전체 동의',at1:'흡연 금지 동의',ad1:'객실 내 흡연 적발 시 300,000원 추가 청구',at2:'반려동물 반입 금지',ad2:'반입 적발 시 즉시 퇴실 조치',at3:'노키즈 정책 확인',ad3:'만 18세 미만 투숙 불가',at4:'파손·분실 시 실비 청구 동의',at5:'개인정보 수집·이용 동의',ad5:'투숙 목적으로만 사용됩니다',at6:'하우스룰 확인',ad6:'체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지',at7:'마케팅 수신 동의',ad7:'이벤트·할인 정보 수신 (언제든 철회 가능)',bnL:'다음',bsL:'체크인 완료하기',vCh:'예약 채널을 선택해 주세요.',vF:'필수 항목을 확인해 주세요.',vB:'생년월일을 8자리로 입력해 주세요.',vT:'예상 도착 시간을 선택해 주세요.',vA:'필수 항목에 모두 동의해 주세요.',cT:'체크인 완료',cD:'객실 키패드 번호는 16:00 이후\n문자로 발송됩니다.\n즐거운 숙박이 되시길 바랍니다.',se:'예약 요약',sk1:'예약 채널',sk2:'투숙객',sk3:'일정',sk4:'인원',sk5:'예상 도착',sk6:'차량번호',cL:'문의 연락처',ltxt:'체크인 처리 중...',parkTitle:'주차 안내',parkMsg:'주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.',parkSms:'만차일 경우 별도의 문자메시지를 드리겠습니다.',parkLink:'무료공영주차장 안내 ↗'},
-en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 6',t1:'Booking Channel',d1t:'Where did you book?',e2:'Step 2 of 6',t2:'Guest Info',d2t:'',e3:'Step 3 of 6',t3:'Stay Dates',d3t:'Check-in 16:00 · Check-out 11:00',e4:'Step 4 of 6',t4:'Guests & Vehicle',d4t:'Adults (18+) · Children (36 months+)',e5:'Step 5 of 6',t5:'Arrival Time',d5t:'Check-in available from 16:00',e6:'Step 6 of 6',t6:'Policies',d6t:'Please review before staying',ln:'Full Name',lb:'Date of Birth',lna:'Nationality',lp:'Phone',lpp:'Passport No.',hb:'8 digits e.g. 19900101',lci:'Check-in',lco:'Check-out',nl:'night(s)',la:'Adults',las:'18 years or older',lch:'Children',lchs:'36 months+ · Under 18',lc:'Car Plate',ll:'Late arrival',aL:'Agree to all',at1:'No Smoking',ad1:'KRW 300,000 penalty if violated',at2:'No Pets',ad2:'Immediate check-out if violated',at3:'No Kids Policy',ad3:'No guests under 18',at4:'Damage / Loss Liability',at5:'Privacy Policy',ad5:'Used for stay purposes only',at6:'House Rules',ad6:'Check-out 11:00 / Recycling / No noise',at7:'Marketing Consent',ad7:'Promotions & events (opt-out anytime)',bnL:'Next',bsL:'Complete Check-in',vCh:'Please select a booking channel.',vF:'Please fill in all required fields.',vB:'Please enter date of birth (8 digits).',vT:'Please select arrival time.',vA:'Please agree to all required policies.',cT:'Check-in Complete',cD:'Your keypad code will be sent\nvia SMS from 16:00.\nEnjoy your stay!',se:'Booking Summary',sk1:'Channel',sk2:'Guest',sk3:'Dates',sk4:'Guests',sk5:'Arrival',sk6:'Car Plate',cL:'Contact Us',ltxt:'Processing check-in...',parkTitle:'Parking Info',parkMsg:'Parking may be limited on weekends and peak seasons. We appreciate your understanding.',parkSms:'If the lot is full, we will notify you by text message.',parkLink:'Free public parking ↗'}};
+ko:{hT:'환영합니다',hS:'Mobile Check-in · 모바일 체크인',e1:'Step 1 of 7',t1:'예약 채널',d1t:'어디서 예약하셨나요?',e2:'Step 2 of 7',t2:'투숙객 정보',d2t:'',e3:'Step 3 of 7',t3:'투숙 일정',d3t:'체크인 16:00 · 체크아웃 11:00',e4:'Step 4 of 7',t4:'인원',d4t:'성인(만 18세 이상) · 어린이(36개월 이상)',e5:'Step 5 of 7',t5:'주차 등록',d5t:'차량으로 방문하시는 경우, 아래 안내를 꼭 확인해 주세요',e6:'Step 6 of 7',t6:'예상 도착 시간',d6t:'체크인은 16:00부터 가능합니다',e7:'Step 7 of 7',t7:'정책 동의',d7t:'투숙 전 필수 확인 사항입니다',ln:'성명',lb:'생년월일',lna:'국적',lp:'연락처',lpp:'여권번호',hb:'8자리 숫자 (예: 19900101)',lci:'체크인',lco:'체크아웃',nl:'박 숙박',la:'성인',las:'만 18세 이상',lch:'어린이',lchs:'36개월 이상 · 만 18세 미만',lc:'차량번호',ll:'늦은 도착',aL:'전체 동의',at1:'흡연 금지 동의',ad1:'객실 내 흡연 적발 시 300,000원 추가 청구',at2:'반려동물 반입 금지',ad2:'반입 적발 시 즉시 퇴실 조치',at3:'노키즈 정책 확인',ad3:'만 18세 미만 투숙 불가',at4:'파손·분실 시 실비 청구 동의',at5:'개인정보 수집·이용 동의',ad5:'투숙 목적으로만 사용됩니다',at6:'하우스룰 확인',ad6:'체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지',at7:'마케팅 수신 동의',ad7:'이벤트·할인 정보 수신 (언제든 철회 가능)',bnL:'다음',bsL:'체크인 완료하기',vCh:'예약 채널을 선택해 주세요.',vF:'필수 항목을 확인해 주세요.',vB:'생년월일을 8자리로 입력해 주세요.',vT:'예상 도착 시간을 선택해 주세요.',vA:'필수 항목에 모두 동의해 주세요.',cT:'체크인 완료',cD:'객실 키패드 번호는 16:00 이후\n문자로 발송됩니다.\n즐거운 숙박이 되시길 바랍니다.',se:'예약 요약',sk1:'예약 채널',sk2:'투숙객',sk3:'일정',sk4:'인원',sk5:'예상 도착',sk6:'차량번호',cL:'문의 연락처',ltxt:'체크인 처리 중...',parkAlertLabel:'주차 공간 한정 · 반드시 확인해 주세요',parkHero:'빈 자리가 보이더라도, 저희 호텔에 배정된 구역이 아닐 수 있습니다.',parkA1:'호텔어라운드 속초는 건물 내 공동 지하주차장 중 <strong>정해진 대수만 배정</strong>받아 운영하고 있습니다.',parkA2:'주말 또는 성수기에는 배정된 주차 공간이 먼저 소진될 수 있습니다.',parkA3:'공간이 부족한 경우, <strong>도보 5~6분 거리의 무료 공영주차장</strong> 안내 링크를 문자메시지로 보내드립니다.',parkA4:'저희 호텔 지하주차장은 <strong>회차시간이 1시간</strong>이니, 짐을 먼저 푸신 후 여유롭게 공영주차장으로 이동하셔도 됩니다.',parkA5:'배정 구역이 아닌 자리에 임의로 주차하실 경우, <strong>빈 자리 여부와 관계없이 주차료가 발생할 수 있습니다.</strong>',parkA6:'꼭 주의하여 주시기 바랍니다.',parkLink:'무료공영주차장 안내 ↗'},
+en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 7',t1:'Booking Channel',d1t:'Where did you book?',e2:'Step 2 of 7',t2:'Guest Info',d2t:'',e3:'Step 3 of 7',t3:'Stay Dates',d3t:'Check-in 16:00 · Check-out 11:00',e4:'Step 4 of 7',t4:'Guests',d4t:'Adults (18+) · Children (36 months+)',e5:'Step 5 of 7',t5:'Parking Registration',d5t:'If you are arriving by car, please review the notice below',e6:'Step 6 of 7',t6:'Arrival Time',d6t:'Check-in available from 16:00',e7:'Step 7 of 7',t7:'Policies',d7t:'Please review before staying',ln:'Full Name',lb:'Date of Birth',lna:'Nationality',lp:'Phone',lpp:'Passport No.',hb:'8 digits e.g. 19900101',lci:'Check-in',lco:'Check-out',nl:'night(s)',la:'Adults',las:'18 years or older',lch:'Children',lchs:'36 months+ · Under 18',lc:'Car Plate',ll:'Late arrival',aL:'Agree to all',at1:'No Smoking',ad1:'KRW 300,000 penalty if violated',at2:'No Pets',ad2:'Immediate check-out if violated',at3:'No Kids Policy',ad3:'No guests under 18',at4:'Damage / Loss Liability',at5:'Privacy Policy',ad5:'Used for stay purposes only',at6:'House Rules',ad6:'Check-out 11:00 / Recycling / No noise',at7:'Marketing Consent',ad7:'Promotions & events (opt-out anytime)',bnL:'Next',bsL:'Complete Check-in',vCh:'Please select a booking channel.',vF:'Please fill in all required fields.',vB:'Please enter date of birth (8 digits).',vT:'Please select arrival time.',vA:'Please agree to all required policies.',cT:'Check-in Complete',cD:'Your keypad code will be sent\nvia SMS from 16:00.\nEnjoy your stay!',se:'Booking Summary',sk1:'Channel',sk2:'Guest',sk3:'Dates',sk4:'Guests',sk5:'Arrival',sk6:'Car Plate',cL:'Contact Us',ltxt:'Processing check-in...',parkAlertLabel:'Limited Parking · Please Read',parkHero:'Even if a spot looks empty, it may not be part of our hotel\'s assigned area.',parkA1:'Hotel Around Sokcho is assigned only a <strong>limited number of spaces</strong> within the building\'s shared underground lot.',parkA2:'On weekends or during peak season, our assigned spaces may run out first.',parkA3:'If our spaces are full, we will send you a text message with a link to <strong>free public parking, about a 5-6 minute walk away</strong>.',parkA4:'Our hotel\'s own underground garage gives you a <strong>1-hour grace period</strong> before any charge, so feel free to unload your luggage first and then head over to the public lot at your own pace.',parkA5:'Parking in a space outside our assigned area — even if it looks empty — <strong>may result in a parking fee</strong>.',parkA6:'Please make sure to check the text message.',parkLink:'Free public parking ↗'}};
 function setLang(l){lang=l;document.getElementById('bKO').className='lbtn'+(l==='ko'?' on':'');document.getElementById('bEN').className='lbtn'+(l==='en'?' on':'');applyT();}
-function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','e5','t5','d5t','e6','t6','d6t','hb','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','sk6','cL','parkTitle','parkMsg','parkSms','parkLink'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['la',1],['lc',0]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();}
-function upProg(){for(let i=1;i<=6;i++){const d=document.getElementById('d'+i);if(i<cur){d.className='sdot done';d.textContent='✓';}else if(i===cur){d.className='sdot act';d.textContent=i;}else{d.className='sdot';d.textContent=i;}if(i<6)document.getElementById('l'+i).className='sline'+(i<cur?' done':'');}document.getElementById('sL').textContent='Step '+cur;document.getElementById('pB').style.width=(cur/6*100).toFixed(1)+'%';document.getElementById('bp').style.display=cur>1?'flex':'none';const last=cur===6;document.getElementById('bn').style.display=last?'none':'flex';document.getElementById('bs').style.display=last?'flex':'none';}
+function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','e5','t5','d5t','e6','t6','d6t','e7','t7','d7t','hb','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','sk6','cL','parkAlertLabel','parkHero','parkA1','parkA2','parkA3','parkA4','parkA5','parkA6','parkLink'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['la',1],['lc',0]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();}
+function upProg(){for(let i=1;i<=7;i++){const d=document.getElementById('d'+i);if(i<cur){d.className='sdot done';d.textContent='✓';}else if(i===cur){d.className='sdot act';d.textContent=i;}else{d.className='sdot';d.textContent=i;}if(i<7)document.getElementById('l'+i).className='sline'+(i<cur?' done':'');}document.getElementById('sL').textContent='Step '+cur;document.getElementById('pB').style.width=(cur/7*100).toFixed(1)+'%';document.getElementById('bp').style.display=cur>1?'flex':'none';const last=cur===7;document.getElementById('bn').style.display=last?'none':'flex';document.getElementById('bs').style.display=last?'flex':'none';}
 function showSec(n){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));const s=document.getElementById('s'+n);if(s)s.classList.add('act');document.getElementById('cw').classList.remove('on');document.getElementById('nav').style.display='';window.scrollTo({top:0,behavior:'smooth'});}
 function flash(m){const v=document.getElementById('vm');v.textContent=m;v.className='vmsg on';setTimeout(()=>{v.className='vmsg';},3200);}
-function valid(n){const t=T[lang];if(n===1&&!channel){flash(t.vCh);return false;}if(n===2){if(!document.getElementById('gN').value.trim()||!document.getElementById('gB').value.trim()||!document.getElementById('gNa').value||!document.getElementById('gP').value.trim()){flash(t.vF);return false;}if(!/^\d{8}$/.test(document.getElementById('gB').value.trim())){flash(t.vB);return false;}}if(n===3){const ci=document.getElementById('ci').value,co=document.getElementById('co').value;if(!ci||!co||ci>=co){flash(t.vF);return false;}}if(n===5&&!arr){flash(t.vT);return false;}if(n===6&&![1,2,3,4,5,6].every(k=>ag[k])){flash(t.vA);return false;}return true;}
-function next(){if(!valid(cur))return;if(cur<6){cur++;showSec(cur);upProg();}}
+function valid(n){const t=T[lang];if(n===1&&!channel){flash(t.vCh);return false;}if(n===2){if(!document.getElementById('gN').value.trim()||!document.getElementById('gB').value.trim()||!document.getElementById('gNa').value||!document.getElementById('gP').value.trim()){flash(t.vF);return false;}if(!/^\d{8}$/.test(document.getElementById('gB').value.trim())){flash(t.vB);return false;}}if(n===3){const ci=document.getElementById('ci').value,co=document.getElementById('co').value;if(!ci||!co||ci>=co){flash(t.vF);return false;}}if(n===6&&!arr){flash(t.vT);return false;}if(n===7&&![1,2,3,4,5,6].every(k=>ag[k])){flash(t.vA);return false;}return true;}
+function next(){if(!valid(cur))return;if(cur<7){cur++;showSec(cur);upProg();}}
 function prev(){if(cur>1){cur--;showSec(cur);upProg();}}
 function sch(b){document.querySelectorAll('.cbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');channel=b.dataset.v;}
 function st(b){document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');arr=b.dataset.v;}
