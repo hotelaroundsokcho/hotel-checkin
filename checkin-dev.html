@@ -323,7 +323,7 @@ select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 </div>
 </div>
 <script>
-const GAS='https://script.google.com/macros/s/AKfycbxOPcn86o4cvcQYp3S__VnQdYOLOR3w-xNg-LuEF5VE/dev';
+const GAS='https://script.google.com/macros/s/AKfycbzvOX8ZZSjz2WG4Es9thpHwIvvnigbDLAhlEmMOdNrHDZ_0_ltTWB16nYGliChTKvVCcg/exec';
 let cur=1,lang='ko',adults=1,children=0,channel='',arr='',sameGuest=false,noCar=false;
 const ag={1:0,2:0,3:0,4:0,5:0,6:0,7:0};
 const T={
@@ -364,7 +364,7 @@ const ci=document.getElementById('ci').value,co=document.getElementById('co').va
 const nights=ci&&co?Math.round((new Date(co)-new Date(ci))/86400000):'';
 const guestName=document.getElementById('gN').value.trim();
 const carInput=document.getElementById('car').value.trim();
-const payload={type:'checkin',channel,guestName,birthdate:document.getElementById('gB').value.trim(),nationality:document.getElementById('gNa').value,passport:document.getElementById('gPp').value.trim()||'-',phone:document.getElementById('gP').value.trim(),checkin:ci,checkout:co,nights:String(nights),adults:String(adults),children:String(children),totalGuests:String(adults+children),carNumber:carInput||'없음',arrivalTime:arr,agreement:'Y'};
+const payload={type:'checkin',channel,guestName,birthdate:document.getElementById('gB').value.trim(),nationality:document.getElementById('gNa').value,passport:document.getElementById('gPp').value.trim()||'-',phone:document.getElementById('gP').value.trim(),checkin:ci,checkout:co,nights:String(nights),adults:String(adults),children:String(children),totalGuests:String(adults+children),carNumber:carInput||'없음',arrivalTime:arr,agreement:'Y',isTest:'Y'};
 payload.sameAsBooker=sameGuest?'Y':'N';
 payload.actualGuestName=sameGuest?guestName:document.getElementById('gAG').value.trim();
 payload.actualGuestBirthdate=sameGuest?document.getElementById('gB').value.trim():document.getElementById('gAB').value.trim();
