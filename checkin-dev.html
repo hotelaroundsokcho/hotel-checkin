@@ -5,62 +5,113 @@
 <meta name="color-scheme" content="only light">
 <meta name="supported-color-schemes" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E6EAED">
 <title>Mobile Check-in — HotelAround Sokcho</title>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>
+/* 시간대 테마 (가이드와 동일: 새벽 04–08 · 낮 08–17 · 일몰 17–20 · 밤 20–04, 서울 기준, ?time= 확인용) */
+var PHASES=['dawn','day','dusk','night'],PHASE_THEME={dawn:'#D4D2E8',day:'#E6EAED',dusk:'#E3CFD6',night:'#15222F'};
+function seoulNow(){try{return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));}catch(e){return new Date();}}
+function phaseOf(h){if(h>=4&&h<8)return 'dawn';if(h>=8&&h<17)return 'day';if(h>=17&&h<20)return 'dusk';return 'night';}
+function applyPhase(){var p=null;try{var q=new URLSearchParams(location.search).get('time');p=PHASES.indexOf(q)>-1?q:null;}catch(e){}if(!p)p=phaseOf(seoulNow().getHours());document.documentElement.setAttribute('data-time',p);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',PHASE_THEME[p]);}
+applyPhase();
+</script>
 <style>
 /* ── DEV BANNER ── */
 #dev-banner{position:fixed;top:0;left:0;right:0;z-index:9999;background:#8B3A2C;color:#fff;font-family:var(--f);font-size:12px;font-weight:600;letter-spacing:.06em;text-align:center;padding:8px 16px;pointer-events:none;}
 body{padding-top:36px;}
 :root{
---f:'Pretendard Variable','Pretendard','Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,-apple-system,sans-serif;
+--f:'Pretendard Variable','Pretendard','Noto Sans KR','Noto Sans SC','PingFang SC','Microsoft YaHei','Apple SD Gothic Neo','Malgun Gothic',system-ui,-apple-system,sans-serif;
+--fm:'IBM Plex Mono','Pretendard Variable','Pretendard','Noto Sans KR',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
 --bg:#E6EAED;--paper:#F8F8F8;--ink:#203341;--ink2:#4A5B68;--ink3:#566877;
 --line:rgba(32,51,65,.12);--line2:rgba(32,51,65,.22);
+--fill:#203341;--on-fill:#F2F5F7;--on-fill-soft:#B7C5CE;--fill-hover:#2B4554;--band:#203341;
 --amber:#E9B565;--amber-ink:#1B2A36;
---alert:#7F5210;--alert-bg:#F5EBD8;--mark:#E3ECEF;--focus:#2B6C8F;--err:#8B2E2E;
+--alert:#7F5210;--alert-bg:#F5EBD8;--alert-ink:#4E3208;--alert-line:rgba(127,82,16,.28);--alert-soft:rgba(127,82,16,.08);
+--ok:#2E7A67;--mark:#D3E4E8;--mark-ink:#17303F;--ring:#78909E;--focus:#2B6C8F;--focus-ring:rgba(43,108,143,.18);
+--err:#8B2E2E;--err-ring:rgba(139,46,46,.14);--err-bg:#F7E6E3;--err-ink:#7A2C2C;
+--ph:#5E707C;--dis-bg:#DDE3E7;--dis-ink:#7B8C98;--seg:#D9DFE3;--track:rgba(32,51,65,.14);--input-focus:#fff;
+--chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23566877' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
 --shadow:0 1px 2px rgba(32,51,65,.06),0 10px 28px rgba(32,51,65,.06);
-color-scheme:only light;
+color-scheme:light;
+}
+:root[data-time="dawn"]{
+--bg:#E5E5EE;--paper:#F8F8FC;--ink:#232A4A;--ink2:#4C5476;--ink3:#596183;
+--line:rgba(35,42,74,.12);--line2:rgba(35,42,74,.22);
+--fill:#2B3358;--on-fill:#F4F5FA;--on-fill-soft:#C0C6E0;--fill-hover:#394272;--band:#2B3358;
+--amber:#EDB872;--amber-ink:#1F2440;
+--alert:#80531A;--alert-bg:#F5EBDE;--alert-line:rgba(128,83,26,.28);--alert-soft:rgba(128,83,26,.08);
+--mark:#D6D9F0;--mark-ink:#1E2547;--ring:#9AA0C4;--focus:#4A55A8;--focus-ring:rgba(74,85,168,.2);
+--seg:#D4D2E8;--track:rgba(35,42,74,.14);
+--chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23596183' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+--shadow:0 1px 2px rgba(35,42,74,.06),0 10px 28px rgba(35,42,74,.06);
+}
+:root[data-time="dusk"]{
+--bg:#EBE3E6;--paper:#FAF7F8;--ink:#2C2438;--ink2:#5A4C68;--ink3:#6C5E78;
+--line:rgba(44,36,56,.12);--line2:rgba(44,36,56,.22);
+--fill:#3A2D4A;--on-fill:#F8F3F6;--on-fill-soft:#D2C3D6;--fill-hover:#4B3B5E;--band:#3A2D4A;
+--amber:#F0B66B;--amber-ink:#2A1D33;
+--alert:#7C4C12;--alert-bg:#F7EADB;--alert-line:rgba(124,76,18,.28);--alert-soft:rgba(124,76,18,.08);
+--mark:#EBD6DE;--mark-ink:#2D2038;--ring:#B39AB0;--focus:#7A4A8E;--focus-ring:rgba(122,74,142,.2);
+--seg:#E3CFD6;--track:rgba(44,36,56,.14);
+--chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%236C5E78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+--shadow:0 1px 2px rgba(44,36,56,.06),0 10px 28px rgba(44,36,56,.06);
+}
+:root[data-time="night"]{
+--bg:#15222F;--paper:#1D2E3E;--ink:#E8EDF1;--ink2:#B5C2CD;--ink3:#93A3B1;
+--line:rgba(232,237,241,.12);--line2:rgba(232,237,241,.26);
+--fill:#44708A;--on-fill:#F2F5F7;--on-fill-soft:#C3D1DB;--fill-hover:#4F7E9B;--band:#0E1A25;
+--amber:#EDBB72;--amber-ink:#1B2A36;
+--alert:#F0C27E;--alert-bg:rgba(233,181,101,.12);--alert-ink:#F3E3C8;--alert-line:rgba(240,194,126,.3);--alert-soft:rgba(240,194,126,.1);
+--ok:#6CC3A8;--mark:#2B4A5A;--mark-ink:#E8F2F5;--ring:#8196A7;--focus:#8CC8EE;--focus-ring:rgba(140,200,238,.28);
+--err:#F5A3A3;--err-ring:rgba(245,163,163,.22);--err-bg:rgba(245,163,163,.12);--err-ink:#F7C4C4;
+--ph:#8396A5;--dis-bg:#1A2937;--dis-ink:#6F8393;--seg:#0D1822;--track:rgba(232,237,241,.16);--input-focus:#243849;
+--chev:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2393A3B1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+--shadow:0 0 0 1px rgba(232,237,241,.06);
+color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
-body{font-family:var(--f);background:var(--bg);color:var(--ink);min-height:100vh;max-width:480px;margin:0 auto;overflow-x:hidden;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--f);background:var(--bg);color:var(--ink);transition:background-color .6s ease,color .6s ease;min-height:100vh;max-width:480px;margin:0 auto;overflow-x:hidden;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
 button{font-family:inherit;}
 button:focus-visible,a:focus-visible,.fi:focus-visible{outline:2px solid var(--focus);outline-offset:3px;}
 /* 헤더 */
 .hdr{background:var(--bg);position:relative;}
 .top{display:flex;align-items:center;justify-content:space-between;padding:8px 20px 0;min-height:52px;}
-.eye{font-size:14px;font-weight:500;letter-spacing:.04em;color:var(--ink);}
-.lang-row{display:flex;gap:3px;background:#D9DFE3;border-radius:12px;padding:3px;}
-.lbtn{min-width:44px;height:36px;font-size:14px;font-weight:500;color:var(--ink2);background:transparent;border:0;border-radius:9px;cursor:pointer;transition:background .2s,color .2s;}
-.lbtn.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 2px rgba(32,51,65,.12);}
+.eye{font-family:var(--fm);font-size:12px;font-weight:500;letter-spacing:.1em;color:var(--ink);white-space:nowrap;}
+.lang-row{display:flex;gap:3px;background:var(--seg);border-radius:12px;padding:3px;}
+.lbtn{min-width:44px;height:36px;padding:0 6px;font-family:var(--fm);font-size:12px;letter-spacing:.06em;font-weight:500;color:var(--ink2);background:transparent;border:0;border-radius:9px;cursor:pointer;transition:background .2s,color .2s;}
+.lbtn.on{background:var(--paper);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.18);}
 .hd{padding:18px 20px 0;}
 .htit{font-size:30px;font-weight:300;letter-spacing:-.02em;line-height:1.25;color:var(--ink);}
 .hsub{margin-top:4px;font-size:15px;color:var(--ink2);}
 body[data-step]:not([data-step="1"]) .hd{display:none;}
 .prog-wrap{padding:20px 20px 0;}
 .step-track{display:flex;gap:4px;}
-.sdot{flex:1;height:4px;border-radius:2px;background:rgba(32,51,65,.14);font-size:0;line-height:0;color:transparent;overflow:hidden;transition:background .3s;}
+.sdot{flex:1;height:4px;border-radius:2px;background:var(--track);font-size:0;line-height:0;color:transparent;overflow:hidden;transition:background .3s;}
 .sdot.done{background:var(--ink);}
 .sdot.act{background:var(--amber);}
 .sline{display:none;}
 .prog-meta{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;}
-.plabel{font-size:14px;font-weight:500;color:var(--ink2);font-variant-numeric:tabular-nums;letter-spacing:.02em;}
+.plabel{font-family:var(--fm);font-size:13px;font-weight:500;color:var(--ink2);font-variant-numeric:tabular-nums;letter-spacing:.06em;}
 .plabel span{color:var(--ink);}
 .pbar-w{display:none;}
 /* 접수증 */
 .rc{margin:18px 0 0;background:var(--paper);border-radius:20px;padding:16px 18px 18px;box-shadow:var(--shadow);}
 .rch{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;}
-.rt{font-size:14px;font-weight:600;color:var(--ink);}
-.rs{font-size:13px;color:var(--ink3);font-variant-numeric:tabular-nums;}
+.rt{font-family:var(--fm);font-size:12px;letter-spacing:.1em;font-weight:500;color:var(--ink);}
+.rs{font-family:var(--fm);font-size:12px;letter-spacing:.04em;color:var(--ink3);font-variant-numeric:tabular-nums;}
 .rg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 12px;}
-.rk{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--ink3);margin-bottom:2px;min-height:18px;}
+.rk{display:flex;align-items:center;gap:6px;font-family:var(--fm);font-size:12px;letter-spacing:.04em;font-weight:500;color:var(--ink3);margin-bottom:2px;min-height:18px;}
 .rcell.cur .rk{color:var(--ink);}
 .rcell.cur .rk::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--amber);}
 .rv{font-size:15px;font-weight:500;color:var(--ink);line-height:1.4;overflow-wrap:anywhere;font-variant-numeric:tabular-nums;}
-.rv.em{color:#667A88;font-weight:400;}
+.rv.em{color:var(--ink3);font-weight:400;}
 /* 단계 */
 .sw{padding:0 20px 128px;}
 .sec{display:none;animation:fu .28s ease;}
@@ -74,7 +125,7 @@ body[data-step]:not([data-step="1"]) .hd{display:none;}
 /* 채널·시간 선택 */
 .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .cbtn{position:relative;min-height:64px;background:var(--paper);border:1px solid var(--line2);border-radius:16px;padding:0 14px 0 46px;display:flex;align-items:center;cursor:pointer;transition:border-color .2s,box-shadow .2s;text-align:left;}
-.cbtn::before{content:"";position:absolute;left:16px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;border:1.5px solid #8CA3AF;}
+.cbtn::before{content:"";position:absolute;left:16px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;border:1.5px solid var(--ring);}
 .cbtn:active{transform:scale(.98);}
 .cbtn.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);}
 .cbtn.on::before{border-color:var(--amber);background:var(--amber);box-shadow:inset 0 0 0 4px var(--paper);}
@@ -82,39 +133,39 @@ body[data-step]:not([data-step="1"]) .hd{display:none;}
 .tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
 .tbtn{min-height:60px;background:var(--paper);border:1px solid var(--line2);border-radius:14px;padding:8px 4px;text-align:center;cursor:pointer;transition:background .2s,border-color .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .tbtn:active{transform:scale(.96);}
-.tbtn.on{background:var(--ink);border-color:var(--ink);}
-.tmain{font-size:17px;font-weight:500;color:var(--ink);display:block;font-variant-numeric:tabular-nums;}
+.tbtn.on{background:var(--fill);border-color:var(--fill);}
+.tmain{font-family:var(--fm);font-size:17px;font-weight:500;color:var(--ink);display:block;font-variant-numeric:tabular-nums;}
 .tsub{font-size:13px;color:var(--ink3);margin-top:2px;display:block;}
-.tbtn.on .tmain{color:#F2F5F7;}
-.tbtn.on .tsub{color:#B7C5CE;}
+.tbtn.on .tmain{color:var(--on-fill);}
+.tbtn.on .tsub{color:var(--on-fill-soft);}
 /* 입력 */
 .fg{margin-bottom:18px;}
 .fl{display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:8px;}
 .fl .req{color:var(--alert);margin-left:2px;}
 .fi{display:block;width:100%;height:56px;background:var(--paper);border:1px solid var(--line2);border-radius:14px;padding:0 16px;font-family:inherit;font-size:17px;font-weight:400;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none;}
-.fi::placeholder{color:#5E707C;font-weight:400;}
-.fi:focus{border-color:var(--focus);box-shadow:0 0 0 3px rgba(43,108,143,.18);background:#fff;}
-select.fi{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23566877' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px;cursor:pointer;}
+.fi::placeholder{color:var(--ph);font-weight:400;}
+.fi:focus{border-color:var(--focus);box-shadow:0 0 0 3px var(--focus-ring);background:var(--input-focus);}
+select.fi{background-image:var(--chev);background-repeat:no-repeat;background-position:right 16px center;padding-right:44px;cursor:pointer;}
 input[type=date].fi{padding:0 12px;font-size:16px;min-width:0;}
 input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 .fh{font-size:14px;color:var(--ink3);margin-top:6px;}
-.fi.err,.fi.err:focus{border-color:var(--err);box-shadow:0 0 0 3px rgba(139,46,46,.14);}
+.fi.err,.fi.err:focus{border-color:var(--err);box-shadow:0 0 0 3px var(--err-ring);}
 .fe{display:none;font-size:14px;color:var(--err);margin-top:6px;}
 .fe.on{display:block;}
-.fi:disabled{background:#DDE3E7;color:#7B8C98;cursor:not-allowed;}
+.fi:disabled{background:var(--dis-bg);color:var(--dis-ink);cursor:not-allowed;}
 .dr{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;}
 .dsep{padding-bottom:18px;text-align:center;color:var(--ink3);font-size:18px;font-weight:300;}
-.npill{display:inline-flex;align-items:center;gap:8px;background:var(--mark);border-radius:24px;padding:8px 16px;margin-top:14px;color:#17303F;}
-.nnum{font-size:20px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums;}
+.npill{display:inline-flex;align-items:center;gap:8px;background:var(--mark);border-radius:24px;padding:8px 16px;margin-top:14px;color:var(--mark-ink);}
+.nnum{font-family:var(--fm);font-size:20px;font-weight:500;line-height:1;font-variant-numeric:tabular-nums;}
 .nlbl{font-size:15px;}
 /* 체크 행 */
 .samechk-wrap{margin:4px 0 18px;}
 .samechk{display:flex;align-items:center;gap:14px;min-height:56px;padding:0 16px;border-radius:14px;background:var(--mark);cursor:pointer;user-select:none;}
-.samechk-lbl{font-size:16px;font-weight:500;color:#17303F;}
+.samechk-lbl{font-size:16px;font-weight:500;color:var(--mark-ink);}
 .nocar-wrap{margin:12px 0 4px;}
-.csq{width:22px;height:22px;border-radius:6px;border:1.5px solid #8CA3AF;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;background:var(--paper);}
-.csq.on{background:var(--ink);border-color:var(--ink);}
-.csq.on::after{content:'';width:9px;height:5px;border-left:2px solid #F2F5F7;border-bottom:2px solid #F2F5F7;transform:rotate(-45deg) translate(1px,-1px);display:block;}
+.csq{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--ring);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all .2s;background:var(--paper);}
+.csq.on{background:var(--fill);border-color:var(--fill);}
+.csq.on::after{content:'';width:9px;height:5px;border-left:2px solid var(--on-fill);border-bottom:2px solid var(--on-fill);transform:rotate(-45deg) translate(1px,-1px);display:block;}
 /* 인원 */
 .ccard{background:var(--paper);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);}
 .crow{display:flex;align-items:center;justify-content:space-between;}
@@ -123,9 +174,9 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 .cctl{display:flex;align-items:center;gap:14px;}
 .cbtnc{width:44px;height:44px;border-radius:50%;border:1px solid var(--line2);background:var(--bg);color:var(--ink);font-size:22px;font-weight:300;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;line-height:1;}
 .cbtnc:active{background:var(--mark);}
-.cval{font-size:24px;font-weight:300;color:var(--ink);min-width:30px;text-align:center;font-variant-numeric:tabular-nums;}
+.cval{font-family:var(--fm);font-size:24px;font-weight:300;color:var(--ink);min-width:30px;text-align:center;font-variant-numeric:tabular-nums;}
 /* 동의 */
-.aall{background:var(--ink);border-radius:16px;padding:0 18px;min-height:60px;display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;}
+.aall{background:var(--band);border:1px solid var(--line);border-radius:16px;padding:0 18px;min-height:60px;display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;}
 .aalbl{font-size:17px;font-weight:500;color:#F2F5F7;flex:1;}
 .cc{width:24px;height:24px;border-radius:50%;border:1.5px solid rgba(242,245,247,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
 .cc.on{background:var(--amber);border-color:var(--amber);}
@@ -140,33 +191,33 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 .age-notice{margin:2px 0 16px;background:var(--alert-bg);border-radius:16px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start;}
 .age-notice-ico,.park-sms-ico,.room-notice-ico,.out-notice-ico{flex:none;width:20px;height:20px;color:var(--alert);display:inline-flex;}
 .age-notice-ico{margin-top:2px;}
-.age-notice-text{font-size:15px;color:#4E3208;line-height:1.6;}
+.age-notice-text{font-size:15px;color:var(--alert-ink);line-height:1.6;}
 .day-notice{margin:14px 0 0;}
 .park-header,.room-notice-header,.out-notice-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .park-header-ico{width:26px;height:26px;border-radius:8px;background:var(--alert);color:var(--alert-bg);font-size:14px;font-weight:600;display:grid;place-items:center;flex:none;}
-.park-header-label,.room-notice-label,.out-notice-title{font-size:14px;font-weight:600;color:var(--alert);}
+.park-header-label,.room-notice-label,.out-notice-title{font-family:var(--fm);font-size:12px;letter-spacing:.06em;font-weight:600;color:var(--alert);}
 .park-row,.out-notice-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
 .park-dot,.out-notice-dot{width:6px;height:6px;border-radius:50%;background:var(--alert);flex-shrink:0;margin-top:10px;}
-.park-row-text,.out-notice-txt,.room-notice-text{font-size:15px;font-weight:400;color:#4E3208;line-height:1.65;}
+.park-row-text,.out-notice-txt,.room-notice-text{font-size:15px;font-weight:400;color:var(--alert-ink);line-height:1.65;}
 .out-notice-txt{word-break:keep-all;}
 .room-notice-text strong{font-weight:600;}
-.park-divider{border:none;border-top:1px solid rgba(127,82,16,.2);margin:10px 0;}
-.park-sms{display:flex;align-items:center;gap:10px;background:rgba(127,82,16,.08);border-radius:10px;padding:10px 12px;}
+.park-divider{border:none;border-top:1px solid var(--alert-line);margin:10px 0;}
+.park-sms{display:flex;align-items:center;gap:10px;background:var(--alert-soft);border-radius:10px;padding:10px 12px;}
 .park-sms-text{font-size:14px;font-weight:500;color:var(--alert);line-height:1.5;}
 .park-link-row{margin-top:8px;display:flex;justify-content:flex-end;}
 .park-link{display:inline-flex;align-items:center;gap:4px;min-height:44px;font-size:15px;font-weight:500;color:var(--alert);text-decoration:underline;text-underline-offset:4px;}
 /* 하단 바 */
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:14px 20px max(18px,env(safe-area-inset-bottom));background:var(--bg);box-shadow:0 -1px 0 rgba(32,51,65,.1);z-index:100;}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:14px 20px max(18px,env(safe-area-inset-bottom));background:var(--bg);box-shadow:0 -1px 0 var(--line);z-index:100;transition:background-color .6s ease;}
 .nrow{display:flex;gap:10px;}
 .bprev{width:56px;height:56px;background:var(--paper);border:1px solid var(--line2);border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--ink);transition:border-color .2s;}
 .bprev:hover{border-color:var(--ink);}
-.bnext{flex:1;height:56px;background:var(--ink);color:#F2F5F7;border:none;border-radius:16px;font-size:17px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
-.bnext:hover{background:#2B4554;}
+.bnext{flex:1;height:56px;background:var(--fill);color:var(--on-fill);border:none;border-radius:16px;font-size:17px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .2s;}
+.bnext:hover{background:var(--fill-hover);}
 .bnext:active{transform:scale(.98);}
 .bsub{flex:1;height:56px;background:var(--amber);color:var(--amber-ink);border:none;border-radius:16px;font-size:17px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:filter .2s;}
 .bsub:hover{filter:brightness(1.05);}
 .bsub:active{transform:scale(.98);}
-.vmsg{background:#F7E6E3;border-radius:14px;padding:12px 14px;font-size:15px;color:#7A2C2C;margin-top:14px;margin-bottom:0;display:none;}
+.vmsg{background:var(--err-bg);border-radius:14px;padding:12px 14px;font-size:15px;color:var(--err-ink);margin-top:14px;margin-bottom:0;display:none;}
 .vmsg.on{display:block;}
 .lovo{display:none;position:fixed;inset:0;background:rgba(32,51,65,.6);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:18px;}
 .lovo.on{display:flex;}
@@ -180,12 +231,12 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 .ctit{font-size:28px;font-weight:300;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px;line-height:1.25;}
 .cdesc{font-size:16px;color:var(--ink2);line-height:1.75;margin-bottom:24px;}
 .scard{background:var(--paper);border-radius:20px;padding:18px 18px 8px;margin-bottom:24px;text-align:left;box-shadow:var(--shadow);}
-.seye2{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.seye2{font-family:var(--fm);font-size:12px;letter-spacing:.1em;font-weight:500;color:var(--ink);margin-bottom:4px;}
 .srow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);}
 .srow:last-child{border-bottom:none;}
 .sk{font-size:14px;color:var(--ink3);}
 .sv{font-size:15px;font-weight:500;color:var(--ink);text-align:right;max-width:62%;font-variant-numeric:tabular-nums;}
-.clbl2{font-size:14px;font-weight:600;color:var(--ink2);margin-bottom:12px;text-align:left;}
+.clbl2{font-family:var(--fm);font-size:12px;letter-spacing:.1em;font-weight:500;color:var(--ink2);margin-bottom:8px;text-align:left;}
 .cgr{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .citem{background:var(--paper);border:1px solid var(--line);border-radius:16px;min-height:76px;padding:12px 10px;text-align:center;text-decoration:none;color:var(--ink);font-size:15px;font-weight:500;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;transition:border-color .2s;}
 .citem:hover{border-color:var(--ink);}
@@ -196,7 +247,28 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 @media(max-width:320px){.top,.hd,.prog-wrap{padding-left:16px;padding-right:16px;}.sw{padding-left:16px;padding-right:16px;}.nav{padding-left:16px;padding-right:16px;}.rc{padding:14px;}}
 @media(min-width:768px){body{max-width:600px;}.nav{max-width:600px;}.fi{font-size:18px;}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
-@media(prefers-color-scheme:dark){:root{color-scheme:only light;}body{background:var(--bg);color:var(--ink);}}
+
+#sv3{white-space:nowrap;max-width:none;}
+html[lang="en"] :is(.eye,.rt,.rk,.rs,.plabel,.seye2,.clbl2,.park-header-label,.room-notice-label,.out-notice-title){text-transform:uppercase;}
+/* 체크인 완료 이후 동선 */
+.glink{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 16px;text-decoration:none;color:var(--ink);text-align:left;margin-bottom:24px;transition:border-color .2s;}
+.glink:hover{border-color:var(--ink);}
+.glink svg{flex:none;}
+.gt{display:block;font-size:16px;font-weight:500;line-height:1.4;}
+.gs{display:block;font-size:13px;color:var(--ink3);line-height:1.5;margin-top:2px;}
+.con-hours{font-family:var(--fm);font-size:12.5px;font-weight:500;letter-spacing:.04em;color:var(--ink3);margin:0 0 10px;text-align:left;}
+.cstatus{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:14px;font-size:14px;font-weight:500;margin-bottom:12px;text-align:left;transition:background-color .3s;}
+.cstatus .cdot{flex:none;width:6px;height:6px;border-radius:50%;}
+.cstatus.open{background:var(--paper);color:var(--ink);}
+.cstatus.open .cdot{background:var(--ok);}
+.cstatus.closing{background:var(--alert-bg);color:var(--alert);}
+.cstatus.closing .cdot,.cstatus.night .cdot{background:var(--amber);}
+.cstatus.night{background:var(--band);color:#F2F5F7;}
+.citem.hl{grid-column:1/-1;flex-direction:row;justify-content:center;gap:12px;background:var(--band);border-color:var(--band);color:#F2F5F7;text-align:left;}
+.citem.hl .cico2{color:var(--amber);}
+.citem.hl .gs{color:#B7C5CE;}
+.citem.hl:hover{border-color:var(--amber);}
+@media(max-width:360px){.eye{letter-spacing:.04em;}.lbtn{min-width:40px;}}
 </style>
 </head>
 <body>
@@ -207,9 +279,10 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 <header class="hdr">
 <div class="top">
 <div class="eye">HotelAround Sokcho</div>
-<div class="lang-row">
+<div class="lang-row" role="group" aria-label="Language">
 <button class="lbtn on" onclick="setLang('ko')" id="bKO">KO</button>
 <button class="lbtn" onclick="setLang('en')" id="bEN">EN</button>
+<button class="lbtn" onclick="setLang('zh')" id="bZH">中文</button>
 </div>
 </div>
 <div class="hd">
@@ -335,6 +408,7 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 <p class="cdesc" id="cD" style="margin-bottom:16px">객실 키패드 번호는 15:30부터 순차적으로<br>문자로 발송됩니다.</p>
 <div class="out-notice" id="outNotice" role="note"><div class="out-notice-head"><span class="out-notice-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span class="out-notice-title" id="outT">외출 시 꼭 확인해 주세요</span></div><div class="out-notice-row"><span class="out-notice-dot"></span><span class="out-notice-txt" id="outP1">외출하실 때는 반드시 휴대폰을 지참해 주세요. 객실 번호와 비밀번호는 문자로만 안내되며, 휴대폰을 객실에 두고 나가시면 야간에는 재입장을 도와드리기 어렵습니다.</span></div><div class="out-notice-row"><span class="out-notice-dot"></span><span class="out-notice-txt" id="outP2">동숙자분께도 객실 번호와 비밀번호를 미리 공유해 주세요.</span></div></div>
 <p class="cdesc" id="cD2">오래 기억될 속초의 시간이 되시길 바랍니다.</p>
+<a class="glink" id="cGuide" href="https://hotelaroundsokcho.github.io/hotel-guide-dev/" target="_blank" rel="noopener"><span><span class="gt" id="gT">이용안내 다시 보기</span><span class="gs" id="gS">와이파이 · 난방 · 쓰레기 · 주차</span></span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
 <div class="scard">
 <div class="seye2" id="se">예약 요약</div>
 <div class="srow"><span class="sk" id="sk1">예약 채널</span><span class="sv" id="sv1">—</span></div>
@@ -345,9 +419,12 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 <div class="srow"><span class="sk" id="sk5">예상 도착</span><span class="sv" id="sv5">—</span></div>
 </div>
 <div class="clbl2" id="cL">문의 연락처</div>
+<p class="con-hours" id="cHours">운영시간 09:00 – 20:00 (매일)</p>
+<div class="cstatus open" id="cStatus" role="status"><span class="cdot"></span><span id="cStatusT"></span></div>
 <div class="cgr">
+<a class="citem hl" href="https://hotel-around-sokcho-chatbot-frontend.pages.dev" target="_blank" rel="noopener"><span class="cico2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span><span class="gt" id="cBot">AI 챗봇</span><span class="gs" id="cBotS">실시간 채팅 · 즉시 답변</span></span></a>
 <a class="citem" href="tel:033-800-8899"><span class="cico2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><span>033-800-8899</span></a>
-<a class="citem" href="https://open.kakao.com/o/shUYSeFi" target="_blank" rel="noopener"><span class="cico2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span>카카오</span></a>
+<a class="citem" href="https://open.kakao.com/o/shUYSeFi" target="_blank" rel="noopener"><span class="cico2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span id="cK">카카오</span></a>
 <a class="citem" href="https://wa.me/821042820392"><span class="cico2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span><span>WhatsApp</span></a>
 <a class="citem" href="mailto:hotelaroundsokcho@gmail.com"><span class="cico2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span>Email</span></a>
 </div>
@@ -364,13 +441,18 @@ input[type=date].fi::-webkit-date-and-time-value{text-align:left;}
 </div>
 <script>
 const GAS='https://script.google.com/macros/s/AKfycbzvOX8ZZSjz2WG4Es9thpHwIvvnigbDLAhlEmMOdNrHDZ_0_ltTWB16nYGliChTKvVCcg/exec';
+/* 이용안내(B) 주소 — prod 전환 시 hotel-guide 주소로 교체 */
+const GUIDE='https://hotelaroundsokcho.github.io/hotel-guide-dev/';
 let cur=1,lang='ko',adults=1,children=0,channel='',arr='',sameGuest=true,noCar=false;
 const ag={1:0,2:0,3:0,4:0,5:0,6:0,7:0};
 const T={
-ko:{hT:'환영합니다',hS:'Mobile Check-in · 모바일 체크인',e1:'Step 1 of 7',t1:'예약 채널',d1t:'어디서 예약하셨나요?',e2:'Step 2 of 7',t2:'예약자 정보',d2t:'',e3:'Step 3 of 7',t3:'투숙 일정',d3t:'체크인 16:00 · 체크아웃 11:00',e4:'Step 4 of 7',t4:'인원',d4t:'성인(만 18세 이상) · 어린이(36개월 이상)',roomNoticeTxt:'저희 호텔은 <strong>스위트 및 디럭스듀플렉스를 제외하고 2인 중심의 객실</strong>입니다. 36개월 이상의 자녀분을 동반하실 경우 다소 불편하실 수 있으니 양해 부탁드립니다.',roomNoticeTitle:'객실 안내',e5:'Step 5 of 7',t5:'차량번호',d5t:'차량번호를 입력하거나 \'차량 없음\'을 선택해 주세요',lNoCar:'차량 없음',e6:'Step 6 of 7',t6:'예상 도착 시간',d6t:'체크인은 16:00부터 가능합니다',e7:'Step 7 of 7',t7:'정책 동의',d7t:'투숙 전 필수 확인 사항입니다',ln:'성명',lb:'생년월일',lna:'국적',lp:'연락처',lpp:'여권번호',hb:'8자리 숫자 (예: 19900101)',lSame:'예약자와 투숙객이 동일합니다',lSameHint:'※ 부모님이 예약하고 자녀분이 묵는 경우처럼, 예약자와 실제 투숙객이 다를 때만 체크를 해제해주세요.',lAG:'투숙객 성명',lAB:'투숙객 생년월일',hAB:'8자리 숫자 (예: 19900101)',ageNoticeTxt:'만 18세 미만 투숙객은 보호자 동반이 확인되지 않으면 단독 숙박·혼숙이 제한될 수 있습니다. 원활한 안내를 위해 카카오 1:1 채팅으로 미리 문의해 주세요.',ageNoticeSelfTxt:'만 18세 미만 투숙객은 보호자 동반이 확인되지 않으면 단독 숙박·혼숙이 제한될 수 있습니다. 원활한 안내를 위해 카카오 1:1 채팅으로 미리 문의해 주세요.',dayNoticeTxt:'모바일 체크인은 체크인 당일에 제출해 주세요.',dateNoticeTxt:'선택하신 체크인 날짜는 오늘이 아닙니다. 모바일 체크인은 체크인 당일에 제출해 주세요.',lci:'체크인',lco:'체크아웃',nl:'박 숙박',la:'성인',las:'만 18세 이상',lch:'어린이',lchs:'36개월 이상 · 만 18세 미만',lc:'차량번호',ll:'늦은 도착',aL:'전체 동의',at1:'흡연 금지 동의',ad1:'객실 내 흡연 적발 시 300,000원 추가 청구',at2:'반려동물 반입 금지',ad2:'반입 적발 시 즉시 퇴실 조치',at3:'미성년자 단독·혼숙 제한 확인',ad3:'만 18세 미만은 보호자 동반이 확인되지 않으면 단독 숙박·혼숙이 제한됩니다',at4:'파손·분실 시 실비 청구 동의',at5:'개인정보 수집·이용 동의',ad5:'투숙 목적으로만 사용됩니다',at6:'하우스룰 확인',ad6:'체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지',at7:'마케팅 수신 동의',ad7:'이벤트·할인 정보 수신 (언제든 철회 가능)',bnL:'다음',bsL:'체크인 완료하기',vCh:'예약 채널을 선택해 주세요.',vF:'필수 항목을 확인해 주세요.',vB:'생년월일을 8자리로 입력해 주세요.',vBn:'생년월일은 숫자만 입력할 수 있습니다. (예: 19900101)',vNn:'성명에는 숫자를 입력할 수 없습니다. 성함만 입력해 주세요.',vP:'외국인 투숙객은 여권번호를 6자 이상 입력해 주세요.',vCar:'차량번호를 입력하거나 \'차량 없음\'을 선택해 주세요.',vT:'예상 도착 시간을 선택해 주세요.',vA:'필수 항목에 모두 동의해 주세요.',cT:'체크인 완료',cD:'객실 키패드 번호는 15:30부터 순차적으로\n문자로 발송됩니다.',outT:'외출 시 꼭 확인해 주세요',outP1:'외출하실 때는 반드시 휴대폰을 지참해 주세요. 객실 번호와 비밀번호는 문자로만 안내되며, 휴대폰을 객실에 두고 나가시면 야간에는 재입장을 도와드리기 어렵습니다.',outP2:'동숙자분께도 객실 번호와 비밀번호를 미리 공유해 주세요.',cD2:'오래 기억될 속초의 시간이 되시길 바랍니다.',se:'예약 요약',sk1:'예약 채널',sk2:'투숙객',sk3:'일정',sk4:'인원',sk5:'예상 도착',sk6:'차량번호',cL:'문의 연락처',ltxt:'체크인 처리 중...',parkTitle:'주차 안내',parkMsg:'주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.',parkSms:'만차일 경우 별도의 문자메시지를 드리겠습니다.',parkLink:'무료공영주차장 안내 ↗'},
-en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 7',t1:'Booking Channel',d1t:'Where did you book?',e2:'Step 2 of 7',t2:'Booker Info',d2t:'',e3:'Step 3 of 7',t3:'Stay Dates',d3t:'Check-in 16:00 · Check-out 11:00',e4:'Step 4 of 7',t4:'Guests',d4t:'Adults (18+) · Children (36 months+)',roomNoticeTxt:'Except for our Suites and Deluxe Duplex rooms, <strong>our rooms are designed for 2 guests</strong>. Traveling with a child aged 36 months or older may be less comfortable — thank you for your understanding.',roomNoticeTitle:'Room Info',e5:'Step 5 of 7',t5:'Car Plate',d5t:'Enter your plate number or select \'No car\'',lNoCar:'No car',e6:'Step 6 of 7',t6:'Arrival Time',d6t:'Check-in available from 16:00',e7:'Step 7 of 7',t7:'Policies',d7t:'Please review before staying',ln:'Full Name',lb:'Date of Birth',lna:'Nationality',lp:'Phone',lpp:'Passport No.',hb:'8 digits e.g. 19900101',lSame:'Booker and guest are the same person',lSameHint:'Uncheck only if the guest is different from the booker (e.g. a parent booking for their child).',lAG:"Guest's Full Name",lAB:"Guest's Date of Birth",hAB:'8 digits e.g. 19900101',ageNoticeTxt:'Guests under 18 may not stay unaccompanied or share a room without a verified guardian. Please contact us via KakaoTalk beforehand so we can assist you.',ageNoticeSelfTxt:'Guests under 18 may not stay unaccompanied or share a room without a verified guardian. Please contact us via KakaoTalk beforehand so we can assist you.',dayNoticeTxt:'Please submit mobile check-in on the day of your arrival.',dateNoticeTxt:'The check-in date you selected is not today. Please submit mobile check-in on the day of your arrival.',lci:'Check-in',lco:'Check-out',nl:'night(s)',la:'Adults',las:'18 years or older',lch:'Children',lchs:'36 months+ · Under 18',lc:'Car Plate',ll:'Late arrival',aL:'Agree to all',at1:'No Smoking',ad1:'KRW 300,000 penalty if violated',at2:'No Pets',ad2:'Immediate check-out if violated',at3:'Minor Guest Policy',ad3:'Guests under 18 may not stay unaccompanied or share a room without a verified guardian',at4:'Damage / Loss Liability',at5:'Privacy Policy',ad5:'Used for stay purposes only',at6:'House Rules',ad6:'Check-out 11:00 / Recycling / No noise',at7:'Marketing Consent',ad7:'Promotions & events (opt-out anytime)',bnL:'Next',bsL:'Complete Check-in',vCh:'Please select a booking channel.',vF:'Please fill in all required fields.',vB:'Please enter date of birth (8 digits).',vBn:'Date of birth must be digits only (e.g. 19900101).',vNn:'Name cannot contain numbers. Please enter your name only.',vP:'Passport number must be at least 6 characters for non-Korean guests.',vCar:'Please enter your car plate or select \'No car\'.',vT:'Please select arrival time.',vA:'Please agree to all required policies.',cT:'Check-in Complete',cD:'Your room keypad code will be sent by SMS\nstarting at 15:30.',outT:'Please note before you head out',outP1:'Always take your phone with you when you leave. Your room number and door code are sent by SMS only, and if your phone is left inside the room, we cannot help you get back in at night.',outP2:'Please share the room number and door code with your travel companion in advance.',cD2:'Wishing you a Sokcho stay to remember.',se:'Booking Summary',sk1:'Channel',sk2:'Guest',sk3:'Dates',sk4:'Guests',sk5:'Arrival',sk6:'Car Plate',cL:'Contact Us',ltxt:'Processing check-in...',parkTitle:'Parking Info',parkMsg:'Parking may be limited on weekends and peak seasons. We appreciate your understanding.',parkSms:'If the lot is full, we will notify you by text message.',parkLink:'Free public parking ↗'}};
-function setLang(l){lang=l;document.getElementById('bKO').className='lbtn'+(l==='ko'?' on':'');document.getElementById('bEN').className='lbtn'+(l==='en'?' on':'');applyT();}
-function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','roomNoticeTxt','roomNoticeTitle','e5','t5','d5t','lNoCar','e6','t6','d6t','e7','t7','d7t','hb','hAB','lSame','lSameHint','ageNoticeTxt','ageNoticeSelfTxt','dayNoticeTxt','dateNoticeTxt','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','sk6','cL','parkTitle','parkMsg','parkSms','parkLink','outT','outP1','outP2','cD2'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['la',1],['lc',0],['lAG',1],['lAB',1]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();refreshFieldErrs();}
+ko:{hT:'환영합니다',hS:'Mobile Check-in · 모바일 체크인',e1:'Step 1 of 7',t1:'예약 채널',d1t:'어디서 예약하셨나요?',e2:'Step 2 of 7',t2:'예약자 정보',d2t:'',e3:'Step 3 of 7',t3:'투숙 일정',d3t:'체크인 16:00 · 체크아웃 11:00',e4:'Step 4 of 7',t4:'인원',d4t:'성인(만 18세 이상) · 어린이(36개월 이상)',roomNoticeTxt:'저희 호텔은 <strong>스위트 및 디럭스듀플렉스를 제외하고 2인 중심의 객실</strong>입니다. 36개월 이상의 자녀분을 동반하실 경우 다소 불편하실 수 있으니 양해 부탁드립니다.',roomNoticeTitle:'객실 안내',e5:'Step 5 of 7',t5:'차량번호',d5t:'차량번호를 입력하거나 \'차량 없음\'을 선택해 주세요',lNoCar:'차량 없음',e6:'Step 6 of 7',t6:'예상 도착 시간',d6t:'체크인은 16:00부터 가능합니다',e7:'Step 7 of 7',t7:'정책 동의',d7t:'투숙 전 필수 확인 사항입니다',ln:'성명',lb:'생년월일',lna:'국적',lp:'연락처',lpp:'여권번호',hb:'8자리 숫자 (예: 19900101)',lSame:'예약자와 투숙객이 동일합니다',lSameHint:'※ 부모님이 예약하고 자녀분이 묵는 경우처럼, 예약자와 실제 투숙객이 다를 때만 체크를 해제해주세요.',lAG:'투숙객 성명',lAB:'투숙객 생년월일',hAB:'8자리 숫자 (예: 19900101)',ageNoticeTxt:'만 18세 미만 투숙객은 보호자 동반이 확인되지 않으면 단독 숙박·혼숙이 제한될 수 있습니다. 원활한 안내를 위해 카카오 1:1 채팅으로 미리 문의해 주세요.',ageNoticeSelfTxt:'만 18세 미만 투숙객은 보호자 동반이 확인되지 않으면 단독 숙박·혼숙이 제한될 수 있습니다. 원활한 안내를 위해 카카오 1:1 채팅으로 미리 문의해 주세요.',dayNoticeTxt:'모바일 체크인은 체크인 당일에 제출해 주세요.',dateNoticeTxt:'선택하신 체크인 날짜는 오늘이 아닙니다. 모바일 체크인은 체크인 당일에 제출해 주세요.',lci:'체크인',lco:'체크아웃',nl:'박 숙박',la:'성인',las:'만 18세 이상',lch:'어린이',lchs:'36개월 이상 · 만 18세 미만',lc:'차량번호',ll:'늦은 도착',aL:'전체 동의',at1:'흡연 금지 동의',ad1:'객실 내 흡연 적발 시 300,000원 추가 청구',at2:'반려동물 반입 금지',ad2:'반입 적발 시 즉시 퇴실 조치',at3:'미성년자 단독·혼숙 제한 확인',ad3:'만 18세 미만은 보호자 동반이 확인되지 않으면 단독 숙박·혼숙이 제한됩니다',at4:'파손·분실 시 실비 청구 동의',at5:'개인정보 수집·이용 동의',ad5:'투숙 목적으로만 사용됩니다',at6:'하우스룰 확인',ad6:'체크아웃 11:00 / 쓰레기 분리수거 / 소음 금지',at7:'마케팅 수신 동의',ad7:'이벤트·할인 정보 수신 (언제든 철회 가능)',bnL:'다음',bsL:'체크인 완료하기',vCh:'예약 채널을 선택해 주세요.',vF:'필수 항목을 확인해 주세요.',vB:'생년월일을 8자리로 입력해 주세요.',vBn:'생년월일은 숫자만 입력할 수 있습니다. (예: 19900101)',vNn:'성명에는 숫자를 입력할 수 없습니다. 성함만 입력해 주세요.',vP:'외국인 투숙객은 여권번호를 6자 이상 입력해 주세요.',vCar:'차량번호를 입력하거나 \'차량 없음\'을 선택해 주세요.',vT:'예상 도착 시간을 선택해 주세요.',vA:'필수 항목에 모두 동의해 주세요.',cT:'체크인 완료',cD:'객실 키패드 번호는 15:30부터 순차적으로\n문자로 발송됩니다.',outT:'외출 시 꼭 확인해 주세요',outP1:'외출하실 때는 반드시 휴대폰을 지참해 주세요. 객실 번호와 비밀번호는 문자로만 안내되며, 휴대폰을 객실에 두고 나가시면 야간에는 재입장을 도와드리기 어렵습니다.',outP2:'동숙자분께도 객실 번호와 비밀번호를 미리 공유해 주세요.',cD2:'오래 기억될 속초의 시간이 되시길 바랍니다.',se:'예약 요약',sk1:'예약 채널',sk2:'투숙객',sk3:'일정',sk4:'인원',sk5:'예상 도착',sk6:'차량번호',cL:'문의 연락처',ltxt:'체크인 처리 중...',parkTitle:'주차 안내',parkMsg:'주말 및 성수기일 경우 주차장 이용이 제한될 수 있으니 양해 바랍니다.',parkSms:'만차일 경우 별도의 문자메시지를 드리겠습니다.',parkLink:'무료공영주차장 안내 ↗',gT:'이용안내 다시 보기',gS:'와이파이 · 난방 · 쓰레기 · 주차',cHours:'운영시간 09:00 – 20:00 (매일)',cBot:'AI 챗봇',cBotS:'실시간 채팅 · 즉시 답변',cK:'카카오',none:'없음',u1:'명',chS:' · 어린이 ',cu:'명',stO:'편하게 문의하세요, 지금 응대 가능합니다',stC:'오늘 응대는 곧 마감돼요 (20:00까지)',stN:'지금은 조용한 시간이에요. 아침 9시에 다시 만나요',pN:'홍길동',pPp:'외국인 투숙객 필수',pAG:'실제 투숙하시는 분의 성명'},
+en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 7',t1:'Booking Channel',d1t:'Where did you book?',e2:'Step 2 of 7',t2:'Booker Info',d2t:'',e3:'Step 3 of 7',t3:'Stay Dates',d3t:'Check-in 16:00 · Check-out 11:00',e4:'Step 4 of 7',t4:'Guests',d4t:'Adults (18+) · Children (36 months+)',roomNoticeTxt:'Except for our Suites and Deluxe Duplex rooms, <strong>our rooms are designed for 2 guests</strong>. Traveling with a child aged 36 months or older may be less comfortable — thank you for your understanding.',roomNoticeTitle:'Room Info',e5:'Step 5 of 7',t5:'Car Plate',d5t:'Enter your plate number or select \'No car\'',lNoCar:'No car',e6:'Step 6 of 7',t6:'Arrival Time',d6t:'Check-in available from 16:00',e7:'Step 7 of 7',t7:'Policies',d7t:'Please review before staying',ln:'Full Name',lb:'Date of Birth',lna:'Nationality',lp:'Phone',lpp:'Passport No.',hb:'8 digits e.g. 19900101',lSame:'Booker and guest are the same person',lSameHint:'Uncheck only if the guest is different from the booker (e.g. a parent booking for their child).',lAG:"Guest's Full Name",lAB:"Guest's Date of Birth",hAB:'8 digits e.g. 19900101',ageNoticeTxt:'Guests under 18 may not stay unaccompanied or share a room without a verified guardian. Please contact us via KakaoTalk beforehand so we can assist you.',ageNoticeSelfTxt:'Guests under 18 may not stay unaccompanied or share a room without a verified guardian. Please contact us via KakaoTalk beforehand so we can assist you.',dayNoticeTxt:'Please submit mobile check-in on the day of your arrival.',dateNoticeTxt:'The check-in date you selected is not today. Please submit mobile check-in on the day of your arrival.',lci:'Check-in',lco:'Check-out',nl:'night(s)',la:'Adults',las:'18 years or older',lch:'Children',lchs:'36 months+ · Under 18',lc:'Car Plate',ll:'Late arrival',aL:'Agree to all',at1:'No Smoking',ad1:'KRW 300,000 penalty if violated',at2:'No Pets',ad2:'Immediate check-out if violated',at3:'Minor Guest Policy',ad3:'Guests under 18 may not stay unaccompanied or share a room without a verified guardian',at4:'Damage / Loss Liability',at5:'Privacy Policy',ad5:'Used for stay purposes only',at6:'House Rules',ad6:'Check-out 11:00 / Recycling / No noise',at7:'Marketing Consent',ad7:'Promotions & events (opt-out anytime)',bnL:'Next',bsL:'Complete Check-in',vCh:'Please select a booking channel.',vF:'Please fill in all required fields.',vB:'Please enter date of birth (8 digits).',vBn:'Date of birth must be digits only (e.g. 19900101).',vNn:'Name cannot contain numbers. Please enter your name only.',vP:'Passport number must be at least 6 characters for non-Korean guests.',vCar:'Please enter your car plate or select \'No car\'.',vT:'Please select arrival time.',vA:'Please agree to all required policies.',cT:'Check-in Complete',cD:'Your room keypad code will be sent by SMS\nstarting at 15:30.',outT:'Please note before you head out',outP1:'Always take your phone with you when you leave. Your room number and door code are sent by SMS only, and if your phone is left inside the room, we cannot help you get back in at night.',outP2:'Please share the room number and door code with your travel companion in advance.',cD2:'Wishing you a Sokcho stay to remember.',se:'Booking Summary',sk1:'Channel',sk2:'Guest',sk3:'Dates',sk4:'Guests',sk5:'Arrival',sk6:'Car Plate',cL:'Contact Us',ltxt:'Processing check-in...',parkTitle:'Parking Info',parkMsg:'Parking may be limited on weekends and peak seasons. We appreciate your understanding.',parkSms:'If the lot is full, we will notify you by text message.',parkLink:'Free public parking ↗',gT:'Back to your guide',gS:'Wi-Fi · Heating · Trash · Parking',cHours:'Hours: 09:00 – 20:00 (Daily)',cBot:'AI Chatbot',cBotS:'Live chat · Instant answers',cK:'KakaoTalk',none:'None',u1:'pax',chS:' · Children ',cu:'',stO:"Feel free to reach out — we're here now",stC:'Support closes soon today (by 8:00 PM)',stN:"It's quiet hours now. We'll be here from 9 AM",pN:'Full name',pPp:'Required for non-Korean guests',pAG:"Actual guest's full name"},
+zh:{hT:'欢迎光临',hS:'Mobile Check-in · 手机入住',e1:'第1步 / 共7步',t1:'预订渠道',d1t:'您在哪里预订的？',e2:'第2步 / 共7步',t2:'预订人信息',d2t:'',e3:'第3步 / 共7步',t3:'入住日程',d3t:'入住 16:00 · 退房 11:00',e4:'第4步 / 共7步',t4:'人数',d4t:'成人（满18周岁）· 儿童（满36个月）',roomNoticeTxt:'除套房和豪华复式客房外，<strong>本酒店客房以2人入住为主</strong>。如携带满36个月的儿童同住，可能会有些不便，敬请谅解。',roomNoticeTitle:'客房须知',e5:'第5步 / 共7步',t5:'车牌号',d5t:'请输入车牌号，或选择“无车辆”',lNoCar:'无车辆',e6:'第6步 / 共7步',t6:'预计到达时间',d6t:'16:00起可办理入住',e7:'第7步 / 共7步',t7:'政策确认',d7t:'入住前请务必确认以下事项',ln:'姓名',lb:'出生日期',lna:'国籍',lp:'联系电话',lpp:'护照号码',hb:'8位数字（例：19900101）',lSame:'预订人与住客为同一人',lSameHint:'※ 仅当预订人与实际住客不同时（例如父母预订、子女入住），才需取消勾选。',lAG:'住客姓名',lAB:'住客出生日期',hAB:'8位数字（例：19900101）',ageNoticeTxt:'未满18周岁的住客，如无法确认监护人陪同，单独入住及混住可能受到限制。为便于顺利办理，请提前通过KakaoTalk 1:1聊天咨询。',ageNoticeSelfTxt:'未满18周岁的住客，如无法确认监护人陪同，单独入住及混住可能受到限制。为便于顺利办理，请提前通过KakaoTalk 1:1聊天咨询。',dayNoticeTxt:'请在入住当天提交手机入住登记。',dateNoticeTxt:'您选择的入住日期不是今天。请在入住当天提交手机入住登记。',lci:'入住',lco:'退房',nl:'晚住宿',la:'成人',las:'满18周岁',lch:'儿童',lchs:'满36个月 · 未满18周岁',lc:'车牌号',ll:'较晚到达',aL:'全部同意',at1:'禁止吸烟',ad1:'客房内吸烟一经发现，将追加收取300,000韩元',at2:'禁止携带宠物',ad2:'一经发现，将立即办理退房',at3:'确认未成年人单独及混住限制',ad3:'未满18周岁者如无法确认监护人陪同，单独入住及混住将受到限制',at4:'同意损坏·遗失时按实际费用赔偿',at5:'同意收集及使用个人信息',ad5:'仅用于住宿目的',at6:'确认住宿规则',ad6:'退房11:00 / 垃圾分类 / 禁止喧哗',at7:'同意接收营销信息',ad7:'接收活动·优惠信息（可随时撤回）',bnL:'下一步',bsL:'完成入住登记',vCh:'请选择预订渠道。',vF:'请检查必填项。',vB:'请输入8位出生日期。',vBn:'出生日期只能输入数字。（例：19900101）',vNn:'姓名中不能包含数字，请只输入姓名。',vP:'外国住客请输入6位以上的护照号码。',vCar:'请输入车牌号，或选择“无车辆”。',vT:'请选择预计到达时间。',vA:'请同意所有必填项。',cT:'入住登记完成',cD:'客房门锁密码将从15:30起\n依次通过短信发送。',outT:'外出前请务必确认',outP1:'外出时请务必携带手机。房间号和密码仅通过短信告知，如将手机遗留在客房内，夜间我们将难以协助您重新进入。',outP2:'请提前将房间号和密码告知同行人。',cD2:'祝您拥有一段难忘的束草时光。',se:'预订摘要',sk1:'预订渠道',sk2:'住客',sk3:'日程',sk4:'人数',sk5:'预计到达',sk6:'车牌号',cL:'咨询联系方式',ltxt:'正在办理入住登记…',parkTitle:'停车须知',parkMsg:'周末及旺季停车场使用可能受限，敬请谅解。',parkSms:'如停车场已满，我们将另行通过短信通知您。',parkLink:'免费公共停车场信息 ↗',gT:'再次查看入住指南',gS:'Wi-Fi · 暖气 · 垃圾 · 停车',cHours:'营业时间 09:00 – 20:00（每日）',cBot:'AI聊天机器人',cBotS:'实时聊天 · 即时回复',cK:'KakaoTalk',none:'无',u1:'位',chS:' · 儿童 ',cu:'位',stO:'欢迎随时咨询，现在为您在线服务',stC:'今日服务即将结束（20:00截止）',stN:'现在是休息时间，早上9点再见',pN:'请输入姓名',pPp:'外国住客必填',pAG:'实际入住者姓名'}};
+function initLang(){let l=null;try{l=localStorage.getItem('hg_lang');}catch(e){}if(l!=='ko'&&l!=='en'&&l!=='zh'){const b=navigator.language||'';l=b.indexOf('ko')===0?'ko':(b.indexOf('zh')===0?'zh':'en');}try{const q=new URLSearchParams(location.search).get('lang');if(q==='ko'||q==='en'||q==='zh')l=q;}catch(e){}return l;}
+function upStatus(){const el=document.getElementById('cStatus');if(!el)return;const n=seoulNow(),h=n.getHours()+n.getMinutes()/60,t=T[lang];let c,m;if(h>=9&&h<19){c='open';m=t.stO;}else if(h>=19&&h<20){c='closing';m=t.stC;}else{c='night';m=t.stN;}el.className='cstatus '+c;document.getElementById('cStatusT').textContent=m;}
+function setLang(l){lang=l;['ko','en','zh'].forEach(k=>{const b=document.getElementById('b'+k.toUpperCase());if(b)b.className='lbtn'+(l===k?' on':'');});document.documentElement.lang=l;try{localStorage.setItem('hg_lang',l);}catch(e){}applyT();const g=document.getElementById('cGuide');if(g)g.href=GUIDE+'?lang='+l;upStatus();}
+function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','roomNoticeTxt','roomNoticeTitle','e5','t5','d5t','lNoCar','e6','t6','d6t','e7','t7','d7t','hb','hAB','lSame','lSameHint','ageNoticeTxt','ageNoticeSelfTxt','dayNoticeTxt','dateNoticeTxt','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','sk6','cL','parkTitle','parkMsg','parkSms','parkLink','outT','outP1','outP2','cD2','gT','gS','cHours','cBot','cBotS','cK'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['lc',0],['lAG',1],['lAB',1]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});[['gN','pN'],['gPp','pPp'],['gAG','pAG']].forEach(([id,k])=>{const el=document.getElementById(id);if(el&&t[k]!==undefined)el.placeholder=t[k];});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();refreshFieldErrs();}
 function upProg(){for(let i=1;i<=7;i++){const d=document.getElementById('d'+i);if(i<cur){d.className='sdot done';d.textContent='✓';}else if(i===cur){d.className='sdot act';d.textContent=i;}else{d.className='sdot';d.textContent=i;}if(i<7)document.getElementById('l'+i).className='sline'+(i<cur?' done':'');}document.getElementById('sL').textContent='Step '+cur;document.getElementById('pB').style.width=(cur/7*100).toFixed(1)+'%';document.getElementById('bp').style.display=cur>1?'flex':'none';const last=cur===7;document.getElementById('bn').style.display=last?'none':'flex';document.getElementById('bs').style.display=last?'flex':'none';}
 function showSec(n){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));const s=document.getElementById('s'+n);if(s)s.classList.add('act');document.getElementById('cw').classList.remove('on');document.getElementById('nav').style.display='';window.scrollTo({top:0,behavior:'smooth'});}
 const NAME_NUM=/[0-9\uFF10-\uFF19]/;
@@ -430,18 +512,19 @@ document.getElementById('cD').innerHTML=(t.cD||'').replace(/\n/g,'<br>');
 document.getElementById('sv1').textContent=channel;
 document.getElementById('sv2').textContent=guestName;
 document.getElementById('sv3').textContent=ci+' → '+co;
-document.getElementById('sv4').textContent=adults+(lang==='ko'?'명':'pax')+(children>0?(lang==='ko'?' · 어린이 '+children+'명':' · Children '+children):'');
-document.getElementById('sv6').textContent=carInput||(lang==='ko'?'없음':'None');
+document.getElementById('sv4').textContent=adults+t.u1+(children>0?t.chS+children+t.cu:'');
+document.getElementById('sv6').textContent=carInput||t.none;
 document.getElementById('sv5').textContent=arr;
 document.getElementById('cw').classList.add('on');
 window.scrollTo({top:0,behavior:'smooth'});
 }
 
 
-upProg();setLang('ko');
+upProg();setLang(initLang());
+setInterval(()=>{upStatus();applyPhase();},60000);
 
 /* ── 접수증(읽기 전용): 입력값을 표시만 하며 상태·전송 값은 변경하지 않음 ── */
-const RC={ko:{t:'접수증',k:['채널','성명','일정','인원','차량','도착'],n:'입력',none:'없음',ad:'성인',ch:'어린이'},en:{t:'Receipt',k:['Channel','Name','Dates','Guests','Car','Arrival'],n:'entered',none:'None',ad:'Adults',ch:'Children'}};
+const RC={ko:{t:'접수증',k:['채널','성명','일정','인원','차량','도착'],n:'입력',none:'없음',ad:'성인',ch:'어린이'},en:{t:'Receipt',k:['Channel','Name','Dates','Guests','Car','Arrival'],n:'entered',none:'None',ad:'Adults',ch:'Children'},zh:{t:'登记单',k:['渠道','姓名','日程','人数','车辆','到达'],n:'已填',none:'无',ad:'成人',ch:'儿童'}};
 function rcDate(ci,co){if(!ci||!co)return '';const a=ci.split('-'),b=co.split('-');if(a.length<3||b.length<3)return '';return a[1]+'.'+a[2]+'–'+(a[1]===b[1]?b[2]:b[1]+'.'+b[2]);}
 function upRc(){
 const box=document.getElementById('rc');if(!box)return;
