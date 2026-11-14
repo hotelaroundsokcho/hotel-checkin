@@ -278,9 +278,28 @@ html[lang="en"] :is(.eye,.rt,.rk,.rs,.plabel,.seye2,.clbl2,.park-header-label,.r
 .citem.hl .gs{color:#B7C5CE;}
 .citem.hl:hover{border-color:var(--amber);}
 @media(max-width:360px){.eye{letter-spacing:.04em;}.lbtn{min-width:40px;}}
+/* ── 체크인 당일 확인(게이트): 확인 전에는 단계·접수증·하단 버튼 숨김 ── */
+body.gated .prog-wrap,body.gated #rc,body.gated .sec,body.gated #nav{display:none!important;}
+.gate{display:none;padding:8px 0 32px;}
+body.gated .gate{display:block;animation:gateIn .35s ease-out;}
+@keyframes gateIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.gate .gdate{font-family:var(--fm);font-size:13px;font-weight:500;letter-spacing:.08em;color:var(--ink3);margin-bottom:10px;}
+.gate .gq{font-size:26px;font-weight:500;letter-spacing:-.01em;line-height:1.35;color:var(--ink);margin:0 0 10px;}
+.gate .gd{font-size:15px;color:var(--ink2);line-height:1.6;margin:0 0 28px;}
+.gate .gbtns{display:flex;flex-direction:column;gap:10px;}
+.gate .gyes{height:56px;border:none;border-radius:16px;background:var(--fill);color:var(--on-fill);font-size:17px;font-weight:500;cursor:pointer;}
+.gate .gno{height:52px;border:1px solid var(--line);border-radius:16px;background:transparent;color:var(--ink);font-size:16px;font-weight:500;cursor:pointer;}
+.gate button:focus-visible{outline:2px solid var(--amber);outline-offset:3px;}
+.gate .gnot{display:none;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px 16px;margin-top:4px;}
+.gate.no .gnot{display:block;}
+.gate.no .gbtns,.gate.no .gd{display:none;}
+.gate .gnot h2{font-size:18px;font-weight:500;color:var(--ink);margin:0 0 8px;line-height:1.4;}
+.gate .gnot p{font-size:15px;color:var(--ink2);line-height:1.6;margin:0 0 14px;}
+.gate .gback{background:none;border:none;padding:6px 0;color:var(--ink);font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+#ci:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default;}
 </style>
 </head>
-<body>
+<body class="gated">
 
 
 <div class="lovo" id="lo"><div class="lring"></div><div class="ltxt" id="ltxt">체크인 처리 중...</div></div>
@@ -315,6 +334,20 @@ html[lang="en"] :is(.eye,.rt,.rk,.rs,.plabel,.seye2,.clbl2,.park-header-label,.r
 </div>
 </header>
 <div class="sw">
+<section class="gate" id="gate" aria-labelledby="gQ">
+<div class="gdate" id="gDate"></div>
+<h2 class="gq" id="gQ" tabindex="-1"></h2>
+<p class="gd" id="gD"></p>
+<div class="gbtns">
+<button class="gyes" id="gYes" type="button" onclick="gateYes()"></button>
+<button class="gno" id="gNo" type="button" onclick="gateNo()"></button>
+</div>
+<div class="gnot" id="gNot" role="status">
+<h2 id="gNotT"></h2>
+<p id="gNotD"></p>
+<button class="gback" id="gBack" type="button" onclick="gateBack()"></button>
+</div>
+</section>
 <div class="rc" id="rc" role="group" aria-label="접수증">
 <div class="rch"><span class="rt" id="rcT">접수증</span><span class="rs" id="rcS"></span></div>
 <div class="rg">
@@ -461,7 +494,7 @@ en:{hT:'Welcome',hS:'Mobile Check-in',e1:'Step 1 of 7',t1:'Booking Channel',d1t:
 zh:{hT:'欢迎光临',hS:'Mobile Check-in · 手机入住',e1:'第1步 / 共7步',t1:'预订渠道',d1t:'您在哪里预订的？',e2:'第2步 / 共7步',t2:'预订人信息',d2t:'',e3:'第3步 / 共7步',t3:'入住日程',d3t:'入住 16:00 · 退房 11:00',e4:'第4步 / 共7步',t4:'人数',d4t:'成人（满18周岁）· 儿童（满36个月）。未满36个月的婴幼儿不另收住宿费，无需填写。',roomNoticeTxt:'除套房和豪华复式客房外，<strong>本酒店客房以2人入住为主</strong>。如携带满36个月的儿童同住，可能会有些不便，敬请谅解。',roomNoticeTitle:'客房须知',e5:'第5步 / 共7步',t5:'车牌号',d5t:'请输入车牌号，或选择“无车辆”',lNoCar:'无车辆',e6:'第6步 / 共7步',t6:'预计到达时间',d6t:'16:00起可办理入住',e7:'第7步 / 共7步',t7:'政策确认',d7t:'入住前请务必确认以下事项',ln:'姓名',lb:'出生日期',lna:'国籍',lp:'联系电话',lpp:'护照号码',hb:'8位数字（例：19900101）',lSame:'预订人与住客为同一人',lSameHint:'※ 仅当预订人与实际住客不同时（例如父母预订、子女入住），才需取消勾选。',lAG:'住客姓名',lAB:'住客出生日期',hAB:'8位数字（例：19900101）',ageNoticeTxt:'未满18周岁的住客需经法定监护人确认；无法确认时，将限制单独入住及混住。为便于顺利办理，请提前通过KakaoTalk 1:1聊天咨询。',ageNoticeSelfTxt:'未满18周岁的住客需经法定监护人确认；无法确认时，将限制单独入住及混住。为便于顺利办理，请提前通过KakaoTalk 1:1聊天咨询。',dayNoticeTxt:'请在入住当天提交手机入住登记。',dateNoticeTxt:'您选择的入住日期不是今天。请在入住当天提交手机入住登记。',lci:'入住',lco:'退房',nl:'晚住宿',la:'成人',las:'满18周岁',lch:'儿童',lchs:'满36个月 · 未满18周岁',lc:'车牌号',ll:'较晚到达',aL:'全部同意',at1:'禁止吸烟',ad1:'客房内吸烟一经发现，按实际清洁费用结算，最高30万韩元',at2:'禁止携带宠物',ad2:'一经发现，将立即办理退房',at3:'未成年人入住须经法定监护人确认',ad3:'未满18周岁者须经法定监护人确认；无法确认时，将限制单独入住及混住',at4:'同意损坏·遗失时按实际费用赔偿',at5:'同意收集及使用个人信息',ad5:'仅用于住宿目的',at6:'确认住宿规则',ad6:'退房11:00 / 垃圾分类 / 禁止喧哗',at7:'同意接收营销信息',ad7:'接收活动·优惠信息（可随时撤回）',bnL:'下一步',bsL:'完成入住登记',vCh:'请选择预订渠道。',vF:'请检查必填项。',vB:'请输入8位出生日期。',vBn:'出生日期只能输入数字。（例：19900101）',vNn:'姓名中不能包含数字，请只输入姓名。',vP:'外国住客请输入6位以上的护照号码。',vCar:'请输入车牌号，或选择“无车辆”。',vT:'请选择预计到达时间。',vA:'请同意所有必填项。',cT:'入住登记完成',cD:'客房门锁密码将从15:30起\n依次通过短信发送。',outT:'外出前请务必确认',outP1:'外出时请务必携带手机。房间号和密码仅通过短信告知，如将手机遗留在客房内，夜间我们将难以协助您重新进入。',outP2:'请提前将房间号和密码告知同行人。',cD2:'祝您拥有一段难忘的束草时光。',se:'预订摘要',sk1:'预订渠道',sk2:'住客',sk3:'日程',sk4:'人数',sk5:'预计到达',sk6:'车牌号',cL:'咨询联系方式',ltxt:'正在办理入住登记…',parkTitle:'停车须知',parkMsg:'周末及旺季停车场使用可能受限，敬请谅解。',parkSms:'如停车场已满，我们将另行通过短信通知您。',parkLink:'免费公共停车场信息 ↗',gT:'再次查看入住指南',gS:'Wi-Fi · 暖气 · 垃圾 · 停车',cHours:'营业时间 09:00 – 20:00（每日）',cBot:'AI聊天机器人',cBotS:'实时聊天 · 即时回复',cK:'KakaoTalk',wfNk:'网络名称',wfNv:'(房间号)around',wfPk:'密码',wfE:'房间号将通过短信发送。例：1201号房 → 1201around',none:'无',u1:'位',chS:' · 儿童 ',cu:'位',stO:'欢迎随时咨询，现在为您在线服务',stC:'今日服务即将结束（20:00截止）',stN:'现在是休息时间，早上9点再见',pN:'请输入姓名',pPp:'外国住客必填',pAG:'实际入住者姓名'}};
 function initLang(){let l=null;try{l=localStorage.getItem('hg_lang');}catch(e){}if(l!=='ko'&&l!=='en'&&l!=='zh'){const b=navigator.language||'';l=b.indexOf('ko')===0?'ko':(b.indexOf('zh')===0?'zh':'en');}try{const q=new URLSearchParams(location.search).get('lang');if(q==='ko'||q==='en'||q==='zh')l=q;}catch(e){}return l;}
 function upStatus(){const el=document.getElementById('cStatus');if(!el)return;const n=seoulNow(),h=n.getHours()+n.getMinutes()/60,t=T[lang];let c,m;if(h>=9&&h<19){c='open';m=t.stO;}else if(h>=19&&h<20){c='closing';m=t.stC;}else{c='night';m=t.stN;}el.className='cstatus '+c;document.getElementById('cStatusT').textContent=m;}
-function setLang(l){lang=l;['ko','en','zh'].forEach(k=>{const b=document.getElementById('b'+k.toUpperCase());if(b)b.className='lbtn'+(l===k?' on':'');});document.documentElement.lang=l;try{localStorage.setItem('hg_lang',l);}catch(e){}applyT();const g=document.getElementById('cGuide');if(g)g.href=GUIDE+'?lang='+l;upStatus();}
+function setLang(l){lang=l;['ko','en','zh'].forEach(k=>{const b=document.getElementById('b'+k.toUpperCase());if(b)b.className='lbtn'+(l===k?' on':'');});document.documentElement.lang=l;try{localStorage.setItem('hg_lang',l);}catch(e){}applyT();const g=document.getElementById('cGuide');if(g)g.href=GUIDE+'?lang='+l;upStatus();renderGate();}
 function applyT(){const t=T[lang];['hT','hS','e1','t1','d1t','e2','t2','d2t','e3','t3','d3t','e4','t4','d4t','roomNoticeTxt','roomNoticeTitle','e5','t5','d5t','lNoCar','e6','t6','d6t','e7','t7','d7t','hb','hAB','lSame','lSameHint','ageNoticeTxt','ageNoticeSelfTxt','dayNoticeTxt','dateNoticeTxt','nl','la','las','lch','lchs','ll','aL','at1','ad1','at2','ad2','at3','ad3','at4','at5','ad5','at6','ad6','at7','ad7','bnL','bsL','se','sk1','sk2','sk3','sk4','sk5','sk6','cL','parkTitle','parkMsg','parkSms','parkLink','outT','outP1','outP2','cD2','gT','gS','cHours','cBot','cBotS','cK','wfNk','wfNv','wfPk','wfE'].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});[['ln',1],['lb',1],['lna',1],['lp',1],['lpp',0],['lci',1],['lco',1],['lc',0],['lAG',1],['lAB',1]].forEach(([id,r])=>{const el=document.getElementById(id);if(el)el.innerHTML=(t[id]||id)+(r?' <span class="req">*</span>':'');});[['gN','pN'],['gPp','pPp'],['gAG','pAG']].forEach(([id,k])=>{const el=document.getElementById(id);if(el&&t[k]!==undefined)el.placeholder=t[k];});const lt=document.getElementById('ltxt');if(lt)lt.textContent=t.ltxt;upNights();refreshFieldErrs();}
 function upProg(){for(let i=1;i<=7;i++){const d=document.getElementById('d'+i);if(i<cur){d.className='sdot done';d.textContent='✓';}else if(i===cur){d.className='sdot act';d.textContent=i;}else{d.className='sdot';d.textContent=i;}if(i<7)document.getElementById('l'+i).className='sline'+(i<cur?' done':'');}document.getElementById('sL').textContent='Step '+cur;document.getElementById('pB').style.width=(cur/7*100).toFixed(1)+'%';document.getElementById('bp').style.display=cur>1?'flex':'none';const last=cur===7;document.getElementById('bn').style.display=last?'none':'flex';document.getElementById('bs').style.display=last?'flex':'none';}
 function showSec(n){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));const s=document.getElementById('s'+n);if(s)s.classList.add('act');document.getElementById('cw').classList.remove('on');document.getElementById('nav').style.display='';window.scrollTo({top:0,behavior:'smooth'});}
@@ -488,7 +521,7 @@ function toggleNoCar(){noCar=!noCar;document.getElementById('noCarBox').classNam
 function minorOf(v){v=v.trim();if(!/^\d{8}$/.test(v))return false;const by=parseInt(v.substring(0,4),10),bm=parseInt(v.substring(4,6),10),bd=parseInt(v.substring(6,8),10);const n=new Date();let age=n.getFullYear()-by;const had=(n.getMonth()+1>bm)||((n.getMonth()+1===bm)&&(n.getDate()>=bd));if(!had)age--;return age<18;}
 function checkMinorAge(){document.getElementById('ageNotice').style.display=(!sameGuest&&minorOf(document.getElementById('gAB').value))?'flex':'none';document.getElementById('ageNoticeSelf').style.display=(sameGuest&&minorOf(document.getElementById('gB').value))?'flex':'none';}
 function localToday(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function upDateNotice(){const ci=document.getElementById('ci').value;document.getElementById('dateNotice').style.display=(ci&&ci>localToday())?'flex':'none';}
+function upDateNotice(){const ci=document.getElementById('ci').value;document.getElementById('dateNotice').style.display=(ci&&ci!==stayKey())?'flex':'none';}
 function upNights(){upDateNotice();const ci=document.getElementById('ci').value,co=document.getElementById('co').value,b=document.getElementById('nb');if(ci&&co&&co>ci){const n=Math.round((new Date(co)-new Date(ci))/86400000);document.getElementById('nn').textContent=n;document.getElementById('nl').textContent=' '+(T[lang].nl||'박 숙박');b.style.display='block';}else b.style.display='none';}
 document.getElementById('ci').addEventListener('change',upNights);
 document.getElementById('co').addEventListener('change',upNights);
@@ -503,6 +536,7 @@ document.getElementById('ci').value=ts;document.getElementById('ci').min=ts;
 document.getElementById('co').value=tc;document.getElementById('co').min=ts;
 upNights();
 async function sub(){
+if(document.getElementById('ci').value!==stayKey()){reGate();return;}
 document.getElementById('lo').classList.add('on');
 const ci=document.getElementById('ci').value,co=document.getElementById('co').value;
 const nights=ci&&co?Math.round((new Date(co)-new Date(ci))/86400000):'';
@@ -530,6 +564,46 @@ window.scrollTo({top:0,behavior:'smooth'});
 }
 
 
+/* ── 체크인 당일 확인(게이트) ──
+   투숙일 = 서울 기준 오늘. 단, 자정~stayCutoffHour() 전 도착은 전날 투숙으로 봄.
+   체크인 날짜는 고객이 고를 수 없고 투숙일로 고정. [아니요]는 제출 불가. */
+function stayCutoffHour(){return 4;} /* 자정 이후 이 시각 전 도착은 전날 투숙으로 봄 — 변경 시 이 숫자만 수정 */
+function stayDate(){const n=seoulNow();const d=new Date(n.getFullYear(),n.getMonth(),n.getDate());if(n.getHours()<stayCutoffHour())d.setDate(d.getDate()-1);return d;}
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function stayKey(){return ymd(stayDate());}
+function lateArrival(){return seoulNow().getHours()<stayCutoffHour();}
+function lockStay(force){const sd=stayDate(),k=ymd(sd),nx=new Date(sd);nx.setDate(nx.getDate()+1);const ci=document.getElementById('ci'),co=document.getElementById('co');ci.value=k;ci.min=k;ci.max=k;ci.disabled=true;ci.setAttribute('aria-readonly','true');co.min=ymd(nx);if(force||!co.value||co.value<=k)co.value=ymd(nx);upNights();}
+const GT={
+ko:{dw:['일','월','화','수','목','금','토'],fmt:(d,w)=>(d.getMonth()+1)+'월 '+d.getDate()+'일('+w+')',
+q:x=>'오늘 '+x+'에<br>체크인하시나요?',ql:x=>x+' 체크인,<br>지금 도착하셨나요?',
+d:'모바일 체크인은 체크인 당일에만 제출할 수 있습니다.',y:'네, 오늘입니다',yl:'네, 지금 도착했습니다',n:'아니요, 다른 날입니다',
+nt:'체크인 당일에 다시 만나요',nd:'체크인 당일 오전에 모바일 체크인 링크를 문자로 다시 보내드려요. 그 링크로 들어와 제출해 주세요.',b:'잘못 눌렀어요, 다시 선택할게요',
+rg:'날짜가 바뀌었어요. 체크인 날짜를 다시 확인해 주세요.'},
+en:{dw:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],fmt:(d,w)=>w+', '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getDate(),
+q:x=>'Are you checking in<br>today, '+x+'?',ql:x=>'Checking in for '+x+'<br>and arriving now?',
+d:'Mobile check-in can only be submitted on your check-in day.',y:"Yes, it's today",yl:"Yes, I'm arriving now",n:'No, a different day',
+nt:'See you on your check-in day',nd:'On the morning of your check-in day, we will text you the mobile check-in link again. Please submit through that link.',b:'I tapped by mistake — choose again',
+rg:'The date has changed. Please confirm your check-in date again.'},
+zh:{dw:['周日','周一','周二','周三','周四','周五','周六'],fmt:(d,w)=>(d.getMonth()+1)+'月'+d.getDate()+'日（'+w+'）',
+q:x=>'您是今天 '+x+'<br>入住吗？',ql:x=>x+' 入住，<br>现在到达吗？',
+d:'手机入住登记仅可在入住当天提交。',y:'是的，今天入住',yl:'是的，现在到达',n:'不是，是其他日期',
+nt:'入住当天见',nd:'入住当天上午，我们会再次通过短信发送手机入住链接。请通过该链接提交。',b:'选错了，重新选择',
+rg:'日期已变更，请重新确认入住日期。'}};
+function renderGate(){const g=GT[lang]||GT.ko,sd=stayDate(),x=g.fmt(sd,g.dw[sd.getDay()]),late=lateArrival();
+document.getElementById('gDate').textContent=ymd(sd).replace(/-/g,'.');
+document.getElementById('gQ').innerHTML=(late?g.ql:g.q)(x);
+document.getElementById('gD').textContent=g.d;
+document.getElementById('gYes').textContent=late?g.yl:g.y;
+document.getElementById('gNo').textContent=g.n;
+document.getElementById('gNotT').textContent=g.nt;
+document.getElementById('gNotD').textContent=g.nd;
+document.getElementById('gBack').textContent=g.b;}
+function gateYes(){lockStay();document.body.classList.remove('gated');cur=1;showSec(1);upProg();const t=document.getElementById('t1');if(t){t.setAttribute('tabindex','-1');t.focus({preventScroll:true});}}
+function gateNo(){document.getElementById('gate').classList.add('no');const h=document.getElementById('gNotT');h.setAttribute('tabindex','-1');h.focus({preventScroll:true});}
+function gateBack(){document.getElementById('gate').classList.remove('no');document.getElementById('gQ').focus({preventScroll:true});}
+function reGate(){lockStay();renderGate();document.getElementById('gate').classList.remove('no');document.body.classList.add('gated');window.scrollTo({top:0,behavior:'smooth'});flash((GT[lang]||GT.ko).rg);}
+
+lockStay(true);
 upProg();setLang(initLang());
 setInterval(()=>{upStatus();applyPhase();},60000);
 
