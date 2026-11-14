@@ -577,17 +577,17 @@ const GT={
 ko:{dw:['일','월','화','수','목','금','토'],fmt:(d,w)=>(d.getMonth()+1)+'월 '+d.getDate()+'일('+w+')',
 q:x=>'오늘 '+x+'에<br>체크인하시나요?',ql:x=>x+' 체크인,<br>지금 도착하셨나요?',
 d:'모바일 체크인은 체크인 당일에만 제출할 수 있습니다.',y:'네, 오늘입니다',yl:'네, 지금 도착했습니다',n:'아니요, 다른 날입니다',
-nt:'체크인 당일에 다시 만나요',nd:'체크인 당일 오전에 모바일 체크인 링크를 문자로 다시 보내드려요. 그 링크로 들어와 제출해 주세요.',b:'잘못 눌렀어요, 다시 선택할게요',
+nt:'체크인 당일에 다시 만나요',nd:'지금 체크인하셔도 반영되지 않아요. 체크인 당일 오전에 모바일 체크인 링크를 문자로 다시 보내드려요. 그 링크로 들어와 제출해 주세요.',b:'잘못 눌렀어요, 다시 선택할게요',
 rg:'날짜가 바뀌었어요. 체크인 날짜를 다시 확인해 주세요.'},
 en:{dw:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],fmt:(d,w)=>w+', '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getDate(),
 q:x=>'Are you checking in<br>today, '+x+'?',ql:x=>'Checking in for '+x+'<br>and arriving now?',
 d:'Mobile check-in can only be submitted on your check-in day.',y:"Yes, it's today",yl:"Yes, I'm arriving now",n:'No, a different day',
-nt:'See you on your check-in day',nd:'On the morning of your check-in day, we will text you the mobile check-in link again. Please submit through that link.',b:'I tapped by mistake — choose again',
+nt:'See you on your check-in day',nd:'Check-in submitted now will not be applied. On the morning of your check-in day, we will text you the mobile check-in link again. Please submit through that link.',b:'I tapped by mistake — choose again',
 rg:'The date has changed. Please confirm your check-in date again.'},
 zh:{dw:['周日','周一','周二','周三','周四','周五','周六'],fmt:(d,w)=>(d.getMonth()+1)+'月'+d.getDate()+'日（'+w+'）',
 q:x=>'您是今天 '+x+'<br>入住吗？',ql:x=>x+' 入住，<br>现在到达吗？',
 d:'手机入住登记仅可在入住当天提交。',y:'是的，今天入住',yl:'是的，现在到达',n:'不是，是其他日期',
-nt:'入住当天见',nd:'入住当天上午，我们会再次通过短信发送手机入住链接。请通过该链接提交。',b:'选错了，重新选择',
+nt:'入住当天见',nd:'现在办理入住将不会生效。入住当天上午，我们会再次通过短信发送手机入住链接。请通过该链接提交。',b:'选错了，重新选择',
 rg:'日期已变更，请重新确认入住日期。'}};
 function renderGate(){const g=GT[lang]||GT.ko,sd=stayDate(),x=g.fmt(sd,g.dw[sd.getDay()]),late=lateArrival();
 document.getElementById('gDate').textContent=ymd(sd).replace(/-/g,'.');
